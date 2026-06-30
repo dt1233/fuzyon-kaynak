@@ -256,6 +256,7 @@
                     <img src="<%= logoUrl %>" alt="Kart <%= i %>" style="max-height: 50px; max-width: 100%; object-fit: contain;">
                 </div>
             <% } %>
+            <input type="hidden" name="existing_home_ref_card<%= i %>" value="<%= logoUrl %>">
             <input type="text" name="home_ref_card<%= i %>" value="<%= !(logoUrl.startsWith('/') || logoUrl.startsWith('http')) ? logoUrl : '' %>" placeholder="Metin girebilirsiniz...">
             <small style="display: block; margin: 10px 0 5px 0; color: #888;">Veya Logo Yükleyin (Yüklenirse metin yoksayılır):</small>
             <input type="file" name="home_ref_card<%= i %>" accept="image/*">

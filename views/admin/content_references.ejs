@@ -106,6 +106,7 @@
                     <img src="<%= logoUrl %>" alt="Referans <%= i %>" style="max-height: 50px; max-width: 100%; object-fit: contain;">
                 </div>
             <% } %>
+            <input type="hidden" name="existing_ref_logo_<%= i %>" value="<%= logoUrl %>">
             <input type="text" name="ref_logo_<%= i %>" value="<%= !(logoUrl.startsWith('/') || logoUrl.startsWith('http')) ? logoUrl : '' %>" placeholder="Metin girebilirsiniz...">
             <small style="display: block; margin: 10px 0 5px 0; color: #888;">Veya Logo Yükleyin (Yüklenirse metin yoksayılır):</small>
             <input type="file" name="ref_logo_<%= i %>" accept="image/*">

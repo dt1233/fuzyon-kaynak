@@ -850,6 +850,18 @@ app.post('/admin/content/update', upload.any(), (req, res) => {
     const updates = { ...body };
     delete updates.redirect_to;
     
+    // Protect existing image URLs from being overwritten by empty text inputs
+    const keysToProcess = Object.keys(updates);
+    keysToProcess.forEach(key => {
+        if (key.startsWith('existing_')) {
+            const actualKey = key.replace('existing_', '');
+            if (updates[actualKey] === '' && updates[key] !== '') {
+                updates[actualKey] = updates[key];
+            }
+            delete updates[key];
+        }
+    });
+    
     // Add uploaded files to updates
     if (req.files && req.files.length > 0) {
         req.files.forEach(file => {
