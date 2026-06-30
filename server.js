@@ -507,8 +507,17 @@ app.post('/admin/chatbot/delete/:id', (req, res) => {
 
 app.post('/admin/chatbot/toggle', (req, res) => {
     const { status } = req.body;
-    db.run("INSERT OR REPLACE INTO settings (key, value) VALUES ('chatbot_active', ?)", [status], (err) => {
-        res.json({ success: !err });
+    // Safe update for both SQLite and Postgres
+    db.get("SELECT key FROM settings WHERE key = 'chatbot_active'", [], (err, row) => {
+        if (row) {
+            db.run("UPDATE settings SET value = ? WHERE key = 'chatbot_active'", [status], (err) => {
+                res.json({ success: !err });
+            });
+        } else {
+            db.run("INSERT INTO settings (key, value) VALUES ('chatbot_active', ?)", [status], (err) => {
+                res.json({ success: !err });
+            });
+        }
     });
 });
 
