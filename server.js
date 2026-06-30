@@ -55,15 +55,44 @@ app.use(session({
 }));
 
 // Multer setup for image uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
+const { put } = require('@vercel/blob');
+const storage = process.env.POSTGRES_URL ? multer.memoryStorage() : multer.diskStorage({
+    destination: './uploads/',
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname);
     }
 });
-const upload = multer({ storage: storage });
+const uploadInstance = multer({ storage: storage });
+
+const uploadToBlob = async (req, res, next) => {
+    if (!process.env.POSTGRES_URL) {
+        if (req.file) req.file.url = req.file.url;
+        if (req.files) req.files.forEach(f => f.url = f.url);
+        return next();
+    }
+    try {
+        if (req.file) {
+            const blob = await put(Date.now() + '-' + req.file.originalname, req.file.buffer, { access: 'public', token: process.env.BLOB_READ_WRITE_TOKEN });
+            req.file.url = blob.url;
+        }
+        if (req.files) {
+            for (let i = 0; i < req.files.length; i++) {
+                const blob = await put(Date.now() + '-' + req.files[i].originalname, req.files[i].buffer, { access: 'public', token: process.env.BLOB_READ_WRITE_TOKEN });
+                req.files[i].url = blob.url;
+            }
+        }
+        next();
+    } catch (err) {
+        console.error("Blob upload error:", err);
+        next(err);
+    }
+};
+
+const upload = {
+    single: (name) => (req, res, next) => uploadInstance.single(name)(req, res, (err) => err ? next(err) : uploadToBlob(req, res, next)),
+    array: (name, maxCount) => (req, res, next) => uploadInstance.array(name, maxCount)(req, res, (err) => err ? next(err) : uploadToBlob(req, res, next)),
+    any: () => (req, res, next) => uploadInstance.any()(req, res, (err) => err ? next(err) : uploadToBlob(req, res, next))
+};
 
 // Middleware to inject settings into all views
 app.use(async (req, res, next) => {
@@ -640,7 +669,7 @@ app.post('/admin/gallery/add', upload.array('images', 20), (req, res) => {
     if (req.files && req.files.length > 0) {
         const stmt = db.prepare("INSERT INTO gallery (image_url, title) VALUES (?, ?)");
         req.files.forEach(file => {
-            stmt.run('/uploads/' + file.filename, req.body.title || '');
+            stmt.run(file.url, req.body.title || '');
         });
         stmt.finalize();
     }
@@ -667,7 +696,7 @@ app.get('/admin/blogs/add', (req, res) => {
 app.post('/admin/blogs/add', upload.single('image'), (req, res) => {
     const { title, content } = req.body;
     const slug = slugifyTr(title) + '-' + Date.now().toString().slice(-4);
-    const imageUrl = req.file ? '/uploads/' + req.file.filename : null;
+    const imageUrl = req.file ? req.file.url : null;
     db.run("INSERT INTO blogs (title, slug, content, image_url) VALUES (?, ?, ?, ?)", [title, slug, content, imageUrl], (err) => {
         res.redirect('/admin/blogs');
     });
@@ -685,7 +714,7 @@ app.post('/admin/blogs/edit/:id', upload.single('image'), (req, res) => {
     const slug = slugifyTr(title) + '-' + req.params.id;
     
     if (req.file) {
-        db.run("UPDATE blogs SET title = ?, slug = ?, content = ?, image_url = ? WHERE id = ?", [title, slug, content, '/uploads/' + req.file.filename, req.params.id], (err) => {
+        db.run("UPDATE blogs SET title = ?, slug = ?, content = ?, image_url = ? WHERE id = ?", [title, slug, content, req.file.url, req.params.id], (err) => {
             res.redirect('/admin/blogs');
         });
     } else {
@@ -749,7 +778,7 @@ app.get('/admin/products/add', (req, res) => {
 app.post('/admin/products/upload-async', upload.array('images', 10), (req, res) => {
     let urls = [];
     if (req.files && req.files.length > 0) {
-        urls = req.files.map(f => '/uploads/' + f.filename);
+        urls = req.files.map(f => f.url);
     }
     res.json({ success: true, urls });
 });
@@ -766,7 +795,7 @@ app.post('/admin/products/add', upload.array('images', 10), (req, res) => {
         }
     }
     if (req.files && req.files.length > 0) {
-        images = images.concat(req.files.map(f => '/uploads/' + f.filename));
+        images = images.concat(req.files.map(f => f.url));
     }
     let image_url = images.length > 0 ? JSON.stringify(images) : '';
     
@@ -825,7 +854,7 @@ app.post('/admin/content/update', upload.any(), (req, res) => {
     // Add uploaded files to updates
     if (req.files && req.files.length > 0) {
         req.files.forEach(file => {
-            updates[file.fieldname] = '/uploads/' + file.filename;
+            updates[file.fieldname] = file.url;
         });
     }
 
@@ -892,7 +921,7 @@ app.post('/admin/products/edit/:id', upload.array('images', 10), (req, res) => {
         }
     }
     if (req.files && req.files.length > 0) {
-        let newImages = req.files.map(f => '/uploads/' + f.filename);
+        let newImages = req.files.map(f => f.url);
         images = images.concat(newImages);
     }
     
@@ -908,3 +937,5 @@ app.post('/admin/products/edit/:id', upload.array('images', 10), (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+module.exports = app;

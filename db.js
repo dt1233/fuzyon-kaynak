@@ -1,152 +1,130 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
-const dbPath = path.resolve(__dirname, 'database.sqlite');
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Veritabanına bağlanılamadı:', err.message);
-    } else {
-        console.log('SQLite veritabanına bağlanıldı.');
-    }
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+  ssl: process.env.POSTGRES_URL && process.env.POSTGRES_URL.includes('vercel') ? { rejectUnauthorized: false } : false
 });
 
-db.serialize(() => {
-    // Settings table
-    db.run(`CREATE TABLE IF NOT EXISTS settings (
-        key TEXT PRIMARY KEY,
-        value TEXT
-    )`);
-
-    // Categories table
-    db.run(`CREATE TABLE IF NOT EXISTS categories (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        slug TEXT UNIQUE NOT NULL
-    )`);
-
-    // Products table
-    db.run(`CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        category_id INTEGER,
-        name TEXT NOT NULL,
-        slug TEXT UNIQUE NOT NULL,
-        description TEXT,
-        image_url TEXT,
-        material TEXT,
-        standard TEXT,
-        tech_table_json TEXT,
-        FOREIGN KEY (category_id) REFERENCES categories (id)
-    )`);
-
-    // Page views table
-    db.run(`CREATE TABLE IF NOT EXISTS page_views (
-        date TEXT PRIMARY KEY,
-        views INTEGER DEFAULT 0
-    )`);
-
-    // Messages table
-    db.run(`CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        fullname TEXT,
-        email TEXT,
-        phone TEXT,
-        subject TEXT,
-        message TEXT,
-        is_read INTEGER DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
-
-    // Chatbot QA table
-    db.run(`CREATE TABLE IF NOT EXISTS chatbot_qa (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        question TEXT,
-        keywords TEXT,
-        answer TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
-
-    // Quotes table
-    db.run(`CREATE TABLE IF NOT EXISTS quotes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        first_name TEXT,
-        last_name TEXT,
-        email TEXT,
-        phone TEXT,
-        products TEXT,
-        is_read INTEGER DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
-
-    // Users table
-    db.run(`CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
-    )`);
-
-    // Gallery table
-    db.run(`CREATE TABLE IF NOT EXISTS gallery (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        image_url TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
-
-    // Blogs table
-    db.run(`CREATE TABLE IF NOT EXISTS blogs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        slug TEXT UNIQUE NOT NULL,
-        content TEXT NOT NULL,
-        image_url TEXT,
-        views INTEGER DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
-
-    // Seed admin user
-    db.get("SELECT COUNT(*) as count FROM users", (err, row) => {
-        if (row && row.count === 0) {
-            const salt = bcrypt.genSaltSync(10);
-            const hash = bcrypt.hashSync('admin123', salt);
-            db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, ['admin', hash]);
-            console.log("Varsayılan admin kullanıcısı oluşturuldu. (admin / admin123)");
-        }
-    });
-
-    // Seed default settings
-    db.get("SELECT COUNT(*) as count FROM settings", (err, row) => {
-        if (row && row.count === 0) {
-            const initialSettings = [
-                ['theme', 'light'],
-                ['phone', '+90 500 123 45 67'],
-                ['email', 'info@akfuzyon.com'],
-                ['whatsapp', '905001234567'],
-                ['address', 'Malatya, Türkiye'],
-                ['working_hours', 'Pzt - Cmt: 08:00 - 18:00']
-            ];
-            const stmt = db.prepare("INSERT INTO settings (key, value) VALUES (?, ?)");
-            initialSettings.forEach(setting => stmt.run(setting));
-            stmt.finalize();
-            console.log("Varsayılan ayarlar veritabanına eklendi.");
-        }
-    });
+pool.on('error', (err) => {
+    console.error('PostgreSQL hatası:', err.message);
 });
 
-// Helper function to get all settings as an object
-db.getSettings = () => {
-    return new Promise((resolve, reject) => {
-        db.all("SELECT key, value FROM settings", (err, rows) => {
-            if (err) reject(err);
-            const settings = {};
-            if (rows) {
-                rows.forEach(row => {
-                    settings[row.key] = row.value;
-                });
-            }
-            resolve(settings);
-        });
-    });
+// SQLite uyumlu wrapper fonksiyonları
+pool.get = function(sql, params, callback) {
+    if (typeof params === 'function') { callback = params; params = []; }
+    if (!params) params = [];
+    let i = 1; 
+    const pgSql = sql.replace(/\?/g, () => `$${i++}`);
+    this.query(pgSql, params)
+        .then(res => { if (callback) callback(null, res.rows[0]); })
+        .catch(err => { if (callback) callback(err, null); });
+    return this;
 };
 
-module.exports = db;
+pool.all = function(sql, params, callback) {
+    if (typeof params === 'function') { callback = params; params = []; }
+    if (!params) params = [];
+    let i = 1; 
+    const pgSql = sql.replace(/\?/g, () => `$${i++}`);
+    this.query(pgSql, params)
+        .then(res => { if (callback) callback(null, res.rows); })
+        .catch(err => { if (callback) callback(err, null); });
+    return this;
+};
+
+pool.run = function(sql, params, callback) {
+    if (typeof params === 'function') { callback = params; params = []; }
+    if (!params) params = [];
+    
+    // SQLite transaction komutlarını yok say
+    if (sql.toUpperCase() === "BEGIN TRANSACTION" || sql.toUpperCase() === "COMMIT") {
+        if (callback) callback.call({ lastID: 0, changes: 0 }, null);
+        return this;
+    }
+    
+    let i = 1; 
+    const pgSql = sql.replace(/\?/g, () => `$${i++}`);
+    this.query(pgSql, params)
+        .then(res => { if (callback) callback.call({ lastID: 0, changes: res.rowCount }, null); })
+        .catch(err => { if (callback) callback(err); });
+    return this;
+};
+
+pool.serialize = function(cb) {
+    cb();
+    return this;
+};
+
+pool.prepare = function(sql) {
+    let pgSql = sql;
+    // SQLite'a özel INSERT OR REPLACE komutunu PostgreSQL UPSERT yapısına çevir
+    if (sql.includes("INSERT OR REPLACE INTO")) {
+        pgSql = sql.replace("INSERT OR REPLACE INTO", "INSERT INTO");
+        if (pgSql.includes("settings (key, value)")) {
+            pgSql += " ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value";
+        }
+    }
+    const self = this;
+    return {
+        run: function(...args) {
+            let callback;
+            if (args.length > 0 && typeof args[args.length - 1] === 'function') {
+                callback = args.pop();
+            }
+            let i = 1;
+            const finalSql = pgSql.replace(/\?/g, () => `$${i++}`);
+            self.query(finalSql, args)
+                .then(res => { if (callback) callback.call({ changes: res.rowCount }, null); })
+                .catch(err => { if (callback) callback(err); });
+        },
+        finalize: function() {}
+    };
+};
+
+const initDB = async () => {
+    try {
+        await pool.query(`CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS categories (id SERIAL PRIMARY KEY, name TEXT NOT NULL, slug TEXT UNIQUE NOT NULL)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS products (id SERIAL PRIMARY KEY, category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL, name TEXT NOT NULL, slug TEXT UNIQUE NOT NULL, description TEXT, image_url TEXT, material TEXT, standard TEXT, tech_table_json TEXT)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS page_views (date TEXT PRIMARY KEY, views INTEGER DEFAULT 0)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS messages (id SERIAL PRIMARY KEY, fullname TEXT, email TEXT, phone TEXT, subject TEXT, message TEXT, is_read INTEGER DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS chatbot_qa (id SERIAL PRIMARY KEY, question TEXT, keywords TEXT, answer TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS quotes (id SERIAL PRIMARY KEY, first_name TEXT, last_name TEXT, email TEXT, phone TEXT, products TEXT, is_read INTEGER DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS gallery (id SERIAL PRIMARY KEY, title TEXT, image_url TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
+        await pool.query(`CREATE TABLE IF NOT EXISTS blogs (id SERIAL PRIMARY KEY, title TEXT NOT NULL, slug TEXT UNIQUE NOT NULL, content TEXT NOT NULL, image_url TEXT, views INTEGER DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
+
+        const userCountRes = await pool.query("SELECT COUNT(*) FROM users");
+        if (parseInt(userCountRes.rows[0].count) === 0) {
+            const hash = await bcrypt.hash('admin123', 10);
+            await pool.query(`INSERT INTO users (username, password) VALUES ($1, $2)`, ['admin', hash]);
+            console.log("Varsayılan admin kullanıcısı oluşturuldu.");
+        }
+
+        const settingsCountRes = await pool.query("SELECT COUNT(*) FROM settings");
+        if (parseInt(settingsCountRes.rows[0].count) === 0) {
+            const initialSettings = [
+                ['theme', 'light'], ['phone', '+90 500 123 45 67'], ['email', 'info@akfuzyon.com'],
+                ['whatsapp', '905001234567'], ['address', 'Malatya, Türkiye'], ['working_hours', 'Pzt - Cmt: 08:00 - 18:00']
+            ];
+            for (const setting of initialSettings) {
+                await pool.query("INSERT INTO settings (key, value) VALUES ($1, $2)", [setting[0], setting[1]]);
+            }
+        }
+    } catch (err) { console.error("DB Init error:", err); }
+};
+
+if (process.env.POSTGRES_URL) initDB();
+
+pool.getSettings = async () => {
+    try {
+        const { rows } = await pool.query("SELECT key, value FROM settings");
+        const settings = {};
+        if (rows) rows.forEach(row => { settings[row.key] = row.value; });
+        return settings;
+    } catch (err) { return {}; }
+};
+
+module.exports = pool;
