@@ -251,12 +251,12 @@
         %>
         <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
             <label>Kart <%= i %></label>
-            <% if (logoUrl.startsWith('/uploads/')) { %>
+            <% if (logoUrl.match(/^(\\/|http)/)) { %>
                 <div style="margin-bottom: 10px; padding: 10px; background: white; border-radius: 4px; text-align: center; border: 1px solid #eee;">
                     <img src="<%= logoUrl %>" alt="Kart <%= i %>" style="max-height: 50px; max-width: 100%; object-fit: contain;">
                 </div>
             <% } %>
-            <input type="text" name="home_ref_card<%= i %>" value="<%= !logoUrl.startsWith('/uploads/') ? logoUrl : '' %>" placeholder="Metin girebilirsiniz...">
+            <input type="text" name="home_ref_card<%= i %>" value="<%= !logoUrl.match(/^(\\/|http)/) ? logoUrl : '' %>" placeholder="Metin girebilirsiniz...">
             <small style="display: block; margin: 10px 0 5px 0; color: #888;">Veya Logo Yükleyin (Yüklenirse metin yoksayılır):</small>
             <input type="file" name="home_ref_card<%= i %>" accept="image/*">
         </div>

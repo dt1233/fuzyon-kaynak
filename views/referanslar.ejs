@@ -156,7 +156,7 @@
                         <% for(let i=1; i<=6; i++) { 
                             let refLogo = settings['ref_logo_' + i] || ('Referans ' + i);
                         %>
-                            <% if (refLogo.startsWith('/uploads/')) { %>
+                            <% if (refLogo.match(/^(\\/|http)/)) { %>
                                 <div class="reference-logo" style="padding: 10px;">
                                     <img src="<%= refLogo %>" alt="Referans <%= i %>" style="max-width: 100%; max-height: 80px; object-fit: contain;">
                                 </div>
