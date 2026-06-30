@@ -86,50 +86,50 @@
 
     <!-- Chatbot Integration -->
     <% if (typeof settings !== 'undefined' && settings.chatbot_active === 'true') { %>
-    <div id="chatbot-wrapper" style="position: fixed; bottom: 90px; right: 20px; z-index: 1000; font-family: var(--font-primary);">
+    <div id="chatbot-wrapper" class="chatbot-wrapper">
         <!-- Chat Window -->
-        <div id="chatbot-window" style="display: none; width: 350px; max-width: 90vw; height: 450px; max-height: 80vh; background: var(--bg-primary); border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); overflow: hidden; flex-direction: column; transform: scale(0); opacity: 0; transform-origin: bottom right; transition: all 0.3s ease;">
+        <div id="chatbot-window" class="chatbot-window" style="display: none;">
             <!-- Header -->
-            <div style="background: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 35px; height: 35px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar">
                         <i class="fa-solid fa-robot"></i>
                     </div>
                     <div>
-                        <h4 style="margin: 0; font-size: 1.1rem; font-family: var(--font-display);">Ak Asistan</h4>
-                        <span style="font-size: 0.75rem; opacity: 0.8;">🟢 Çevrimiçi</span>
+                        <h4>Ak Asistan</h4>
+                        <span>🟢 Çevrimiçi</span>
                     </div>
                 </div>
-                <button id="chatbot-close" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-times"></i></button>
+                <button id="chatbot-close" class="chatbot-close"><i class="fa-solid fa-times"></i></button>
             </div>
             
             <!-- Messages -->
-            <div id="chatbot-messages" style="flex: 1; padding: 20px; overflow-y: auto; background: var(--bg-secondary); display: flex; flex-direction: column; gap: 15px;">
-                <div style="display: flex; gap: 10px; max-width: 85%;">
-                    <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-primary); font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
+            <div id="chatbot-messages" class="chatbot-messages">
+                <div class="chatbot-message chatbot-message-bot">
+                    <div class="chatbot-message-avatar">
                         <i class="fa-solid fa-robot"></i>
                     </div>
-                    <div style="background: var(--bg-primary); padding: 12px 15px; border-radius: 0 12px 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); color: var(--text-primary);">
+                    <div class="chatbot-message-text">
                         Merhaba! Size nasıl yardımcı olabilirim?
                     </div>
                 </div>
             </div>
             
             <!-- Input Area -->
-            <form id="chatbot-form" style="padding: 15px; background: white; border-top: 1px solid var(--border-color); display: flex; gap: 10px; align-items: center;">
-                <input type="text" id="chatbot-input" placeholder="Bir mesaj yazın..." autocomplete="off" style="flex: 1; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 20px; font-family: inherit; font-size: 0.9rem; outline: none;">
-                <button type="submit" style="background: var(--accent); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.3s;">
-                    <i class="fa-solid fa-paper-plane" style="margin-left: -2px;"></i>
+            <form id="chatbot-form" class="chatbot-form">
+                <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Bir mesaj yazın..." autocomplete="off">
+                <button type="submit" class="chatbot-submit">
+                    <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </form>
-            <div style="text-align: center; padding: 6px; background: #fafafa; font-size: 0.65rem; color: #999; border-top: 1px solid #eee;">
-                <i class="fa-solid fa-bolt" style="color: #f39c12;"></i> Developed by <a href="https://betsanglobal.com/" target="_blank" style="color: inherit; text-decoration: none; font-weight: bold; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">Betsan Teknoloji</a>
+            <div class="chatbot-footer">
+                <i class="fa-solid fa-bolt" style="color: #f39c12;"></i> Developed by <a href="https://betsanglobal.com/" target="_blank">Betsan Teknoloji</a>
             </div>
         </div>
     </div>
     
     <!-- Floating Toggle Button -->
-    <button id="chatbot-toggle-btn" style="position: fixed; bottom: 90px; right: 20px; z-index: 1001; width: 60px; height: 60px; background: var(--primary); color: white; border: none; border-radius: 50%; font-size: 1.8rem; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: transform 0.3s;">
+    <button id="chatbot-toggle-btn" class="chatbot-toggle-btn">
         <i class="fa-solid fa-robot"></i>
     </button>
 
@@ -168,26 +168,13 @@
 
             function appendMessage(text, isUser) {
                 const msgDiv = document.createElement('div');
-                msgDiv.style.display = 'flex';
-                msgDiv.style.gap = '10px';
-                msgDiv.style.maxWidth = '85%';
-                msgDiv.style.marginTop = '5px';
+                msgDiv.className = isUser ? 'chatbot-message chatbot-message-user' : 'chatbot-message chatbot-message-bot';
                 
-                if (isUser) {
-                    msgDiv.style.alignSelf = 'flex-end';
-                    msgDiv.innerHTML = `
-                        <div style="background: var(--accent); color: white; padding: 12px 15px; border-radius: 12px 0 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">${text}</div>
-                    `;
+                if (!isUser) {
+                    let parsedText = text.replace(/\[(.*?)\]\((.*?)\)/g, '<br><a href="$2" target="_blank" class="chatbot-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> $1</a>');
+                    msgDiv.innerHTML = `<div class="chatbot-message-avatar"><i class="fa-solid fa-robot"></i></div><div class="chatbot-message-text">${parsedText}</div>`;
                 } else {
-                    msgDiv.style.alignSelf = 'flex-start';
-                    // Parse [Button Text](URL) to actual HTML buttons
-                    let parsedText = text.replace(/\[(.*?)\]\((.*?)\)/g, '<br><a href="$2" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 6px 12px; background: var(--primary); color: white; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fa-solid fa-arrow-up-right-from-square"></i> $1</a>');
-                    msgDiv.innerHTML = `
-                        <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
-                            <i class="fa-solid fa-robot"></i>
-                        </div>
-                        <div style="background: white; color: var(--text-primary); padding: 12px 15px; border-radius: 0 12px 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">${parsedText}</div>
-                    `;
+                    msgDiv.innerHTML = `<div class="chatbot-message-text">${text}</div>`;
                 }
                 
                 chatMessages.appendChild(msgDiv);
