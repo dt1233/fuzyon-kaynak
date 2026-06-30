@@ -9,9 +9,7 @@
     <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
         <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
             <label>Hakkımızda Ana Görseli</label>
-            <% if (settings.about_main_img) { %>
-                <div style="margin-bottom: 10px;"><img src="<%= settings.about_main_img %>" style="max-height: 100px; border-radius: 4px;"></div>
-            <% } %>
+            <div style="margin-bottom: 10px;"><img src="<%= settings.about_main_img || '/images/hero-slide-1.png' %>" style="max-height: 100px; border-radius: 4px; border: 1px dashed #ccc; padding: 2px;"></div>
             <input type="file" name="about_main_img" accept="image/*">
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">

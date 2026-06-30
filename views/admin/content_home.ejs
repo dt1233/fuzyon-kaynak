@@ -9,21 +9,15 @@
     <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
         <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
             <label>Slider 1 Görseli (Opsiyonel)</label>
-            <% if (settings.home_hero_bg_1) { %>
-                <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_1 %>" style="max-height: 100px; border-radius: 4px;"></div>
-            <% } %>
+            <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_1 || '/images/hero-slide-1.png' %>" style="max-height: 100px; border-radius: 4px; border: 1px dashed #ccc; padding: 2px;"></div>
             <input type="file" name="home_hero_bg_1" accept="image/*">
             <br><br>
             <label>Slider 2 Görseli (Opsiyonel)</label>
-            <% if (settings.home_hero_bg_2) { %>
-                <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_2 %>" style="max-height: 100px; border-radius: 4px;"></div>
-            <% } %>
+            <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_2 || '/images/hero-slide-2.png' %>" style="max-height: 100px; border-radius: 4px; border: 1px dashed #ccc; padding: 2px;"></div>
             <input type="file" name="home_hero_bg_2" accept="image/*">
             <br><br>
             <label>Slider 3 Görseli (Opsiyonel)</label>
-            <% if (settings.home_hero_bg_3) { %>
-                <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_3 %>" style="max-height: 100px; border-radius: 4px;"></div>
-            <% } %>
+            <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_3 || '/images/hero-slide-3.png' %>" style="max-height: 100px; border-radius: 4px; border: 1px dashed #ccc; padding: 2px;"></div>
             <input type="file" name="home_hero_bg_3" accept="image/*">
         </div>
         <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
@@ -92,9 +86,7 @@
     <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px;">
         <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
             <label>Hakkımızda Yan Görseli</label>
-            <% if (settings.home_about_img) { %>
-                <div style="margin-bottom: 10px;"><img src="<%= settings.home_about_img %>" style="max-height: 100px; border-radius: 4px;"></div>
-            <% } %>
+            <div style="margin-bottom: 10px;"><img src="<%= settings.home_about_img || '/images/hero-slide-1.png' %>" style="max-height: 100px; border-radius: 4px; border: 1px dashed #ccc; padding: 2px;"></div>
             <input type="file" name="home_about_img" accept="image/*">
         </div>
         <div class="form-group" style="margin: 0;"><label>Hakkımızda Özeti - Başlık</label><input type="text" name="home_about_title" value="<%= settings.home_about_title || '' %>"></div>
@@ -216,9 +208,7 @@
     <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px;">
         <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
             <label>Banner Arkaplan Görseli</label>
-            <% if (settings.home_cta_bg) { %>
-                <div style="margin-bottom: 10px;"><img src="<%= settings.home_cta_bg %>" style="max-height: 100px; border-radius: 4px;"></div>
-            <% } %>
+            <div style="margin-bottom: 10px;"><img src="<%= settings.home_cta_bg || '' %>" style="max-height: 100px; border-radius: 4px; border: 1px dashed #ccc; padding: 2px; <%= !settings.home_cta_bg ? 'display:none;' : '' %>"></div>
             <input type="file" name="home_cta_bg" accept="image/*">
         </div>
         <div class="form-group" style="margin: 0;"><label>Banner - Başlık</label><input type="text" name="home_cta_title" value="<%= settings.home_cta_title || '' %>"></div>
