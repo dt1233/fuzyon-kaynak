@@ -54,14 +54,14 @@
                                 }
                             %>
                             <% if(firstImage) { %>
-                                <img src="<%= firstImage %>" alt="<%= p.name %>" style="height: 180px; object-fit: contain; margin: 0 auto 20px;">
+                                <img src="<%= firstImage %>" alt="<%= p.name %>" style="height: 180px; max-width: 100%; object-fit: contain; margin: 0 auto 20px;">
                             <% } else { %>
-                                <div style="height: 180px; background: var(--bg-secondary); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-sm);">
+                                <div style="height: 180px; max-width: 100%; background: var(--bg-secondary); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-sm);">
                                     <i class="fa-solid fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>
                                 </div>
                             <% } %>
                             
-                            <div class="btn btn--primary" style="padding: 10px 20px; font-size: 0.95rem; width: auto; display: inline-flex; justify-content: center; pointer-events: none;">
+                            <div class="btn btn--primary" style="padding: 10px 20px; font-size: 0.95rem; width: auto; display: inline-flex; justify-content: center; pointer-events: none; margin-top: auto;">
                                 <i class="fa-solid fa-location-arrow"></i> <%= p.name %>
                             </div>
                         </a>

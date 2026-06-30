@@ -1337,6 +1337,9 @@ p {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card::after {
