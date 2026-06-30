@@ -19,7 +19,7 @@
 <section class="section" style="background: var(--bg-secondary);">
     <div class="container">
         <% if (blogs && blogs.length > 0) { %>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
                 <% blogs.forEach(blog => { %>
                     <article style="background: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;" class="blog-card hover-lift">
                         <a href="/<%= slugs.blog || 'blog' %>/<%= blog.slug %>" style="display: block; aspect-ratio: 16/9; overflow: hidden; background: var(--bg-secondary);">
