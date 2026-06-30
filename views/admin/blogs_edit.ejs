@@ -1,0 +1,37 @@
+<%- include('header') %>
+
+<div class="admin-header">
+    <div class="header-content">
+        <h2><i class="fa-solid fa-pen" style="color: var(--accent); margin-right: 10px;"></i> Yazıyı Düzenle</h2>
+        <p style="color: var(--text-secondary); margin-top: 5px;">Mevcut haber veya makaleyi güncelleyin.</p>
+    </div>
+    <a href="/admin/blogs" class="btn btn--secondary"><i class="fa-solid fa-arrow-left"></i> Geri Dön</a>
+</div>
+
+<div class="admin-card">
+    <form action="/admin/blogs/edit/<%= blog.id %>" method="POST" enctype="multipart/form-data">
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Yazı Başlığı</label>
+            <input type="text" name="title" value="<%= blog.title %>" required style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Kapak Görseli (Değiştirmek istemiyorsanız boş bırakın)</label>
+            <% if (blog.image_url) { %>
+                <div style="margin-bottom: 10px;">
+                    <img src="<%= blog.image_url %>" alt="Mevcut Görsel" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--border-color);">
+                </div>
+            <% } %>
+            <input type="file" name="image" accept="image/*" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: bold;">İçerik</label>
+            <textarea name="content" required rows="15" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: monospace;"><%= blog.content %></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary" style="padding: 12px 30px; font-size: 1.1rem;"><i class="fa-solid fa-save"></i> Güncelle</button>
+    </form>
+</div>
+
+<%- include('footer') %>

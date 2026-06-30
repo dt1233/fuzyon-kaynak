@@ -1,0 +1,126 @@
+<%- include('header') %>
+
+<div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Chatbot Yönetimi</h2>
+    
+    <div style="background: var(--bg-primary); padding: 15px 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px;">
+        <span style="font-weight: bold;">Chatbot Durumu:</span>
+        <label class="switch" style="position: relative; display: inline-block; width: 60px; height: 34px;">
+            <input type="checkbox" id="chatbot-toggle" <%= settings.chatbot_active === 'true' ? 'checked' : '' %> onchange="toggleChatbot(this.checked)" style="opacity: 0; width: 0; height: 0;">
+            <span class="slider round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;">
+                <span class="slider-knob" style="position: absolute; content: ''; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;"></span>
+            </span>
+        </label>
+        <span id="chatbot-status-text" style="color: <%= settings.chatbot_active === 'true' ? '#2ecc71' : '#e74c3c' %>; font-weight: bold;">
+            <%= settings.chatbot_active === 'true' ? 'Aktif' : 'Pasif' %>
+        </span>
+    </div>
+</div>
+
+<style>
+    /* Switch Styles */
+    .switch input:checked + .slider { background-color: #2ecc71; }
+    .switch input:focus + .slider { box-shadow: 0 0 1px #2ecc71; }
+    .switch input:checked + .slider .slider-knob { transform: translateX(26px); }
+</style>
+
+<div class="admin-card" style="margin-bottom: 30px;">
+    <h3>Yeni Soru-Cevap Öğret</h3>
+    <p style="color: var(--text-secondary); margin-bottom: 10px;">Bota yeni bir kurumsal/teknik cevap öğretin. Günlük sohbetler (Nasılsın, merhaba vb.) zaten botun kendi yapay zekasında mevcuttur.</p>
+    
+    <div style="background: rgba(var(--accent-rgb), 0.05); border-left: 4px solid var(--accent); padding: 12px 15px; border-radius: 4px; margin-bottom: 20px; font-size: 0.9rem;">
+        <strong>💡 İpucu (Buton Ekleme):</strong> Eğer cevabınızın altına tıklanabilir şık bir buton eklemek isterseniz, cevabın herhangi bir yerine şu formatta yazabilirsiniz: <br>
+        <code>[Buton Metni](Link URL'si)</code> <br>
+        <em>Örnek:</em> Fiyatlar için bize yazın. <code>[WhatsApp'a Git](https://wa.me/905001234567)</code> veya <code>[Ürünleri İncele](/urunler)</code>
+    </div>
+
+    <form action="/admin/chatbot/add" method="POST">
+        <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+            <div style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Soru / Durum Başlığı</label>
+                <input type="text" name="question" required style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;" placeholder="Örn: Fiyat Listesi Talebi">
+            </div>
+            <div style="flex: 2;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Anahtar Kelimeler (Virgülle ayırın)</label>
+                <input type="text" name="keywords" required style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;" placeholder="Örn: boru fiyat, ne kadar, fiyat listesi, ücret">
+            </div>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Botun Vereceği Cevap</label>
+            <textarea name="answer" required rows="4" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;" placeholder="Örn: Güncel fiyat listemize ürünler sayfamızdan ulaşabilirsiniz. [Ürünlere Git](/urunler)"></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Öğret</button>
+    </form>
+</div>
+
+<div class="admin-card">
+    <h3>Öğretilenler Listesi (Botun Hafızası)</h3>
+    <% if (qas && qas.length > 0) { %>
+        <div style="overflow-x: auto; margin-top: 20px;">
+            <div class="table-responsive">`n<table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-color);">
+                        <th style="padding: 15px; color: var(--text-secondary);">Soru / Durum</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">Anahtar Kelimeler</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">Cevap</th>
+                        <th style="padding: 15px; color: var(--text-secondary); text-align: right;">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% qas.forEach(qa => { %>
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 15px; font-weight: bold;"><%= qa.question %></td>
+                        <td style="padding: 15px;">
+                            <% qa.keywords.split(',').forEach(k => { %>
+                                <span style="display: inline-block; background: rgba(var(--accent-rgb), 0.1); color: var(--accent); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; margin: 2px;"><%= k.trim() %></span>
+                            <% }) %>
+                        </td>
+                        <td style="padding: 15px; max-width: 300px; font-size: 0.9rem; line-height: 1.4;"><%= qa.answer %></td>
+                        <td style="padding: 15px; text-align: right;">
+                            <form action="/admin/chatbot/delete/<%= qa.id %>" method="POST" style="display: inline;" onsubmit="return confirm('Bu öğretiyi silmek istediğinize emin misiniz? Bot artık bu kelimelere cevap veremeyecek.');">
+                                <button type="submit" class="btn" style="padding: 5px 10px; font-size: 0.85rem; background: #fee2e2; color: #ef4444; border: 1px solid #ef4444;">
+                                    <i class="fa-solid fa-trash"></i> Sil
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>`n</div>
+        </div>
+    <% } else { %>
+        <div style="text-align: center; padding: 50px 20px; color: var(--text-secondary);">
+            <i class="fa-solid fa-brain" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+            <h3>Botun Hafızası Boş</h3>
+            <p>Bot henüz hiçbir soruya nasıl cevap vereceğini bilmiyor. Yukarıdaki formdan ona yeni cevaplar öğretebilirsiniz.</p>
+        </div>
+    <% } %>
+</div>
+
+<script>
+    function toggleChatbot(isActive) {
+        const statusText = document.getElementById('chatbot-status-text');
+        if (isActive) {
+            statusText.innerText = 'Aktif';
+            statusText.style.color = '#2ecc71';
+        } else {
+            statusText.innerText = 'Pasif';
+            statusText.style.color = '#e74c3c';
+        }
+        
+        fetch('/admin/chatbot/toggle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: isActive ? 'true' : 'false' })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) {
+                alert('Durum güncellenirken bir hata oluştu.');
+            }
+        });
+    }
+</script>
+
+<%- include('footer') %>
+

@@ -1,0 +1,96 @@
+<%- include('header') %>
+<div class="admin-header"><h2>Footer Yönetimi</h2></div>
+<% if (success) { %><div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;"><%= success %></div><% } %>
+<form action="/admin/content/update" method="POST" class="admin-card">
+    <input type="hidden" name="redirect_to" value="footer">
+        
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">1. Sütun: Kurumsal</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px;">
+        <div class="form-group" style="margin: 0;"><label>Başlık (Örn: Ak Füzyon)</label><input type="text" name="footer_col1_title" value="<%= settings.footer_col1_title || 'Ak Füzyon' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hakkımızda Özeti (Footer)</label><textarea name="footer_about_text" rows="3"><%= settings.footer_about_text || 'Malatya ve çevre illerde elektrofüzyon kaynak hizmeti sunan ilk ve tek firma...' %></textarea></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>Facebook URL</label>
+                <input type="text" name="iletisim_facebook" value="<%= settings.iletisim_facebook || '' %>">
+                <label style="margin-top: 10px;">Facebook İkonu</label>
+                <%- include('icon_selector', {name: 'footer_facebook_icon', currentVal: settings.footer_facebook_icon, defaultIcon: 'fa-facebook-f'}) %>
+            </div>
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>Instagram URL</label>
+                <input type="text" name="iletisim_instagram" value="<%= settings.iletisim_instagram || '' %>">
+                <label style="margin-top: 10px;">Instagram İkonu</label>
+                <%- include('icon_selector', {name: 'footer_instagram_icon', currentVal: settings.footer_instagram_icon, defaultIcon: 'fa-instagram'}) %>
+            </div>
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>YouTube URL</label>
+                <input type="text" name="iletisim_youtube" value="<%= settings.iletisim_youtube || '' %>">
+                <label style="margin-top: 10px;">YouTube İkonu</label>
+                <%- include('icon_selector', {name: 'footer_youtube_icon', currentVal: settings.footer_youtube_icon, defaultIcon: 'fa-youtube'}) %>
+            </div>
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>LinkedIn URL</label>
+                <input type="text" name="iletisim_linkedin" value="<%= settings.iletisim_linkedin || '' %>">
+                <label style="margin-top: 10px;">LinkedIn İkonu</label>
+                <%- include('icon_selector', {name: 'footer_linkedin_icon', currentVal: settings.footer_linkedin_icon, defaultIcon: 'fa-linkedin-in'}) %>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">2. Sütun: Hızlı Linkler</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px;">
+        <div class="form-group" style="margin: 0;"><label>Başlık (Örn: Hızlı Linkler)</label><input type="text" name="footer_col2_title" value="<%= settings.footer_col2_title || 'Hızlı Linkler' %>"></div>
+        <p style="font-size: 0.9rem; color: #7f8c8d; margin: 0;">Not: Bu sütundaki bağlantı isimleri "Header Yönetimi" (Menü Linkleri) kısmından çekilmektedir.</p>
+    </div>
+
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">3. Sütun: Hizmetlerimiz</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+        <div class="form-group" style="margin: 0; grid-column: 1 / -1;"><label>Başlık (Örn: Hizmetlerimiz)</label><input type="text" name="footer_col3_title" value="<%= settings.footer_col3_title || 'Hizmetlerimiz' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hizmet Linki 1</label><input type="text" name="footer_service_1" value="<%= settings.footer_service_1 || 'Elektrofüzyon Kaynak' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hizmet Linki 2</label><input type="text" name="footer_service_2" value="<%= settings.footer_service_2 || 'Alın Kaynak' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hizmet Linki 3</label><input type="text" name="footer_service_3" value="<%= settings.footer_service_3 || 'PE Boru Montajı' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hizmet Linki 4</label><input type="text" name="footer_service_4" value="<%= settings.footer_service_4 || 'Boru Hattı Tamiri' %>"></div>
+    </div>
+
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">4. Sütun: İletişim Bilgileri</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+        <div class="form-group" style="margin: 0; grid-column: 1 / -1;"><label>Başlık (Örn: İletişim)</label><input type="text" name="footer_col4_title" value="<%= settings.footer_col4_title || 'İletişim' %>"></div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Adres</label>
+            <input type="text" name="address" value="<%= settings.address || '' %>">
+            <label style="margin-top: 10px;">Adres İkonu</label>
+            <%- include('icon_selector', {name: 'footer_address_icon', currentVal: settings.footer_address_icon, defaultIcon: 'fa-location-dot'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Telefon</label>
+            <input type="text" name="phone" value="<%= settings.phone || '' %>">
+            <label style="margin-top: 10px;">Telefon İkonu</label>
+            <%- include('icon_selector', {name: 'footer_phone_icon', currentVal: settings.footer_phone_icon, defaultIcon: 'fa-phone'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>E-posta</label>
+            <input type="email" name="email" value="<%= settings.email || '' %>">
+            <label style="margin-top: 10px;">E-posta İkonu</label>
+            <%- include('icon_selector', {name: 'footer_email_icon', currentVal: settings.footer_email_icon, defaultIcon: 'fa-envelope'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Çalışma Saatleri</label>
+            <input type="text" name="working_hours" value="<%= settings.working_hours || '' %>">
+            <label style="margin-top: 10px;">Saat İkonu</label>
+            <%- include('icon_selector', {name: 'footer_hours_icon', currentVal: settings.footer_hours_icon, defaultIcon: 'fa-clock'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>WhatsApp Numarası (Örn: 905001234567)</label>
+            <input type="text" name="whatsapp" value="<%= settings.whatsapp || '' %>">
+            <label style="margin-top: 10px;">WhatsApp İkonu</label>
+            <%- include('icon_selector', {name: 'footer_whatsapp_icon', currentVal: settings.footer_whatsapp_icon, defaultIcon: 'fa-whatsapp'}) %>
+        </div>
+    </div>
+
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Alt Çubuk (Bottom Bar)</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px;">
+        <div class="form-group" style="margin: 0;"><label>Copyright Yazısı (Örn: Ak Füzyon)</label><input type="text" name="footer_copyright" value="<%= settings.footer_copyright || 'Ak Füzyon' %>"></div>
+    </div>
+
+    <button type="submit" class="btn btn--primary" style="margin-top: 20px;">İçerikleri Kaydet</button>
+</form>
+<%- include('footer') %>

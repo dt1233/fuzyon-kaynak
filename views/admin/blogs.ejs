@@ -1,0 +1,59 @@
+<%- include('header') %>
+
+<div class="admin-header">
+    <div class="header-content">
+        <h2><i class="fa-solid fa-newspaper" style="color: var(--accent); margin-right: 10px;"></i> Blog & Haber Yönetimi</h2>
+        <p style="color: var(--text-secondary); margin-top: 5px;">Sitede yayınlanacak haberleri ve makaleleri yönetin.</p>
+    </div>
+    <a href="/admin/blogs/add" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Yeni Yazı Ekle</a>
+</div>
+
+<div class="admin-card">
+    <div class="table-responsive">`n<table class="table" style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 15px; width: 80px;">Görsel</th>
+                <th style="padding: 15px;">Başlık</th>
+                <th style="padding: 15px;">Tarih</th>
+                <th style="padding: 15px;">Görüntülenme</th>
+                <th style="padding: 15px; width: 150px;">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (blogs && blogs.length > 0) { %>
+                <% blogs.forEach(blog => { %>
+                    <tr style="border-bottom: 1px solid var(--bg-secondary);">
+                        <td style="padding: 15px;">
+                            <% if (blog.image_url) { %>
+                                <img src="<%= blog.image_url %>" alt="Kapak" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                            <% } else { %>
+                                <div style="width: 60px; height: 60px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;"><i class="fa-solid fa-image"></i></div>
+                            <% } %>
+                        </td>
+                        <td style="padding: 15px; font-weight: 500;"><%= blog.title %></td>
+                        <td style="padding: 15px; color: var(--text-secondary);"><%= new Date(blog.created_at).toLocaleDateString('tr-TR') %></td>
+                        <td style="padding: 15px; color: var(--text-secondary);"><i class="fa-solid fa-eye" style="margin-right: 5px;"></i> <%= blog.views %></td>
+                        <td style="padding: 15px;">
+                            <div style="display: flex; gap: 10px;">
+                                <a href="/admin/blogs/edit/<%= blog.id %>" class="btn btn--secondary" style="padding: 8px 12px; font-size: 0.85rem;"><i class="fa-solid fa-pen"></i> Düzenle</a>
+                                <form action="/admin/blogs/delete/<%= blog.id %>" method="POST" onsubmit="return confirm('Bu haberi silmek istediğinize emin misiniz?');">
+                                    <button type="submit" class="btn" style="background: #e74c3c; color: white; padding: 8px 12px; font-size: 0.85rem; border: none; cursor: pointer; border-radius: 6px;"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="5" style="padding: 40px; text-align: center; color: var(--text-secondary);">
+                        <i class="fa-solid fa-newspaper" style="font-size: 3rem; color: #ccc; margin-bottom: 15px;"></i>
+                        <p>Henüz blog yazısı veya haber eklenmemiş.</p>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>`n</div>
+</div>
+
+<%- include('footer') %>
+

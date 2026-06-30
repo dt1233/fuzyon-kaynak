@@ -1,0 +1,130 @@
+<%- include('header') %>
+
+<div class="admin-header">
+    <h2>Gelen Teklif Talepleri</h2>
+</div>
+
+<div class="admin-card">
+    <% if (quotes && quotes.length > 0) { %>
+        <div style="overflow-x: auto;">
+            <div class="table-responsive">`n<table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-color);">
+                        <th style="padding: 15px; color: var(--text-secondary);">Durum</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">Müşteri</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">İlgilenilen Ürünler</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">Tarih</th>
+                        <th style="padding: 15px; color: var(--text-secondary); text-align: right;">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% quotes.forEach(q => { 
+                        let dateObj = new Date(q.created_at);
+                        let dateStr = dateObj.toLocaleDateString('tr-TR') + ' ' + dateObj.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+                    %>
+                    <tr style="border-bottom: 1px solid var(--border-color); <%= q.is_read ? 'opacity: 0.7;' : 'background: rgba(231, 76, 60, 0.03);' %>">
+                        <td style="padding: 15px;">
+                            <% if (q.is_read) { %>
+                                <span style="background: #e2e8f0; color: #64748b; font-size: 0.75rem; font-weight: bold; padding: 4px 8px; border-radius: 4px;">Okundu</span>
+                            <% } else { %>
+                                <span style="background: #e74c3c; color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 8px; border-radius: 4px;">Yeni Teklif</span>
+                            <% } %>
+                        </td>
+                        <td style="padding: 15px;">
+                            <div style="font-weight: <%= q.is_read ? 'normal' : 'bold' %>;"><%= q.first_name %> <%= q.last_name %></div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);"><%= q.email %></div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);"><%= q.phone %></div>
+                        </td>
+                        <td style="padding: 15px; font-size: 0.9rem; max-width: 300px;">
+                            <% if (q.products) { %>
+                                <% q.products.split(',').forEach(p => { %>
+                                    <span style="display: inline-block; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2px 6px; border-radius: 4px; margin: 2px; font-size: 0.8rem;"><%= p.trim() %></span>
+                                <% }) %>
+                            <% } %>
+                        </td>
+                        <td style="padding: 15px; font-size: 0.9rem; color: var(--text-secondary);">
+                            <%= dateStr %>
+                        </td>
+                        <td style="padding: 15px; text-align: right;">
+                            <button onclick="viewQuote(<%= q.id %>, '<%= encodeURIComponent(q.first_name + ' ' + q.last_name) %>', '<%= encodeURIComponent(q.email) %>', '<%= encodeURIComponent(q.phone) %>', '<%= encodeURIComponent(q.products) %>')" class="btn btn--outline" style="padding: 5px 10px; font-size: 0.85rem;">
+                                <i class="fa-solid fa-eye"></i> İncele
+                            </button>
+                            <form action="/admin/quotes/delete/<%= q.id %>" method="POST" style="display: inline;" onsubmit="return confirm('Bu teklif talebini silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="btn" style="padding: 5px 10px; font-size: 0.85rem; background: #fee2e2; color: #ef4444; border: 1px solid #ef4444;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>`n</div>
+        </div>
+    <% } else { %>
+        <div style="text-align: center; padding: 50px 20px; color: var(--text-secondary);">
+            <i class="fa-solid fa-file-invoice-dollar" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+            <h3>Gelen Teklif Talebi Yok</h3>
+            <p>Henüz teklif formundan bir talep almadınız.</p>
+        </div>
+    <% } %>
+</div>
+
+<!-- Quote Reading Modal -->
+<div id="quote-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: var(--bg-primary); width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden;">
+        <div style="padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0;">Teklif Detayları</h3>
+            <button onclick="closeModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary);">&times;</button>
+        </div>
+        <div style="padding: 30px;">
+            <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
+                <div style="font-weight: bold; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 5px;">Müşteri Bilgileri</div>
+                <div style="font-size: 1.1rem; font-weight: bold;" id="modal-customer-name"></div>
+                <div style="margin-top: 5px;"><i class="fa-solid fa-envelope" style="width: 20px; color: var(--accent);"></i> <span id="modal-customer-email"></span></div>
+                <div style="margin-top: 5px;"><i class="fa-solid fa-phone" style="width: 20px; color: var(--accent);"></i> <span id="modal-customer-phone"></span></div>
+            </div>
+            
+            <div>
+                <div style="font-weight: bold; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 10px;">İlgilenilen Ürünler</div>
+                <div id="modal-products" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+            </div>
+        </div>
+        <div style="padding: 20px 30px; border-top: 1px solid var(--border-color); text-align: right; background: var(--bg-secondary);">
+            <button onclick="closeModal()" class="btn btn--primary">Kapat</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function viewQuote(id, name, email, phone, products) {
+        document.getElementById('modal-customer-name').innerText = decodeURIComponent(name);
+        document.getElementById('modal-customer-email').innerText = decodeURIComponent(email);
+        document.getElementById('modal-customer-phone').innerText = decodeURIComponent(phone);
+        
+        let productsHtml = '';
+        const prodArr = decodeURIComponent(products).split(',');
+        prodArr.forEach(p => {
+            if(p.trim()) {
+                productsHtml += `<span style="background: var(--bg-primary); border: 1px solid var(--accent); color: var(--accent); padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">${p.trim()}</span>`;
+            }
+        });
+        document.getElementById('modal-products').innerHTML = productsHtml;
+        
+        document.getElementById('quote-modal').style.display = 'flex';
+        
+        // AJAX request to mark as read
+        fetch('/admin/quotes/read/' + id, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            // Silently mark as read
+        });
+    }
+
+    function closeModal() {
+        document.getElementById('quote-modal').style.display = 'none';
+        window.location.reload(); // Reload to update "Yeni" badges
+    }
+</script>
+
+<%- include('footer') %>
+

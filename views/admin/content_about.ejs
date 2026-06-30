@@ -1,0 +1,140 @@
+<%- include('header') %>
+<div class="admin-header"><h2>Hakkımızda Yönetimi</h2></div>
+<% if (success) { %><div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;"><%= success %></div><% } %>
+<form action="/admin/content/update" method="POST" class="admin-card" enctype="multipart/form-data">
+    <input type="hidden" name="redirect_to" value="about">
+        <!-- Icons and renderIconSelect removed to use partial -->
+
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Biz Kimiz Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hakkımızda Ana Görseli</label>
+            <% if (settings.about_main_img) { %>
+                <div style="margin-bottom: 10px;"><img src="<%= settings.about_main_img %>" style="max-height: 100px; border-radius: 4px;"></div>
+            <% } %>
+            <input type="file" name="about_main_img" accept="image/*">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group" style="margin: 0;"><label>Resim Rozet Başlığı</label><input type="text" name="about_badge_title" value="<%= settings.about_badge_title || 'Malatya' %>"></div>
+            <div class="form-group" style="margin: 0;"><label>Resim Rozet Alt Yazısı</label><input type="text" name="about_badge_text" value="<%= settings.about_badge_text || 'Bölgenin #1 Firması' %>"></div>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Küçük Üst Başlık</label>
+            <input type="text" name="about_subtitle" value="<%= settings.about_subtitle || 'BİZ KİMİZ?' %>">
+            <label style="margin-top: 10px;">Üst Başlık İkonu</label>
+            <%- include('icon_selector', {name: 'about_subtitle_icon', currentVal: settings.about_subtitle_icon, defaultIcon: 'fa-minus'}) %>
+        </div>
+        <div class="form-group" style="margin: 0;"><label>Sayfa Başlığı</label><input type="text" name="about_page_title" value="<%= settings.about_page_title %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Ana Metin 1</label><textarea name="about_page_desc_1" rows="3"><%= settings.about_page_desc_1 %></textarea></div>
+        <div class="form-group" style="margin: 0;"><label>Ana Metin 2</label><textarea name="about_page_desc_2" rows="3"><%= settings.about_page_desc_2 %></textarea></div>
+        
+    </div>
+    
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Öne Çıkan Özellikler (4 Adet)</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Özellik 1</label>
+            <input type="text" name="about_feature_1" value="<%= settings.about_feature_1 || 'Özellik 1' %>">
+            <label style="margin-top: 10px;">İkon 1</label>
+            <%- include('icon_selector', {name: 'about_feature_1_icon', currentVal: settings.about_feature_1_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Özellik 2</label>
+            <input type="text" name="about_feature_2" value="<%= settings.about_feature_2 || 'Özellik 2' %>">
+            <label style="margin-top: 10px;">İkon 2</label>
+            <%- include('icon_selector', {name: 'about_feature_2_icon', currentVal: settings.about_feature_2_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Özellik 3</label>
+            <input type="text" name="about_feature_3" value="<%= settings.about_feature_3 || 'Özellik 3' %>">
+            <label style="margin-top: 10px;">İkon 3</label>
+            <%- include('icon_selector', {name: 'about_feature_3_icon', currentVal: settings.about_feature_3_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Özellik 4</label>
+            <input type="text" name="about_feature_4" value="<%= settings.about_feature_4 || 'Özellik 4' %>">
+            <label style="margin-top: 10px;">İkon 4</label>
+            <%- include('icon_selector', {name: 'about_feature_4_icon', currentVal: settings.about_feature_4_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+    </div>
+
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Misyon & Vizyon Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        
+        <div class="form-group" style="margin: 0;"><label>Bölüm Ana Başlığı</label><input type="text" name="about_mv_main_title" value="<%= settings.about_mv_main_title || 'Misyon & Vizyon' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Bölüm Alt Açıklaması</label><textarea name="about_mv_main_desc" rows="2"><%= settings.about_mv_main_desc || 'Değerlerimiz ve hedeflerimiz doğrultusunda, sektörde fark yaratan bir firma olmaya devam ediyoruz.' %></textarea></div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <div class="form-group" style="margin: 0;">
+                <label>Misyonumuz - Başlık</label><input type="text" name="about_mission_title" value="<%= settings.about_mission_title %>">
+                <label style="margin-top: 10px;">Misyon İkonu</label>
+                <%- include('icon_selector', {name: 'about_mission_icon', currentVal: settings.about_mission_icon, defaultIcon: 'fa-bullseye'}) %>
+                <label style="margin-top: 10px;">Misyonumuz - Metin</label><textarea name="about_mission_desc" rows="3"><%= settings.about_mission_desc %></textarea>
+            </div>
+            <div class="form-group" style="margin: 0;">
+                <label>Vizyonumuz - Başlık</label><input type="text" name="about_vision_title" value="<%= settings.about_vision_title %>">
+                <label style="margin-top: 10px;">Vizyon İkonu</label>
+                <%- include('icon_selector', {name: 'about_vision_icon', currentVal: settings.about_vision_icon, defaultIcon: 'fa-eye'}) %>
+                <label style="margin-top: 10px;">Vizyonumuz - Metin</label><textarea name="about_vision_desc" rows="3"><%= settings.about_vision_desc %></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEDEN BİZ BÖLÜMÜ -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Neden Biz Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;"><label>Bölüm Ana Başlığı</label><input type="text" name="about_why_title" value="<%= settings.about_why_title || 'Neden Ak Füzyon?' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Bölüm Alt Açıklaması</label><textarea name="about_why_desc" rows="2"><%= settings.about_why_desc || 'Bizi tercih etmeniz için birçok neden var. İşte fark yaratan özelliklerimiz.' %></textarea></div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+            <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+                <label>Kart 1 Başlık</label><input type="text" name="about_why_1_title" value="<%= settings.about_why_1_title || 'Bölgede Öncü' %>">
+                <label style="margin-top: 10px;">Kart 1 İkonu</label>
+                <%- include('icon_selector', {name: 'about_why_1_icon', currentVal: settings.about_why_1_icon, defaultIcon: 'fa-award'}) %>
+                <label style="margin-top: 10px;">Kart 1 Açıklama</label><textarea name="about_why_1_desc" rows="2"><%= settings.about_why_1_desc || 'Malatya ve çevre illerde elektrofüzyon kaynak hizmeti sunan ilk ve tek firma olarak sektöre yön veriyoruz.' %></textarea>
+            </div>
+            <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+                <label>Kart 2 Başlık</label><input type="text" name="about_why_2_title" value="<%= settings.about_why_2_title || 'Modern Ekipman' %>">
+                <label style="margin-top: 10px;">Kart 2 İkonu</label>
+                <%- include('icon_selector', {name: 'about_why_2_icon', currentVal: settings.about_why_2_icon, defaultIcon: 'fa-gears'}) %>
+                <label style="margin-top: 10px;">Kart 2 Açıklama</label><textarea name="about_why_2_desc" rows="2"><%= settings.about_why_2_desc || 'Uluslararası standartlara uygun, son teknoloji elektrofüzyon ve alın kaynak makineleriyle çalışıyoruz.' %></textarea>
+            </div>
+            <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+                <label>Kart 3 Başlık</label><input type="text" name="about_why_3_title" value="<%= settings.about_why_3_title || 'Eğitimli Personel' %>">
+                <label style="margin-top: 10px;">Kart 3 İkonu</label>
+                <%- include('icon_selector', {name: 'about_why_3_icon', currentVal: settings.about_why_3_icon, defaultIcon: 'fa-user-graduate'}) %>
+                <label style="margin-top: 10px;">Kart 3 Açıklama</label><textarea name="about_why_3_desc" rows="2"><%= settings.about_why_3_desc || 'Tüm teknik kadromuz düzenli olarak eğitim programlarına katılarak bilgi ve becerilerini güncel tutmaktadır.' %></textarea>
+            </div>
+            <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+                <label>Kart 4 Başlık</label><input type="text" name="about_why_4_title" value="<%= settings.about_why_4_title || 'Müşteri Odaklı' %>">
+                <label style="margin-top: 10px;">Kart 4 İkonu</label>
+                <%- include('icon_selector', {name: 'about_why_4_icon', currentVal: settings.about_why_4_icon, defaultIcon: 'fa-handshake'}) %>
+                <label style="margin-top: 10px;">Kart 4 Açıklama</label><textarea name="about_why_4_desc" rows="2"><%= settings.about_why_4_desc || 'Her projeyi müşterimizin ihtiyaçlarına özel olarak planlıyor, şeffaf iletişim ve zamanında teslimat sağlıyoruz.' %></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- İSTATİSTİKLER BÖLÜMÜ -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">İstatistikler Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;">
+            <label>İstatistik 1 (Sayı)</label><input type="text" name="about_stat_1_num" value="<%= settings.about_stat_1_num || '150+' %>">
+            <label style="margin-top: 10px;">İstatistik 1 (Metin)</label><input type="text" name="about_stat_1_text" value="<%= settings.about_stat_1_text || 'Mutlu Müşteri' %>">
+        </div>
+        <div class="form-group" style="margin: 0;">
+            <label>İstatistik 2 (Sayı)</label><input type="text" name="about_stat_2_num" value="<%= settings.about_stat_2_num || '300+' %>">
+            <label style="margin-top: 10px;">İstatistik 2 (Metin)</label><input type="text" name="about_stat_2_text" value="<%= settings.about_stat_2_text || 'Tamamlanan Proje' %>">
+        </div>
+        <div class="form-group" style="margin: 0;">
+            <label>İstatistik 3 (Sayı)</label><input type="text" name="about_stat_3_num" value="<%= settings.about_stat_3_num || '15+' %>">
+            <label style="margin-top: 10px;">İstatistik 3 (Metin)</label><input type="text" name="about_stat_3_text" value="<%= settings.about_stat_3_text || 'Uzman Kadro' %>">
+        </div>
+        <div class="form-group" style="margin: 0;">
+            <label>İstatistik 4 (Sayı)</label><input type="text" name="about_stat_4_num" value="<%= settings.about_stat_4_num || '5+' %>">
+            <label style="margin-top: 10px;">İstatistik 4 (Metin)</label><input type="text" name="about_stat_4_text" value="<%= settings.about_stat_4_text || 'Yıllık Tecrübe' %>">
+        </div>
+    </div>
+    
+    <button type="submit" class="btn btn--primary" style="margin-top: 20px;">İçerikleri Kaydet</button>
+</form>
+<%- include('footer') %>

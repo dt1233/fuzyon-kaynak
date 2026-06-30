@@ -1,0 +1,182 @@
+<%- include('partials/header') %>
+
+    <!-- ============================================
+         PAGE BANNER
+         ============================================ -->
+    <section class="page-banner">
+        <div class="page-banner__overlay"></div>
+        <div class="container">
+            <h1 class="page-banner__title"><%= typeof settings !== 'undefined' && settings.nav_services ? settings.nav_services : 'Hizmetlerimiz' %></h1>
+            <div class="page-banner__breadcrumb">
+                <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span>Hizmetler</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SERVICES INTRO
+         ============================================ -->
+    <section class="section" id="services-intro">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2><%= settings.services_page_title || "Profesyonel Hizmetlerimiz" %></h2>
+                <p><%= settings.services_page_desc || "Ak Füzyon olarak, elektrofüzyon kaynak ve PE boru sistemleri alanında kapsamlı hizmetler sunuyoruz." %></p>
+            </div>
+
+            <!-- Services Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem;">
+
+                <!-- Service 1: Elektrofüzyon Kaynak -->
+                <div class="service-card animate-on-scroll animate-delay-1">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.service_card_1_icon, 'fa-fire') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.service_card_1_title || "Hizmet 1" %></h3>
+                    <p class="service-card__text"><%= settings.service_card_1_desc || "Hizmet 1 açıklaması" %></p>
+                </div>
+
+                <!-- Service 2: Alın Kaynak -->
+                <div class="service-card animate-on-scroll animate-delay-2">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.service_card_2_icon, 'fa-compress') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.service_card_2_title || "Hizmet 2" %></h3>
+                    <p class="service-card__text"><%= settings.service_card_2_desc || "Hizmet 2 açıklaması" %></p>
+                </div>
+
+                <!-- Service 3: PE Boru Montajı -->
+                <div class="service-card animate-on-scroll animate-delay-3">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.service_card_3_icon, 'fa-screwdriver-wrench') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.service_card_3_title || "Hizmet 3" %></h3>
+                    <p class="service-card__text"><%= settings.service_card_3_desc || "Hizmet 3 açıklaması" %></p>
+                </div>
+
+                <!-- Service 4: Boru Hattı Tamir & Bakım -->
+                <div class="service-card animate-on-scroll animate-delay-1">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.service_card_4_icon, 'fa-wrench') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.service_card_4_title || "Hizmet 4" %></h3>
+                    <p class="service-card__text"><%= settings.service_card_4_desc || "Hizmet 4 açıklaması" %></p>
+                </div>
+
+                <!-- Service 5: Proje Danışmanlık -->
+                <div class="service-card animate-on-scroll animate-delay-2">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.service_card_5_icon, 'fa-clipboard-check') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.service_card_5_title || "Hizmet 5" %></h3>
+                    <p class="service-card__text"><%= settings.service_card_5_desc || "Hizmet 5 açıklaması" %></p>
+                </div>
+
+                <!-- Service 6: Acil Müdahale -->
+                <div class="service-card animate-on-scroll animate-delay-3">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.service_card_6_icon, 'fa-truck-fast') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.service_card_6_title || "Hizmet 6" %></h3>
+                    <p class="service-card__text"><%= settings.service_card_6_desc || "Hizmet 6 açıklaması" %></p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         UYGULAMA ALANLARI SECTION
+         ============================================ -->
+    <section class="section section--alt" id="application-areas">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2>Uygulama Alanlarımız</h2>
+                <p>Hizmetlerimizi geniş bir yelpazede, farklı sektörlerdeki projelere başarıyla uyguluyoruz.</p>
+            </div>
+
+            <div class="services__grid">
+                <div class="service-item animate-on-scroll animate-delay-1">
+                    <i class="<%- renderIconClass(settings.app_area_1_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_1 || "İçme Suyu Hatları" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-1">
+                    <i class="<%- renderIconClass(settings.app_area_2_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_2 || "Doğalgaz Altyapısı" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2">
+                    <i class="<%- renderIconClass(settings.app_area_3_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_3 || "Kanalizasyon Sistemleri" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2">
+                    <i class="<%- renderIconClass(settings.app_area_4_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_4 || "Tarımsal Sulama" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-1">
+                    <i class="<%- renderIconClass(settings.app_area_5_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_5 || "Endüstriyel Tesisler" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2">
+                    <i class="<%- renderIconClass(settings.app_area_6_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_6 || "Belediye Projeleri" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3">
+                    <i class="<%- renderIconClass(settings.app_area_7_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_7 || "Jeotermal Hatlar" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3">
+                    <i class="<%- renderIconClass(settings.app_area_8_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_8 || "Yağmursuyu Drenajı" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2">
+                    <i class="<%- renderIconClass(settings.app_area_9_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_9 || "Maden Sahası Boruları" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3">
+                    <i class="<%- renderIconClass(settings.app_area_10_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_10 || "Yangın Söndürme Hatları" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3">
+                    <i class="<%- renderIconClass(settings.app_area_11_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_11 || "Baraj & Gölet Projeleri" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-4">
+                    <i class="<%- renderIconClass(settings.app_area_12_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.app_area_12 || "Arıza & Tamir Hizmetleri" %></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA BANNER
+         ============================================ -->
+    <section class="cta-banner" id="cta-banner" <% if (settings.home_cta_bg) { %>style="background-image: url('<%= settings.home_cta_bg %>');"<% } %>>
+        <div class="cta-banner__overlay"></div>
+        <div class="container">
+            <div class="cta-banner__content animate-on-scroll animate-scale">
+                <h2 class="cta-banner__title"><%= settings.services_cta_title || "Projeniz İçin Hemen Teklif Alın!" %></h2>
+                <p class="cta-banner__text">
+                    <%= settings.services_cta_desc || "Elektrofüzyon kaynak, alın kaynak, PE boru montajı ve tüm altyapı hizmetleri için bize ulaşın. Ücretsiz keşif ve fiyat teklifi sunuyoruz." %>
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/iletisim" class="btn btn--primary btn--lg" id="cta-contact">
+                        <i class="<%- renderIconClass(settings.services_cta_btn1_icon, 'fa-paper-plane') %>"></i>
+                        <%= settings.services_cta_btn1_text || "İletişime Geçin" %>
+                    </a>
+                    <a href="https://wa.me/<%= settings.whatsapp %>?text=Merhaba,%20hizmetleriniz%20hakkında%20bilgi%20almak%20istiyorum." class="btn btn--white btn--lg" target="_blank" id="cta-whatsapp">
+                        <i class="<%- renderIconClass(settings.services_cta_btn2_icon, 'fa-whatsapp') %>"></i>
+                        <%= settings.services_cta_btn2_text || "WhatsApp ile Yazın" %>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <%- include('partials/footer') %>
+
+

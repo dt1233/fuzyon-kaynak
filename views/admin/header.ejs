@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel | Ak Füzyon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .admin-layout { display: flex; min-height: 100vh; position: relative; }
+        .admin-sidebar { width: 250px; background: var(--primary-dark); color: #fff; padding: 30px 0; flex-shrink: 0; z-index: 1000; transition: left 0.3s ease; }
+        .admin-sidebar a { display: block; padding: 15px 30px; color: #fff; opacity: 0.7; transition: 0.3s; }
+        .admin-sidebar a:hover, .admin-sidebar a.active { opacity: 1; background: var(--primary); border-left: 4px solid var(--accent); }
+        .admin-content { flex: 1; padding: 40px; background: var(--bg-secondary); overflow-x: hidden; width: 100%; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+        .admin-card { background: var(--card-bg); padding: 30px; border-radius: 8px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
+        .admin-menu-toggle { display: none; background: var(--primary); color: #fff; border: none; padding: 10px 15px; border-radius: 8px; font-size: 1.2rem; cursor: pointer; margin-right: 15px; }
+        .admin-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.3s ease; }
+        
+        @media (max-width: 768px) {
+            .admin-sidebar { position: fixed; left: -250px; height: 100vh; overflow-y: auto; }
+            .admin-sidebar.open { left: 0; }
+            .admin-content { padding: 20px; }
+            .admin-menu-toggle { display: block; }
+            .admin-overlay.active { display: block; opacity: 1; }
+            .mobile-title { display: block !important; }
+        }
+    </style>
+</head>
+<body class="is-loaded">
+    <div class="admin-overlay" id="admin-overlay"></div>
+    <div class="admin-layout">
+        <div class="admin-sidebar" id="admin-sidebar">
+            <h3 style="color: #fff; padding: 0 30px; margin-bottom: 30px;">Ak Füzyon</h3>
+            <a href="/admin/dashboard" class="<%= active === 'dashboard' ? 'active' : '' %>"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+            
+            <div style="padding: 10px 30px; font-size: 0.8rem; color: var(--accent); margin-top: 10px; font-weight: bold; text-transform: uppercase;">İçerik Yönetimi</div>
+            <a href="/admin/content/header" class="<%= active === 'content_header' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-heading"></i> Header Yönetimi</a>
+            <a href="/admin/content/footer" class="<%= active === 'content_footer' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-shoe-prints"></i> Footer Yönetimi</a>
+            <a href="/admin/content/home" class="<%= active === 'content_home' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-home"></i> Anasayfa İçerik</a>
+            <a href="/admin/content/about" class="<%= active === 'content_about' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-info-circle"></i> Hakkımızda İçerik</a>
+            <a href="/admin/content/services" class="<%= active === 'content_services' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-tools"></i> Hizmetler İçerik</a>
+            <a href="/admin/content/references" class="<%= active === 'content_references' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-handshake"></i> Referanslar İçerik</a>
+            <a href="/admin/content/contact" class="<%= active === 'content_contact' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-address-book"></i> İletişim İçerik</a>
+            <a href="/admin/categories" class="<%= active === 'categories' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-tags"></i> Kategoriler</a>
+            <a href="/admin/products" class="<%= active === 'products' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-box"></i> Ürünler</a>
+            <a href="/admin/gallery" class="<%= active === 'gallery' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-images"></i> Galeri</a>
+            <a href="/admin/blogs" class="<%= active === 'blogs' ? 'active' : '' %>" style="padding-left: 40px;"><i class="fa-solid fa-newspaper"></i> Blog & Haberler</a>
+            
+            <div style="padding: 10px 30px; font-size: 0.8rem; color: var(--accent); margin-top: 10px; font-weight: bold; text-transform: uppercase;">Sistem</div>
+            <a href="/admin/quotes" class="<%= active === 'quotes' ? 'active' : '' %>" style="display: flex; justify-content: space-between; align-items: center;">
+                <span><i class="fa-solid fa-file-invoice-dollar"></i> Gelen Teklifler</span>
+                <% if (typeof unreadQuotes !== 'undefined' && unreadQuotes > 0) { %>
+                    <span style="background: #e74c3c; color: white; font-size: 0.75rem; font-weight: bold; padding: 2px 8px; border-radius: 12px;"><%= unreadQuotes %> Yeni</span>
+                <% } %>
+            </a>
+            <a href="/admin/messages" class="<%= active === 'messages' ? 'active' : '' %>" style="display: flex; justify-content: space-between; align-items: center;">
+                <span><i class="fa-solid fa-envelope"></i> Gelen Mesajlar</span>
+                <% if (typeof unreadMessages !== 'undefined' && unreadMessages > 0) { %>
+                    <span style="background: #e74c3c; color: white; font-size: 0.75rem; font-weight: bold; padding: 2px 8px; border-radius: 12px;"><%= unreadMessages %> Yeni</span>
+                <% } %>
+            </a>
+            <a href="/admin/chatbot" class="<%= active === 'chatbot' ? 'active' : '' %>"><i class="fa-solid fa-robot"></i> Chatbot Yönetimi</a>
+            <a href="/admin/modules" class="<%= active === 'modules' ? 'active' : '' %>"><i class="fa-solid fa-toggle-on"></i> Modül Yönetimi</a>
+            <a href="/admin/settings" class="<%= active === 'settings' ? 'active' : '' %>"><i class="fa-solid fa-cog"></i> Genel Ayarlar</a>
+            <a href="/admin/logout" style="margin-top: 50px;"><i class="fa-solid fa-sign-out-alt"></i> Çıkış Yap</a>
+        </div>
+        <div class="admin-content">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;" class="mobile-only-header">
+                <button class="admin-menu-toggle" id="admin-menu-toggle"><i class="fas fa-bars"></i></button>
+                <h3 style="margin: 0; display: none;" class="mobile-title">Admin Panel</h3>
+            </div>

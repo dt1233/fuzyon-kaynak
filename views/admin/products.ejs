@@ -1,0 +1,67 @@
+<%- include('header') %>
+
+<div class="admin-header">
+    <h2>Ürünler</h2>
+    <a href="/admin/products/add" class="btn btn--primary">Yeni Ürün Ekle</a>
+</div>
+
+<div class="admin-card">
+    <div class="table-responsive">`n<table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                <th style="padding: 10px;">ID</th>
+                <th style="padding: 10px;">Görsel</th>
+                <th style="padding: 10px;">Ürün Adı</th>
+                <th style="padding: 10px;">Kategori</th>
+                <th style="padding: 10px;">İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(p => { %>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;"><%= p.id %></td>
+                    <td style="padding: 10px;">
+                        <% 
+                            let firstImage = p.image_url;
+                            if (firstImage) {
+                                try {
+                                    let arr = JSON.parse(firstImage);
+                                    if (Array.isArray(arr) && arr.length > 0) firstImage = arr[0];
+                                } catch(e) {}
+                            }
+                        %>
+                        <% if (firstImage) { %>
+                            <img src="<%= firstImage %>" alt="<%= p.name %>" style="width: 50px; height: 50px; object-fit: contain; background: #fff; padding: 2px; border: 1px solid #ddd; border-radius: 4px;">
+                        <% } else { %>
+                            <span style="color: #999;">Görsel Yok</span>
+                        <% } %>
+                    </td>
+                    <td style="padding: 10px;"><strong><%= p.name %></strong></td>
+                    <td style="padding: 10px;"><%= p.category_name %></td>
+                    <td style="padding: 10px; display: flex; gap: 10px;">
+                        <a href="/admin/products/edit/<%= p.id %>" class="btn" style="background: var(--accent); color: white; padding: 5px 15px; font-size: 0.8rem;">Düzenle</a>
+                        <form action="/admin/products/delete/<%= p.id %>" method="POST" onsubmit="return confirm('Silmek istediğinize emin misiniz?')">
+                            <button type="submit" class="btn" style="background: #e74c3c; color: white; padding: 5px 15px; font-size: 0.8rem;">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+            <% if(products.length === 0) { %>
+                <tr><td colspan="5" style="padding: 20px; text-align: center;">Henüz ürün eklenmemiş.</td></tr>
+            <% } %>
+
+        </tbody>
+    </table>`n</div>
+
+    <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+        <div style="display: flex; justify-content: center; margin-top: 25px; gap: 8px;">
+            <% for(let i=1; i<=totalPages; i++) { %>
+                <a href="?page=<%= i %>" class="btn <%= currentPage === i ? 'btn--primary' : 'btn--outline' %>" style="padding: 8px 15px; font-size: 0.95rem;"><%= i %></a>
+            <% } %>
+        </div>
+    <% } %>
+
+</div>
+
+<%- include('footer') %>
+

@@ -1,0 +1,265 @@
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <h4 class="footer__heading"><%= settings.footer_col1_title || "Ak Füzyon" %></h4>
+                    <p class="footer__about-text">
+                        <%= settings.footer_about_text || "Malatya ve çevre illerde elektrofüzyon kaynak hizmeti sunan ilk ve tek firma. Uzman kadromuz ve son teknoloji ekipmanlarımızla altyapı projelerinizde güvenilir çözüm ortağınız." %>
+                    </p>
+                    <div class="footer__social">
+                        <% if (settings.iletisim_facebook && settings.iletisim_facebook.trim() !== '') { %>
+                        <a href="<%= settings.iletisim_facebook %>"><i class="<%- renderIconClass(settings.footer_facebook_icon, 'fa-facebook-f') %>"></i></a>
+                        <% } %>
+                        <% if (settings.iletisim_instagram && settings.iletisim_instagram.trim() !== '') { %>
+                        <a href="<%= settings.iletisim_instagram %>"><i class="<%- renderIconClass(settings.footer_instagram_icon, 'fa-instagram') %>"></i></a>
+                        <% } %>
+                        <% if (settings.iletisim_youtube && settings.iletisim_youtube.trim() !== '') { %>
+                        <a href="<%= settings.iletisim_youtube %>"><i class="<%- renderIconClass(settings.footer_youtube_icon, 'fa-youtube') %>"></i></a>
+                        <% } %>
+                        <% if (settings.iletisim_linkedin && settings.iletisim_linkedin.trim() !== '') { %>
+                        <a href="<%= settings.iletisim_linkedin %>"><i class="<%- renderIconClass(settings.footer_linkedin_icon, 'fa-linkedin-in') %>"></i></a>
+                        <% } %>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer__heading"><%= settings.footer_col2_title || "Hızlı Linkler" %></h4>
+                    <ul class="footer__links">
+                        <li><a href="/"><i class="fa-solid fa-chevron-right"></i> <%= settings.nav_home || "Anasayfa" %></a></li>
+                        <% if (settings.page_about_active !== 'false') { %>
+                        <li><a href="/<%= slugs.about %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.nav_about || "Hakkımızda" %></a></li>
+                        <% } %>
+                        <% if (settings.page_products_active !== 'false') { %>
+                        <li><a href="/<%= slugs.products %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.nav_products || "Ürünler" %></a></li>
+                        <% } %>
+                        <% if (settings.page_services_active !== 'false') { %>
+                        <li><a href="/<%= slugs.services %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.nav_services || "Hizmetlerimiz" %></a></li>
+                        <% } %>
+                        <% if (settings.page_gallery_active !== 'false') { %>
+                        <li><a href="/<%= slugs.gallery || 'galeri' %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.nav_gallery || "Galeri" %></a></li>
+                        <% } %>
+                        <% if (settings.page_blog_active !== 'false') { %>
+                        <li><a href="/<%= slugs.blog || 'blog' %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.nav_blog || "Blog" %></a></li>
+                        <% } %>
+                        <% if (settings.page_contact_active !== 'false') { %>
+                        <li><a href="/<%= slugs.contact %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.nav_contact || "İletişim" %></a></li>
+                        <% } %>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__heading"><%= settings.footer_col3_title || "Hizmetlerimiz" %></h4>
+                    <ul class="footer__links">
+                        <li><a href="/<%= slugs.services %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.footer_service_1 || "Elektrofüzyon Kaynak" %></a></li>
+                        <li><a href="/<%= slugs.services %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.footer_service_2 || "Alın Kaynak" %></a></li>
+                        <li><a href="/<%= slugs.services %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.footer_service_3 || "PE Boru Montajı" %></a></li>
+                        <li><a href="/<%= slugs.services %>"><i class="fa-solid fa-chevron-right"></i> <%= settings.footer_service_4 || "Boru Hattı Tamiri" %></a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__heading"><%= settings.footer_col4_title || "İletişim" %></h4>
+                    <ul class="footer__contact">
+                        <% if (settings.address && settings.address.trim() !== '') { %>
+                        <li><i class="<%- renderIconClass(settings.footer_address_icon, 'fa-location-dot') %>"></i><span><%= settings.address %></span></li>
+                        <% } %>
+                        <% if (settings.phone && settings.phone.trim() !== '') { %>
+                        <li><i class="<%- renderIconClass(settings.footer_phone_icon, 'fa-phone') %>"></i><span><%= settings.phone %></span></li>
+                        <% } %>
+                        <% if (settings.email && settings.email.trim() !== '') { %>
+                        <li><i class="<%- renderIconClass(settings.footer_email_icon, 'fa-envelope') %>"></i><span><%= settings.email %></span></li>
+                        <% } %>
+                        <% if (settings.working_hours && settings.working_hours.trim() !== '') { %>
+                        <li><i class="<%- renderIconClass(settings.footer_hours_icon, 'fa-clock') %>"></i><span><%= settings.working_hours %></span></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                &copy; <%= new Date().getFullYear() %> <span><%= settings.footer_copyright || "Ak Füzyon" %></span>. Tüm hakları saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <% if (settings.whatsapp_button_active !== 'false') { %>
+    <a href="https://wa.me/<%= settings.whatsapp %>?text=Merhaba,%20bilgi%20almak%20istiyorum." class="whatsapp-btn" target="_blank" aria-label="WhatsApp ile İletişim">
+        <i class="<%- renderIconClass(settings.footer_whatsapp_icon, 'fa-whatsapp') %>"></i>
+    </a>
+    <% } %>
+
+    <!-- Chatbot Integration -->
+    <% if (typeof settings !== 'undefined' && settings.chatbot_active === 'true') { %>
+    <div id="chatbot-wrapper" style="position: fixed; bottom: 90px; right: 20px; z-index: 1000; font-family: var(--font-primary);">
+        <!-- Chat Window -->
+        <div id="chatbot-window" style="display: none; width: 350px; max-width: 90vw; height: 450px; max-height: 80vh; background: var(--bg-primary); border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); overflow: hidden; display: flex; flex-direction: column; transform: scale(0); opacity: 0; transform-origin: bottom right; transition: all 0.3s ease;">
+            <!-- Header -->
+            <div style="background: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 35px; height: 35px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.1rem; font-family: var(--font-display);">Ak Asistan</h4>
+                        <span style="font-size: 0.75rem; opacity: 0.8;">🟢 Çevrimiçi</span>
+                    </div>
+                </div>
+                <button id="chatbot-close" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <!-- Messages -->
+            <div id="chatbot-messages" style="flex: 1; padding: 20px; overflow-y: auto; background: var(--bg-secondary); display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; gap: 10px; max-width: 85%;">
+                    <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div style="background: white; padding: 12px 15px; border-radius: 0 12px 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); color: var(--text-primary);">
+                        Merhaba! Size nasıl yardımcı olabilirim?
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Input Area -->
+            <form id="chatbot-form" style="padding: 15px; background: white; border-top: 1px solid var(--border-color); display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="chatbot-input" placeholder="Bir mesaj yazın..." autocomplete="off" style="flex: 1; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 20px; font-family: inherit; font-size: 0.9rem; outline: none;">
+                <button type="submit" style="background: var(--accent); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.3s;">
+                    <i class="fa-solid fa-paper-plane" style="margin-left: -2px;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Floating Toggle Button -->
+    <button id="chatbot-toggle-btn" style="position: fixed; bottom: 90px; right: 20px; z-index: 1001; width: 60px; height: 60px; background: var(--primary); color: white; border: none; border-radius: 50%; font-size: 1.8rem; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: transform 0.3s;">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('chatbot-toggle-btn');
+            const chatWindow = document.getElementById('chatbot-window');
+            const closeBtn = document.getElementById('chatbot-close');
+            const chatForm = document.getElementById('chatbot-form');
+            const chatInput = document.getElementById('chatbot-input');
+            const chatMessages = document.getElementById('chatbot-messages');
+            
+            let isOpen = false;
+
+            function toggleChat() {
+                isOpen = !isOpen;
+                if (isOpen) {
+                    chatWindow.style.display = 'flex';
+                    setTimeout(() => {
+                        chatWindow.style.transform = 'scale(1)';
+                        chatWindow.style.opacity = '1';
+                    }, 10);
+                    toggleBtn.style.transform = 'scale(0)';
+                    chatInput.focus();
+                } else {
+                    chatWindow.style.transform = 'scale(0)';
+                    chatWindow.style.opacity = '0';
+                    setTimeout(() => {
+                        chatWindow.style.display = 'none';
+                    }, 300);
+                    toggleBtn.style.transform = 'scale(1)';
+                }
+            }
+
+            toggleBtn.addEventListener('click', toggleChat);
+            closeBtn.addEventListener('click', toggleChat);
+
+            function appendMessage(text, isUser) {
+                const msgDiv = document.createElement('div');
+                msgDiv.style.display = 'flex';
+                msgDiv.style.gap = '10px';
+                msgDiv.style.maxWidth = '85%';
+                msgDiv.style.marginTop = '5px';
+                
+                if (isUser) {
+                    msgDiv.style.alignSelf = 'flex-end';
+                    msgDiv.innerHTML = `
+                        <div style="background: var(--accent); color: white; padding: 12px 15px; border-radius: 12px 0 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">${text}</div>
+                    `;
+                } else {
+                    msgDiv.style.alignSelf = 'flex-start';
+                    // Parse [Button Text](URL) to actual HTML buttons
+                    let parsedText = text.replace(/\[(.*?)\]\((.*?)\)/g, '<br><a href="$2" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 6px 12px; background: var(--primary); color: white; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fa-solid fa-arrow-up-right-from-square"></i> $1</a>');
+                    msgDiv.innerHTML = `
+                        <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div style="background: white; color: var(--text-primary); padding: 12px 15px; border-radius: 0 12px 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">${parsedText}</div>
+                    `;
+                }
+                
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function appendTyping() {
+                const msgDiv = document.createElement('div');
+                msgDiv.id = 'chatbot-typing';
+                msgDiv.style.display = 'flex';
+                msgDiv.style.gap = '10px';
+                msgDiv.style.maxWidth = '85%';
+                msgDiv.style.alignSelf = 'flex-start';
+                msgDiv.style.marginTop = '5px';
+                
+                msgDiv.innerHTML = `
+                    <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div style="background: white; padding: 12px 15px; border-radius: 0 12px 12px 12px; display: flex; gap: 5px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                        <span style="width: 6px; height: 6px; background: #ccc; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both;"></span>
+                        <span style="width: 6px; height: 6px; background: #ccc; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both; animation-delay: 0.2s;"></span>
+                        <span style="width: 6px; height: 6px; background: #ccc; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both; animation-delay: 0.4s;"></span>
+                    </div>
+                `;
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function removeTyping() {
+                const typing = document.getElementById('chatbot-typing');
+                if (typing) typing.remove();
+            }
+
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, true);
+                chatInput.value = '';
+                
+                setTimeout(() => {
+                    appendTyping();
+                    
+                    fetch('/api/chatbot/ask', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: text })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        removeTyping();
+                        if (data && data.answer) {
+                            appendMessage(data.answer, false);
+                        }
+                    })
+                    .catch(err => {
+                        removeTyping();
+                        appendMessage('Bağlantı hatası oluştu. Lütfen tekrar deneyin.', false);
+                    });
+                }, 400); // Small delay before typing shows up for realism
+            });
+        });
+    </script>
+    <style>
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+    <% } %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
+

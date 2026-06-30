@@ -1,0 +1,131 @@
+<%- include('partials/header') %>
+
+<!-- Page Banner -->
+<section class="page-banner" style="padding: 60px 0 40px;">
+    <div class="container">
+        <h1 class="page-banner__title"><%= product.name %></h1>
+        <div class="page-banner__breadcrumb">
+            <a href="/">Anasayfa</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="/urunler">Ürünler</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <a href="/urunler?kategori=<%= product.category_slug %>"><%= product.category_name %></a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span><%= product.name %></span>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 60px;">
+    <div class="container">
+        <div style="display: flex; flex-wrap: wrap; gap: 50px; align-items: center; margin-bottom: 60px;">
+            <!-- Product Image Gallery -->
+            <div style="flex: 1; min-width: 300px; text-align: center;">
+                <% 
+                    let images = [];
+                    if (product.image_url) {
+                        try {
+                            images = JSON.parse(product.image_url);
+                            if (!Array.isArray(images)) images = [product.image_url];
+                        } catch(e) {
+                            images = [product.image_url];
+                        }
+                    }
+                %>
+                <% if(images.length > 0) { %>
+                    <!-- Main Image -->
+                    <img id="main-product-image" src="<%= images[0] %>" alt="<%= product.name %>" style="max-width: 100%; height: 400px; object-fit: contain; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); padding: 10px; background: #fff; box-shadow: var(--card-shadow); transition: all 0.3s ease;">
+                    
+                    <!-- Thumbnails -->
+                    <% if(images.length > 1) { %>
+                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap;">
+                            <% images.forEach((img, idx) => { %>
+                                <div onclick="document.getElementById('main-product-image').src='<%= img %>'" style="cursor: pointer; border: 2px solid <%= idx === 0 ? 'var(--primary)' : 'var(--border-color)' %>; border-radius: var(--border-radius-sm); overflow: hidden; width: 70px; height: 70px; transition: all 0.2s ease;" class="gallery-thumb" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                    <img src="<%= img %>" style="width: 100%; height: 100%; object-fit: contain; background: #fff;">
+                                </div>
+                            <% }) %>
+                        </div>
+                        <script>
+                            // Add active state to clicked thumbnail
+                            document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+                                thumb.addEventListener('click', function() {
+                                    document.querySelectorAll('.gallery-thumb').forEach(t => t.style.borderColor = 'var(--border-color)');
+                                    this.style.borderColor = 'var(--primary)';
+                                });
+                            });
+                        </script>
+                    <% } %>
+                <% } else { %>
+                    <div style="height: 400px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color);">
+                        <i class="fa-solid fa-image" style="font-size: 5rem; color: var(--text-muted);"></i>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Product Details -->
+            <div style="flex: 1; min-width: 300px;">
+                <h2 style="font-size: 2rem; margin-bottom: 20px;"><%= product.name %></h2>
+                <div style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; white-space: pre-line;">
+                    <%= product.description %>
+                </div>
+                
+                <% if(product.material) { %>
+                    <p style="margin-bottom: 5px;"><strong>Elektrofüzyon/Elektrofüzyon / Malzeme:</strong> <%= product.material %></p>
+                <% } %>
+                
+                <% if(product.standard) { %>
+                    <p style="margin-bottom: 20px;"><strong>Standart:</strong> <%= product.standard %></p>
+                <% } %>
+
+                <a href="https://wa.me/<%= settings.whatsapp %>?text=Merhaba,%20<%= encodeURIComponent(product.name) %>%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn btn--primary">
+                    <i class="fa-brands fa-whatsapp"></i> Bilgi / Teklif Al
+                </a>
+            </div>
+        </div>
+
+        <!-- Technical Table -->
+        <% if(techTable && techTable.length > 0) { %>
+            <div style="overflow-x: auto; margin-top: 40px; background: var(--card-bg); padding: 30px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 20px;">Teknik Özellikler</h3>
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <% if (techTable.length > 0 && Array.isArray(techTable[0])) { %>
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--primary); color: var(--primary);">
+                                <% techTable[0].forEach(header => { %>
+                                    <th style="padding: 15px 10px;"><%= header %></th>
+                                <% }) %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 1; i < techTable.length; i++) { %>
+                                <tr style="border-bottom: 1px solid var(--border-color); background: <%= i % 2 === 1 ? 'transparent' : 'var(--bg-secondary)' %>;">
+                                    <% techTable[i].forEach((cell, index) => { %>
+                                        <td style="padding: 15px 10px; <%= index === 0 ? 'font-weight: 600;' : '' %>"><%= cell %></td>
+                                    <% }) %>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    <% } else { %>
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--primary); color: var(--primary);">
+                                <th style="padding: 15px 10px;">Özellik</th>
+                                <th style="padding: 15px 10px;">Değer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% techTable.forEach((row, index) => { %>
+                                <tr style="border-bottom: 1px solid var(--border-color); background: <%= index % 2 === 0 ? 'transparent' : 'var(--bg-secondary)' %>;">
+                                    <td style="padding: 15px 10px; font-weight: 600;"><%= row.key %></td>
+                                    <td style="padding: 15px 10px;"><%= row.value %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    <% } %>
+                </table>
+                <p style="margin-top: 20px; color: var(--text-secondary); font-style: italic; border-left: 3px solid var(--accent); padding-left: 15px;">Daha fazla bilgi için müşteri hizmetlerine başvurunuz.</p>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

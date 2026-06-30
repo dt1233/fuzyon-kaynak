@@ -1,0 +1,111 @@
+<%- include('header') %>
+
+<div class="admin-header">
+    <h2>Gelen Mesajlar (İletişim Formu)</h2>
+</div>
+
+<div class="admin-card">
+    <% if (messages && messages.length > 0) { %>
+        <div style="overflow-x: auto;">
+            <div class="table-responsive">`n<table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-color);">
+                        <th style="padding: 15px; color: var(--text-secondary);">Durum</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">Gönderen</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">Konu</th>
+                        <th style="padding: 15px; color: var(--text-secondary);">Tarih</th>
+                        <th style="padding: 15px; color: var(--text-secondary); text-align: right;">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% messages.forEach(m => { 
+                        let dateObj = new Date(m.created_at);
+                        let dateStr = dateObj.toLocaleDateString('tr-TR') + ' ' + dateObj.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+                    %>
+                    <tr style="border-bottom: 1px solid var(--border-color); <%= m.is_read ? 'opacity: 0.7;' : 'background: rgba(30,58,138,0.03);' %>">
+                        <td style="padding: 15px;">
+                            <% if (m.is_read) { %>
+                                <span style="background: #e2e8f0; color: #64748b; font-size: 0.75rem; font-weight: bold; padding: 4px 8px; border-radius: 4px;">Okundu</span>
+                            <% } else { %>
+                                <span style="background: #e74c3c; color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 8px; border-radius: 4px;">Yeni</span>
+                            <% } %>
+                        </td>
+                        <td style="padding: 15px;">
+                            <div style="font-weight: <%= m.is_read ? 'normal' : 'bold' %>;"><%= m.fullname %></div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);"><%= m.email %></div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);"><%= m.phone || '-' %></div>
+                        </td>
+                        <td style="padding: 15px; font-weight: <%= m.is_read ? 'normal' : 'bold' %>;">
+                            <%= m.subject === 'genel' ? 'Genel Bilgi' : 
+                                m.subject === 'teklif' ? 'Teklif İste' : 
+                                m.subject === 'ariza' ? 'Arıza Bildirimi' : 
+                                m.subject === 'danismanlik' ? 'Proje Danışmanlık' : m.subject %>
+                        </td>
+                        <td style="padding: 15px; font-size: 0.9rem; color: var(--text-secondary);">
+                            <%= dateStr %>
+                        </td>
+                        <td style="padding: 15px; text-align: right;">
+                            <button onclick="viewMessage(<%= m.id %>, '<%= encodeURIComponent(m.fullname) %>', '<%= encodeURIComponent(m.message.replace(/\n/g, '<br>')) %>')" class="btn btn--outline" style="padding: 5px 10px; font-size: 0.85rem;">
+                                <i class="fa-solid fa-eye"></i> Oku
+                            </button>
+                            <form action="/admin/messages/delete/<%= m.id %>" method="POST" style="display: inline;" onsubmit="return confirm('Bu mesajı silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="btn" style="padding: 5px 10px; font-size: 0.85rem; background: #fee2e2; color: #ef4444; border: 1px solid #ef4444;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>`n</div>
+        </div>
+    <% } else { %>
+        <div style="text-align: center; padding: 50px 20px; color: var(--text-secondary);">
+            <i class="fa-solid fa-envelope-open" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+            <h3>Gelen Kutunuz Boş</h3>
+            <p>Henüz iletişim formundan bir mesaj almadınız.</p>
+        </div>
+    <% } %>
+</div>
+
+<!-- Message Reading Modal -->
+<div id="message-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: var(--bg-primary); width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden;">
+        <div style="padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0;" id="modal-sender">Mesaj</h3>
+            <button onclick="closeModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary);">&times;</button>
+        </div>
+        <div style="padding: 30px;" id="modal-content">
+            <!-- Message goes here -->
+        </div>
+        <div style="padding: 20px 30px; border-top: 1px solid var(--border-color); text-align: right; background: var(--bg-secondary);">
+            <button onclick="closeModal()" class="btn btn--primary">Kapat</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function viewMessage(id, senderNameEncoded, messageEncoded) {
+        document.getElementById('modal-sender').innerText = decodeURIComponent(senderNameEncoded) + " - Mesajı";
+        document.getElementById('modal-content').innerHTML = decodeURIComponent(messageEncoded);
+        document.getElementById('message-modal').style.display = 'flex';
+        
+        // AJAX request to mark as read
+        fetch('/admin/messages/read/' + id, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // We don't refresh immediately to not ruin the UX, 
+                // but next time they reload the badge and status will update.
+            }
+        });
+    }
+
+    function closeModal() {
+        document.getElementById('message-modal').style.display = 'none';
+        window.location.reload(); // Reload to update "Yeni" badges and global notification
+    }
+</script>
+
+<%- include('footer') %>
+

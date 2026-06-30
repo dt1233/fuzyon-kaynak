@@ -1,0 +1,76 @@
+<%- include('partials/header') %>
+
+    <!-- ============================================
+         PAGE BANNER
+         ============================================ -->
+    <section class="page-banner">
+        <div class="page-banner__overlay"></div>
+        <div class="container">
+            <h1 class="page-banner__title"><%= settings.page_blog_title || "Blog & Haberler" %></h1>
+            <div class="page-banner__breadcrumb">
+                <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span><%= settings.page_blog_title || "Blog & Haberler" %></span>
+            </div>
+        </div>
+    </section>
+
+<!-- Blog List -->
+<section class="section-padding" style="background: #f8f9fa;">
+    <div class="container">
+        <% if (blogs && blogs.length > 0) { %>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
+                <% blogs.forEach(blog => { %>
+                    <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;" class="blog-card hover-lift">
+                        <a href="/<%= slugs.blog || 'blog' %>/<%= blog.slug %>" style="display: block; aspect-ratio: 16/9; overflow: hidden; background: #eee;">
+                            <% if (blog.image_url) { %>
+                                <img src="<%= blog.image_url %>" alt="<%= blog.title %>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="blog-img">
+                            <% } else { %>
+                                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #e0e0e0; color: #888;">
+                                    <i class="fa-solid fa-image" style="font-size: 3rem;"></i>
+                                </div>
+                            <% } %>
+                        </a>
+                        <div style="padding: 25px; flex: 1; display: flex; flex-direction: column;">
+                            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 15px;">
+                                <span><i class="fa-regular fa-calendar" style="color: var(--accent);"></i> <%= new Date(blog.created_at).toLocaleDateString('tr-TR') %></span>
+                                <span><i class="fa-regular fa-eye" style="color: var(--accent);"></i> <%= blog.views %></span>
+                            </div>
+                            <h3 style="margin: 0 0 15px 0; font-size: 1.25rem; line-height: 1.4;">
+                                <a href="/<%= slugs.blog || 'blog' %>/<%= blog.slug %>" style="color: var(--primary); text-decoration: none; transition: color 0.3s ease;" class="blog-title-link">
+                                    <%= blog.title %>
+                                </a>
+                            </h3>
+                            <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; flex: 1;">
+                                <% 
+                                    let excerpt = blog.content.replace(/<[^>]+>/g, ''); 
+                                    excerpt = excerpt.length > 120 ? excerpt.substring(0, 120) + '...' : excerpt;
+                                %>
+                                <%= excerpt %>
+                            </p>
+                            <a href="/<%= slugs.blog || 'blog' %>/<%= blog.slug %>" style="color: var(--accent); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;" class="read-more">
+                                Devamını Oku <i class="fa-solid fa-arrow-right-long transition-transform"></i>
+                            </a>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <i class="fa-solid fa-newspaper" style="font-size: 4rem; color: #ddd; margin-bottom: 20px;"></i>
+                <h2 style="color: var(--primary); margin-bottom: 10px;">Henüz İçerik Bulunmuyor</h2>
+                <p style="color: var(--text-secondary);">Blog ve haberler sayfamız yapım aşamasındadır. En kısa sürede güncel içerikler eklenecektir.</p>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<style>
+    .hover-lift:hover { transform: translateY(-5px); }
+    .hover-lift:hover .blog-img { transform: scale(1.05); }
+    .blog-title-link:hover { color: var(--accent) !important; }
+    .read-more:hover i { transform: translateX(5px); }
+    .transition-transform { transition: transform 0.3s ease; }
+</style>
+
+<%- include('partials/footer') %>

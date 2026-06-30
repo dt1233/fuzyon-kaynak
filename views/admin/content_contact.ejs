@@ -1,0 +1,120 @@
+<%- include('header') %>
+<div class="admin-header">
+    <h2>İletişim Yönetimi</h2>
+</div>
+
+<% if (success) { %>
+    <div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <%= success %>
+    </div>
+<% } %>
+
+<form action="/admin/content/update" method="POST" class="admin-card" enctype="multipart/form-data">
+    <input type="hidden" name="redirect_to" value="contact">
+        
+    <!-- GİRİŞ BÖLÜMÜ -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Giriş Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;">
+            <label>Sayfa Ana Başlığı</label>
+            <input type="text" name="contact_page_title" value="<%= settings.contact_page_title || 'Bize Ulaşın' %>">
+        </div>
+        <div class="form-group" style="margin: 0;">
+            <label>Açıklama Metni</label>
+            <textarea name="contact_page_desc" rows="2"><%= settings.contact_page_desc || 'Elektrofüzyon kaynak hizmetlerimiz hakkında bilgi almak, teklif istemek veya projeleriniz için danışmanlık almak için bize ulaşabilirsiniz.' %></textarea>
+        </div>
+    </div>
+
+    <!-- FORM VE BİLGİ BAŞLIKLARI -->
+    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Form ve Bilgi Başlıkları</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;">
+            <label>Sol Sütun (Form) Başlığı</label>
+            <input type="text" name="contact_form_title" value="<%= settings.contact_form_title || 'İletişim Formu' %>">
+        </div>
+        <div class="form-group" style="margin: 0;">
+            <label>Sağ Sütun (Bilgi) Başlığı</label>
+            <input type="text" name="contact_info_title" value="<%= settings.contact_info_title || 'İletişim Bilgileri' %>">
+        </div>
+    </div>
+
+    <!-- İLETİŞİM FORMU (SOL SÜTUN) YÖNETİMİ -->
+    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">İletişim Formu Yönetimi (Sol Sütun)</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;"><label>İsim Alanı Başlığı</label><input type="text" name="contact_form_name_lbl" value="<%= settings.contact_form_name_lbl || 'Ad Soyad' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>İsim Alanı Örnek (Placeholder)</label><input type="text" name="contact_form_name_ph" value="<%= settings.contact_form_name_ph || 'Adınız ve Soyadınız' %>"></div>
+        
+        <div class="form-group" style="margin: 0;"><label>E-posta Alanı Başlığı</label><input type="text" name="contact_form_email_lbl" value="<%= settings.contact_form_email_lbl || 'E-posta' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>E-posta Alanı Örnek (Placeholder)</label><input type="text" name="contact_form_email_ph" value="<%= settings.contact_form_email_ph || 'ornek@email.com' %>"></div>
+        
+        <div class="form-group" style="margin: 0;"><label>Telefon Alanı Başlığı</label><input type="text" name="contact_form_phone_lbl" value="<%= settings.contact_form_phone_lbl || 'Telefon' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Telefon Alanı Örnek (Placeholder)</label><input type="text" name="contact_form_phone_ph" value="<%= settings.contact_form_phone_ph || '+90 5XX XXX XX XX' %>"></div>
+        
+        <div class="form-group" style="margin: 0;"><label>Konu Alanı Başlığı</label><input type="text" name="contact_form_subject_lbl" value="<%= settings.contact_form_subject_lbl || 'Konu' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Mesaj Alanı Başlığı</label><input type="text" name="contact_form_msg_lbl" value="<%= settings.contact_form_msg_lbl || 'Mesajınız' %>"></div>
+        
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Mesaj Alanı Örnek (Placeholder)</label><input type="text" name="contact_form_msg_ph" value="<%= settings.contact_form_msg_ph || 'Mesajınızı buraya yazınız...' %>">
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Gönder Butonu Yazısı</label><input type="text" name="contact_form_btn" value="<%= settings.contact_form_btn || 'Gönder' %>">
+            <label style="margin-top: 10px;">Buton İkonu</label>
+            <%- include('icon_selector', {name: 'contact_submit_btn_icon', currentVal: settings.contact_submit_btn_icon, defaultIcon: 'fa-paper-plane'}) %>
+        </div>
+    </div>
+
+    <!-- İLETİŞİM BİLGİLERİ DETAYLARI -->
+    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">İletişim Detayları (İkonlu Kutular)</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Adres (HTML kullanılabilir, <br> vb.)</label>
+            <textarea name="contact_address" rows="3"><%= settings.contact_address || 'Malatya, Türkiye<br>(Detaylı adres bilgisi güncellenecektir)' %></textarea>
+            <label style="margin-top: 10px;">Adres İkonu</label>
+            <%- include('icon_selector', {name: 'contact_address_icon', currentVal: settings.contact_address_icon, defaultIcon: 'fa-location-dot'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Telefon Numarası</label>
+            <input type="text" name="contact_phone_1" value="<%= settings.contact_phone_1 || '+90 500 123 45 67' %>">
+            <label style="margin-top: 10px;">Telefon İkonu</label>
+            <%- include('icon_selector', {name: 'contact_phone_icon', currentVal: settings.contact_phone_icon, defaultIcon: 'fa-phone'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>E-posta Adresi</label>
+            <input type="email" name="contact_email" value="<%= settings.contact_email || 'info@akfuzyon.com' %>">
+            <label style="margin-top: 10px;">E-posta İkonu</label>
+            <%- include('icon_selector', {name: 'contact_email_icon', currentVal: settings.contact_email_icon, defaultIcon: 'fa-envelope'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>WhatsApp Numarası (Sadece rakam, örn: 905001234567)</label>
+            <input type="text" name="contact_whatsapp" value="<%= settings.contact_whatsapp || '905001234567' %>">
+            <label style="margin-top: 10px;">WhatsApp İkonu</label>
+            <%- include('icon_selector', {name: 'contact_whatsapp_icon', currentVal: settings.contact_whatsapp_icon, defaultIcon: 'fa-whatsapp'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; grid-column: 1 / -1; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Çalışma Saatleri (HTML kullanılabilir)</label>
+            <textarea name="contact_hours" rows="3"><%= settings.contact_hours || 'Pazartesi - Cumartesi: 08:00 - 18:00<br>Pazar: Kapalı<br><span style=\"color: var(--accent); font-weight: 500;\">Acil durumlar için 7/24 ulaşılabilir</span>' %></textarea>
+            <label style="margin-top: 10px;">Saat İkonu</label>
+            <%- include('icon_selector', {name: 'contact_hours_icon', currentVal: settings.contact_hours_icon, defaultIcon: 'fa-clock'}) %>
+        </div>
+    </div>
+
+    <!-- HARİTA BÖLÜMÜ -->
+    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Harita Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;">
+            <label>Google Maps Embed Kodu (HTML)</label>
+            <div style="background: rgba(0,0,0,0.02); border-left: 3px solid var(--accent); padding: 12px 15px; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; border-radius: 4px;">
+                <strong>Harita Kodunu Nasıl Alırım?</strong><br>
+                1. <a href="https://www.google.com/maps" target="_blank" style="color: var(--primary);">Google Haritalar</a>'dan konumunuzu aratıp bulun.<br>
+                2. Sol menüden <strong>Paylaş</strong> butonuna tıklayın.<br>
+                3. Açılan pencerede üstteki <strong>Harita yerleştir</strong> sekmesine geçin.<br>
+                4. <strong>HTML'yi Kopyala</strong> butonuna basıp kopyaladığınız tüm kodu aşağıdaki kutuya yapıştırın.
+            </div>
+            <textarea name="contact_map_url" rows="4" placeholder='Örn: <iframe src="https://www.google.com/maps/embed?..." width="600" height="450" ...></iframe>'><%= settings.contact_map_url || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d99051.34065498855!2d38.21826267246998!3d38.35519029676493!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4076226dab71f487%3A0x154cbb32466ed333!2sMalatya!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str' %></textarea>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn--primary" style="margin-top: 10px; width: 100%;">Tüm İçerikleri Kaydet</button>
+</form>
+
+<%- include('footer') %>

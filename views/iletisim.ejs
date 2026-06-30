@@ -1,0 +1,252 @@
+<%- include('partials/header') %>
+
+    <!-- ============================================
+         PAGE BANNER
+         ============================================ -->
+    <section class="page-banner">
+        <div class="page-banner__overlay"></div>
+        <div class="container">
+            <h1 class="page-banner__title"><%= typeof settings !== 'undefined' && settings.nav_contact ? settings.nav_contact : 'İletişim' %></h1>
+            <div class="page-banner__breadcrumb">
+                <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span><%= typeof settings !== 'undefined' && settings.nav_contact ? settings.nav_contact : 'İletişim' %></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CONTACT SECTION
+         ============================================ -->
+    <section class="section" id="contact-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2><%- settings.contact_page_title || 'Bize Ulaşın' %></h2>
+                <p><%- settings.contact_page_desc || 'Elektrofüzyon kaynak hizmetlerimiz hakkında bilgi almak, teklif istemek veya projeleriniz için danışmanlık almak için bize ulaşabilirsiniz.' %></p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; align-items: start;">
+
+                <!-- Contact Form -->
+                <div class="animate-on-scroll animate-left">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-primary);"><%- settings.contact_form_title || 'İletişim Formu' %></h3>
+                    <form id="contact-form" action="#" method="POST">
+                        <div class="form-group">
+                            <label for="fullname"><%- settings.contact_form_name_lbl || 'Ad Soyad' %> <span style="color: var(--accent);">*</span></label>
+                            <input type="text" id="fullname" name="fullname" placeholder="<%- settings.contact_form_name_ph || 'Adınız ve Soyadınız' %>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email"><%- settings.contact_form_email_lbl || 'E-posta' %> <span style="color: var(--accent);">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="<%- settings.contact_form_email_ph || 'ornek@email.com' %>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone"><%- settings.contact_form_phone_lbl || 'Telefon' %></label>
+                            <input type="tel" id="phone" name="phone" placeholder="<%- settings.contact_form_phone_ph || '+90 5XX XXX XX XX' %>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject"><%- settings.contact_form_subject_lbl || 'Konu' %> <span style="color: var(--accent);">*</span></label>
+                            <select id="subject" name="subject" required>
+                                <option value="" disabled selected>Konu Seçiniz</option>
+                                <option value="genel">Genel Bilgi</option>
+                                <option value="teklif">Teklif İste</option>
+                                <option value="ariza">Arıza Bildirimi</option>
+                                <option value="danismanlik">Proje Danışmanlık</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message"><%- settings.contact_form_msg_lbl || 'Mesajınız' %> <span style="color: var(--accent);">*</span></label>
+                            <textarea id="message" name="message" rows="6" placeholder="<%- settings.contact_form_msg_ph || 'Mesajınızı buraya yazınız...' %>" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn--primary btn--lg" style="width: 100%;">
+                            <i class="<%- renderIconClass(settings.contact_submit_btn_icon, 'fa-paper-plane') %>"></i>
+                            <%- settings.contact_form_btn || 'Gönder' %>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="animate-on-scroll animate-right">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-primary);"><%- settings.contact_info_title || 'İletişim Bilgileri' %></h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+                        <!-- Address -->
+                        <% if (settings.contact_address && settings.contact_address.trim() !== '') { %>
+                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                            <div style="width: 50px; height: 50px; border-radius: 12px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;">
+                                <i class="<%- renderIconClass(settings.contact_address_icon, 'fa-location-dot') %>"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--text-primary);">Adres</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.6;">
+                                    <%- settings.contact_address %>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <!-- Phone -->
+                        <% if (settings.contact_phone_1 && settings.contact_phone_1.trim() !== '') { %>
+                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                            <div style="width: 50px; height: 50px; border-radius: 12px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;">
+                                <i class="<%- renderIconClass(settings.contact_phone_icon, 'fa-phone') %>"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--text-primary);">Telefon</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.6;">
+                                    <a href="tel:<%- settings.contact_phone_1.replace(/\\s+/g, '') %>" style="color: var(--text-secondary); text-decoration: none;"><%- settings.contact_phone_1 %></a>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <!-- Email -->
+                        <% if (settings.contact_email && settings.contact_email.trim() !== '') { %>
+                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                            <div style="width: 50px; height: 50px; border-radius: 12px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;">
+                                <i class="<%- renderIconClass(settings.contact_email_icon, 'fa-envelope') %>"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--text-primary);">E-posta</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.6;">
+                                    <a href="mailto:<%- settings.contact_email %>" style="color: var(--text-secondary); text-decoration: none;"><%- settings.contact_email %></a>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <!-- WhatsApp -->
+                        <% if (settings.contact_whatsapp && settings.contact_whatsapp.trim() !== '') { %>
+                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                            <div style="width: 50px; height: 50px; border-radius: 12px; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;">
+                                <i class="<%- renderIconClass(settings.contact_whatsapp_icon, 'fa-whatsapp') %>"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--text-primary);">WhatsApp</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.6;">
+                                    <a href="https://wa.me/<%- settings.contact_whatsapp %>" target="_blank" style="color: var(--text-secondary); text-decoration: none;">+<%- settings.contact_whatsapp %></a>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <!-- Working Hours -->
+                        <% if (settings.contact_hours && settings.contact_hours.trim() !== '') { %>
+                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                            <div style="width: 50px; height: 50px; border-radius: 12px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;">
+                                <i class="<%- renderIconClass(settings.contact_hours_icon, 'fa-clock') %>"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--text-primary);">Çalışma Saatleri</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.6;">
+                                    <%- settings.contact_hours %>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         MAP SECTION
+         ============================================ -->
+    <section class="map-section" id="map-section">
+        <% 
+            let mapInput = settings.contact_map_url || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d99051.34065498855!2d38.21826267246998!3d38.35519029676493!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4076226dab71f487%3A0x154cbb32466ed333!2sMalatya!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str';
+            let mapSrc = mapInput;
+            
+            // If user pasted the whole iframe, extract the src URL
+            if (mapInput.includes('<iframe') && mapInput.includes('src="')) {
+                let match = mapInput.match(/src="([^"]+)"/);
+                if (match && match[1]) {
+                    mapSrc = match[1];
+                }
+            }
+        %>
+        <iframe 
+            src="<%- mapSrc %>" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ak Füzyon Konum - Malatya"
+            id="google-map"
+            style="width: 100%; height: 450px; border: 0;">
+        </iframe>
+    </section>
+
+    <!-- SweetAlert2 for nice alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('contact-form');
+            if(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent page reload
+                    
+                    const btn = this.querySelector('button[type="submit"]');
+                    const originalBtnHtml = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Gönderiliyor...';
+                    btn.disabled = true;
+
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData.entries());
+
+                    fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı!',
+                                text: data.message,
+                                confirmButtonColor: 'var(--primary)'
+                            });
+                            form.reset(); // Clear the form
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Hata!',
+                                text: data.error || 'Bir sorun oluştu.',
+                                confirmButtonColor: 'var(--primary)'
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata!',
+                            text: 'Bağlantı hatası lütfen tekrar deneyin.',
+                            confirmButtonColor: 'var(--primary)'
+                        });
+                    })
+                    .finally(() => {
+                        btn.innerHTML = originalBtnHtml;
+                        btn.disabled = false;
+                    });
+                });
+            }
+        });
+    </script>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <%- include('partials/footer') %>
+
+

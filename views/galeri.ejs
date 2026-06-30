@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+
+    <!-- ============================================
+         PAGE BANNER
+         ============================================ -->
+    <section class="page-banner">
+        <div class="page-banner__overlay"></div>
+        <div class="container">
+            <h1 class="page-banner__title"><%= settings.page_gallery_title || "Galeri" %></h1>
+            <div class="page-banner__breadcrumb">
+                <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span><%= settings.page_gallery_title || "Galeri" %></span>
+            </div>
+        </div>
+    </section>
+
+<!-- Gallery Grid -->
+<section class="section-padding" style="background: #f8f9fa;">
+    <div class="container">
+        <% if (gallery && gallery.length > 0) { %>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
+                <% gallery.forEach(item => { %>
+                    <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); background: white; transition: transform 0.3s ease;" class="gallery-card hover-lift">
+                        <a href="<%= item.image_url %>" target="_blank" style="display: block; position: relative; aspect-ratio: 4/3; overflow: hidden; background: #eee;">
+                            <img src="<%= item.image_url %>" alt="<%= item.title %>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="gallery-img">
+                            <div style="position: absolute; inset: 0; background: rgba(43, 92, 143, 0.4); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center;" class="gallery-overlay">
+                                <i class="fa-solid fa-magnifying-glass-plus" style="color: white; font-size: 2rem;"></i>
+                            </div>
+                        </a>
+                        <% if (item.title) { %>
+                        <div style="padding: 15px; text-align: center;">
+                            <h3 style="margin: 0; font-size: 1.1rem; color: var(--primary);"><%= item.title %></h3>
+                        </div>
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <i class="fa-solid fa-images" style="font-size: 4rem; color: #ddd; margin-bottom: 20px;"></i>
+                <h2 style="color: var(--primary); margin-bottom: 10px;">Fotoğraf Galerisi Yakında...</h2>
+                <p style="color: var(--text-secondary);">Şu an için galerimizde fotoğraf bulunmamaktadır. Çalışmalarımız çok yakında eklenecektir.</p>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<style>
+    .hover-lift:hover {
+        transform: translateY(-5px);
+    }
+    .hover-lift:hover .gallery-img {
+        transform: scale(1.1);
+    }
+    .hover-lift:hover .gallery-overlay {
+        opacity: 1;
+    }
+</style>
+
+<%- include('partials/footer') %>

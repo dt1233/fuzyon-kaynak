@@ -1,0 +1,90 @@
+<%- include('partials/header') %>
+
+<!-- Page Banner -->
+<section class="page-banner">
+    <div class="container">
+        <h1 class="page-banner__title"><%= typeof settings !== 'undefined' && settings.nav_products ? settings.nav_products : 'Ürünler' %></h1>
+        <div class="page-banner__breadcrumb">
+            <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span><%= typeof settings !== 'undefined' && settings.nav_products ? settings.nav_products : 'Ürünler' %></span>
+            <% if (activeCategory) { %>
+                <i class="fa-solid fa-chevron-right"></i>
+                <% const actCat = categories.find(c => c.slug === activeCategory); %>
+                <span><%= actCat ? actCat.name : '' %></span>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 60px;">
+    <div class="container">
+        <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+            
+            <!-- Sidebar: Categories -->
+            <aside style="flex: 0 0 280px; width: 100%; border-right: 1px solid var(--border-color); padding-right: 20px;">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <a href="/<%= slugs.products %>" style="display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 1.05rem; padding: 10px 0; color: <%= !activeCategory ? 'var(--accent)' : 'var(--text-primary)' %>; transition: var(--transition);">
+                            <i class="fa-solid fa-circle-arrow-right"></i> Tüm Ürünler
+                        </a>
+                    </li>
+                    <% categories.forEach(cat => { %>
+                        <li style="margin-bottom: 10px;">
+                            <a href="/<%= slugs.products %>?kategori=<%= cat.slug %>" style="display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 1.05rem; padding: 10px 0; color: <%= activeCategory === cat.slug ? 'var(--accent)' : 'var(--text-primary)' %>; transition: var(--transition);">
+                                <i class="fa-solid fa-circle-arrow-right"></i> <%= cat.name %>
+                            </a>
+                        </li>
+                    <% }) %>
+                </ul>
+            </aside>
+
+            <!-- Main Content: Products Grid -->
+            <div style="flex: 1; min-width: 300px;">
+                <div class="ref-cards-grid">
+                    <% products.forEach(p => { %>
+                        <a href="/<%= slugs.products %>/<%= p.slug %>" class="service-card" style="text-align: center; padding: 30px; display: block; text-decoration: none;">
+                            <% 
+                                let firstImage = p.image_url;
+                                if (firstImage) {
+                                    try {
+                                        let arr = JSON.parse(firstImage);
+                                        if (Array.isArray(arr) && arr.length > 0) firstImage = arr[0];
+                                    } catch(e) {}
+                                }
+                            %>
+                            <% if(firstImage) { %>
+                                <img src="<%= firstImage %>" alt="<%= p.name %>" style="height: 180px; object-fit: contain; margin: 0 auto 20px;">
+                            <% } else { %>
+                                <div style="height: 180px; background: var(--bg-secondary); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-sm);">
+                                    <i class="fa-solid fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>
+                                </div>
+                            <% } %>
+                            
+                            <div class="btn btn--primary" style="padding: 10px 20px; font-size: 0.95rem; width: auto; display: inline-flex; justify-content: center; pointer-events: none;">
+                                <i class="fa-solid fa-location-arrow"></i> <%= p.name %>
+                            </div>
+                        </a>
+                    <% }) %>
+
+                    <% if (products.length === 0) { %>
+                        <div style="text-align: center; padding: 50px; background: var(--bg-secondary); border-radius: 8px; width: 100%; grid-column: 1 / -1;">
+                            <i class="fa-solid fa-box-open" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 15px;"></i>
+                            <h3>Bu kategoride ürün bulunamadı.</h3>
+                        </div>
+                    <% } %>
+                </div>
+
+                <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+                    <div class="pagination" style="display: flex; justify-content: center; width: 100%; margin-top: 40px; gap: 10px;">
+                        <% for(let i=1; i<=totalPages; i++) { %>
+                            <a href="?<%= activeCategory ? 'kategori=' + activeCategory + '&' : '' %>page=<%= i %>" class="btn <%= currentPage === i ? 'btn--primary' : 'btn--outline' %>" style="padding: 10px 18px; width: auto; font-size: 1rem; align-items: center; justify-content: center;"><%= i %></a>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

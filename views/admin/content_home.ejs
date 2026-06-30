@@ -1,0 +1,268 @@
+<%- include('header') %>
+<div class="admin-header"><h2>Anasayfa Yönetimi</h2></div>
+<% if (success) { %><div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;"><%= success %></div><% } %>
+<form action="/admin/content/update" method="POST" class="admin-card" enctype="multipart/form-data">
+    <input type="hidden" name="redirect_to" value="home">
+        
+    <!-- HERO SECTION -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Hero Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Slider 1 Görseli (Opsiyonel)</label>
+            <% if (settings.home_hero_bg_1) { %>
+                <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_1 %>" style="max-height: 100px; border-radius: 4px;"></div>
+            <% } %>
+            <input type="file" name="home_hero_bg_1" accept="image/*">
+            <br><br>
+            <label>Slider 2 Görseli (Opsiyonel)</label>
+            <% if (settings.home_hero_bg_2) { %>
+                <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_2 %>" style="max-height: 100px; border-radius: 4px;"></div>
+            <% } %>
+            <input type="file" name="home_hero_bg_2" accept="image/*">
+            <br><br>
+            <label>Slider 3 Görseli (Opsiyonel)</label>
+            <% if (settings.home_hero_bg_3) { %>
+                <div style="margin-bottom: 10px;"><img src="<%= settings.home_hero_bg_3 %>" style="max-height: 100px; border-radius: 4px;"></div>
+            <% } %>
+            <input type="file" name="home_hero_bg_3" accept="image/*">
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hero Rozet Yazısı</label>
+            <input type="text" name="home_hero_badge" value="<%= settings.home_hero_badge || '' %>">
+            <label style="margin-top: 10px;">Hero Rozet İkonu</label>
+            <%- include('icon_selector', {name: 'home_hero_badge_icon', currentVal: settings.home_hero_badge_icon, defaultIcon: 'fa-location-dot'}) %>
+        </div>
+        <div class="form-group" style="margin: 0;"><label>Hero Ana Başlık (HTML Kullanılabilir)</label><input type="text" name="home_hero_title" value="<%= settings.home_hero_title || '' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hero Alt Metin</label><textarea name="home_hero_desc" rows="3"><%= settings.home_hero_desc || '' %></textarea></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>Buton 1 (Birincil)</label>
+                <input type="text" name="home_hero_btn1" value="<%= settings.home_hero_btn1 || '' %>">
+                <label style="margin-top: 10px;">Buton 1 İkonu</label>
+                <%- include('icon_selector', {name: 'home_hero_btn1_icon', currentVal: settings.home_hero_btn1_icon, defaultIcon: 'fa-paper-plane'}) %>
+            </div>
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>Buton 2 (İkincil)</label>
+                <input type="text" name="home_hero_btn2" value="<%= settings.home_hero_btn2 || '' %>">
+                <label style="margin-top: 10px;">Buton 2 İkonu</label>
+                <%- include('icon_selector', {name: 'home_hero_btn2_icon', currentVal: settings.home_hero_btn2_icon, defaultIcon: 'fa-wrench'}) %>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOME FEATURES (4 CARDS) -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Anasayfa Özellik Kartları (4 Adet)</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+            <label>Kart 1 Başlık</label>
+            <input type="text" name="home_feature_1_title" value="<%= settings.home_feature_1_title || '' %>">
+            <label style="margin-top: 10px;">Kart 1 İkonu</label>
+            <%- include('icon_selector', {name: 'home_feature_1_icon', currentVal: settings.home_feature_1_icon, defaultIcon: 'fa-users-gear'}) %>
+            <label style="margin-top: 10px;">Kart 1 Açıklama</label>
+            <textarea name="home_feature_1_desc" rows="2"><%= settings.home_feature_1_desc || '' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+            <label>Kart 2 Başlık</label>
+            <input type="text" name="home_feature_2_title" value="<%= settings.home_feature_2_title || '' %>">
+            <label style="margin-top: 10px;">Kart 2 İkonu</label>
+            <%- include('icon_selector', {name: 'home_feature_2_icon', currentVal: settings.home_feature_2_icon, defaultIcon: 'fa-bolt'}) %>
+            <label style="margin-top: 10px;">Kart 2 Açıklama</label>
+            <textarea name="home_feature_2_desc" rows="2"><%= settings.home_feature_2_desc || '' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+            <label>Kart 3 Başlık</label>
+            <input type="text" name="home_feature_3_title" value="<%= settings.home_feature_3_title || '' %>">
+            <label style="margin-top: 10px;">Kart 3 İkonu</label>
+            <%- include('icon_selector', {name: 'home_feature_3_icon', currentVal: settings.home_feature_3_icon, defaultIcon: 'fa-shield-halved'}) %>
+            <label style="margin-top: 10px;">Kart 3 Açıklama</label>
+            <textarea name="home_feature_3_desc" rows="2"><%= settings.home_feature_3_desc || '' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px; margin: 0;">
+            <label>Kart 4 Başlık</label>
+            <input type="text" name="home_feature_4_title" value="<%= settings.home_feature_4_title || '' %>">
+            <label style="margin-top: 10px;">Kart 4 İkonu</label>
+            <%- include('icon_selector', {name: 'home_feature_4_icon', currentVal: settings.home_feature_4_icon, defaultIcon: 'fa-headset'}) %>
+            <label style="margin-top: 10px;">Kart 4 Açıklama</label>
+            <textarea name="home_feature_4_desc" rows="2"><%= settings.home_feature_4_desc || '' %></textarea>
+        </div>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Hakkımızda Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hakkımızda Yan Görseli</label>
+            <% if (settings.home_about_img) { %>
+                <div style="margin-bottom: 10px;"><img src="<%= settings.home_about_img %>" style="max-height: 100px; border-radius: 4px;"></div>
+            <% } %>
+            <input type="file" name="home_about_img" accept="image/*">
+        </div>
+        <div class="form-group" style="margin: 0;"><label>Hakkımızda Özeti - Başlık</label><input type="text" name="home_about_title" value="<%= settings.home_about_title || '' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hakkımızda Özeti - Metin</label><textarea name="home_about_desc" rows="4"><%= settings.home_about_desc || '' %></textarea></div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Madde 1</label>
+            <input type="text" name="home_about_feature_1" value="<%= settings.home_about_feature_1 || '' %>">
+            <label style="margin-top: 10px;">İkon 1</label>
+            <%- include('icon_selector', {name: 'home_about_feature_1_icon', currentVal: settings.home_about_feature_1_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Madde 2</label>
+            <input type="text" name="home_about_feature_2" value="<%= settings.home_about_feature_2 || '' %>">
+            <label style="margin-top: 10px;">İkon 2</label>
+            <%- include('icon_selector', {name: 'home_about_feature_2_icon', currentVal: settings.home_about_feature_2_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Madde 3</label>
+            <input type="text" name="home_about_feature_3" value="<%= settings.home_about_feature_3 || '' %>">
+            <label style="margin-top: 10px;">İkon 3</label>
+            <%- include('icon_selector', {name: 'home_about_feature_3_icon', currentVal: settings.home_about_feature_3_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 8px;">
+            <label>Madde 4</label>
+            <input type="text" name="home_about_feature_4" value="<%= settings.home_about_feature_4 || '' %>">
+            <label style="margin-top: 10px;">İkon 4</label>
+            <%- include('icon_selector', {name: 'home_about_feature_4_icon', currentVal: settings.home_about_feature_4_icon, defaultIcon: 'fa-circle-check'}) %>
+        </div>
+    <div class="form-group" style="margin: 0; grid-column: 1 / -1; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+        <label>Hakkımızda Buton Yazısı</label>
+        <input type="text" name="home_about_btn" value="<%= settings.home_about_btn || '' %>">
+        <label style="margin-top: 10px;">Buton İkonu</label>
+        <%- include('icon_selector', {name: 'home_about_btn_icon', currentVal: settings.home_about_btn_icon, defaultIcon: 'fa-arrow-right'}) %>
+    </div>
+    </div>
+
+    <!-- SERVICES SECTION -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Hizmetler Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;"><label>Hizmetler - Başlık</label><input type="text" name="home_services_title" value="<%= settings.home_services_title || '' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Hizmetler - Metin</label><textarea name="home_services_desc" rows="2"><%= settings.home_services_desc || '' %></textarea></div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmetler Buton Yazısı</label>
+            <input type="text" name="home_services_btn" value="<%= settings.home_services_btn || '' %>">
+            <label style="margin-top: 10px;">Buton İkonu</label>
+            <%- include('icon_selector', {name: 'home_services_btn_icon', currentVal: settings.home_services_btn_icon, defaultIcon: 'fa-arrow-right'}) %>
+        </div>
+    </div>
+
+    
+    <h4 style="margin: 0 0 15px 0; color: var(--text);">Hizmet İsimleri (12 Adet)</h4>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 1</label><input type="text" name="home_service_1" value="<%= settings.home_service_1 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 1 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_1_icon', currentVal: settings.home_service_1_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 2</label><input type="text" name="home_service_2" value="<%= settings.home_service_2 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 2 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_2_icon', currentVal: settings.home_service_2_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 3</label><input type="text" name="home_service_3" value="<%= settings.home_service_3 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 3 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_3_icon', currentVal: settings.home_service_3_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 4</label><input type="text" name="home_service_4" value="<%= settings.home_service_4 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 4 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_4_icon', currentVal: settings.home_service_4_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 5</label><input type="text" name="home_service_5" value="<%= settings.home_service_5 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 5 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_5_icon', currentVal: settings.home_service_5_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 6</label><input type="text" name="home_service_6" value="<%= settings.home_service_6 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 6 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_6_icon', currentVal: settings.home_service_6_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 7</label><input type="text" name="home_service_7" value="<%= settings.home_service_7 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 7 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_7_icon', currentVal: settings.home_service_7_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 8</label><input type="text" name="home_service_8" value="<%= settings.home_service_8 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 8 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_8_icon', currentVal: settings.home_service_8_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 9</label><input type="text" name="home_service_9" value="<%= settings.home_service_9 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 9 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_9_icon', currentVal: settings.home_service_9_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 10</label><input type="text" name="home_service_10" value="<%= settings.home_service_10 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 10 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_10_icon', currentVal: settings.home_service_10_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 11</label><input type="text" name="home_service_11" value="<%= settings.home_service_11 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 11 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_11_icon', currentVal: settings.home_service_11_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Hizmet 12</label><input type="text" name="home_service_12" value="<%= settings.home_service_12 || '' %>">
+            <label style="margin-top: 10px;">Hizmet 12 İkonu</label>
+            <%- include('icon_selector', {name: 'home_service_12_icon', currentVal: settings.home_service_12_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+    </div>
+    
+    <!-- BANNER SECTION -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Banner Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Banner Arkaplan Görseli</label>
+            <% if (settings.home_cta_bg) { %>
+                <div style="margin-bottom: 10px;"><img src="<%= settings.home_cta_bg %>" style="max-height: 100px; border-radius: 4px;"></div>
+            <% } %>
+            <input type="file" name="home_cta_bg" accept="image/*">
+        </div>
+        <div class="form-group" style="margin: 0;"><label>Banner - Başlık</label><input type="text" name="home_cta_title" value="<%= settings.home_cta_title || '' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Banner - Metin</label><textarea name="home_cta_desc" rows="2"><%= settings.home_cta_desc || '' %></textarea></div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Banner Buton Yazısı</label>
+            <input type="text" name="home_cta_btn" value="<%= settings.home_cta_btn || '' %>">
+            <label style="margin-top: 10px;">Buton İkonu</label>
+            <%- include('icon_selector', {name: 'home_cta_btn_icon', currentVal: settings.home_cta_btn_icon, defaultIcon: 'fa-paper-plane'}) %>
+        </div>
+    </div>
+
+    <!-- REFERENCES SECTION -->
+    <h3 style="margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Referanslar Bölümü</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Alt Başlık</label>
+            <input type="text" name="home_ref_subtitle" value="<%= settings.home_ref_subtitle || '' %>">
+            <label style="margin-top: 10px;">Alt Başlık İkonu</label>
+            <%- include('icon_selector', {name: 'home_ref_subtitle_icon', currentVal: settings.home_ref_subtitle_icon, defaultIcon: 'fa-minus'}) %>
+        </div>
+        <div class="form-group" style="margin: 0;"><label>Ana Başlık</label><input type="text" name="home_ref_title" value="<%= settings.home_ref_title || '' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Açıklama Paragrafı 1</label><textarea name="home_ref_desc1" rows="3"><%= settings.home_ref_desc1 || '' %></textarea></div>
+        <div class="form-group" style="margin: 0;"><label>Açıklama Paragrafı 2</label><textarea name="home_ref_desc2" rows="2"><%= settings.home_ref_desc2 || '' %></textarea></div>
+    </div>
+    <h4 style="margin: 0 0 15px 0; color: var(--text);">Referans Kartları (6 Adet)</h4>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px;">
+        <% for(let i=1; i<=6; i++) { 
+            let logoUrl = settings['home_ref_card' + i] || ('Referans ' + i);
+        %>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Kart <%= i %></label>
+            <% if (logoUrl.startsWith('/uploads/')) { %>
+                <div style="margin-bottom: 10px; padding: 10px; background: white; border-radius: 4px; text-align: center; border: 1px solid #eee;">
+                    <img src="<%= logoUrl %>" alt="Kart <%= i %>" style="max-height: 50px; max-width: 100%; object-fit: contain;">
+                </div>
+            <% } %>
+            <input type="text" name="home_ref_card<%= i %>" value="<%= !logoUrl.startsWith('/uploads/') ? logoUrl : '' %>" placeholder="Metin girebilirsiniz...">
+            <small style="display: block; margin: 10px 0 5px 0; color: #888;">Veya Logo Yükleyin (Yüklenirse metin yoksayılır):</small>
+            <input type="file" name="home_ref_card<%= i %>" accept="image/*">
+        </div>
+        <% } %>
+    </div>
+
+    <button type="submit" class="btn btn--primary" style="margin-top: 10px; width: 100%;">İçerikleri Kaydet</button>
+</form>
+<%- include('footer') %>

@@ -1,0 +1,43 @@
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        function formatIcon(icon) {
+            if (!icon.id) { return icon.text; }
+            var iconClass = $(icon.element).attr('data-icon') || ('fa-solid ' + icon.id);
+            var $icon = $('<span><i class="' + iconClass + '" style="margin-right: 8px; width: 20px; text-align: center;"></i> ' + icon.text + '</span>');
+            return $icon;
+        };
+        $('.icon-select').select2({
+            templateResult: formatIcon,
+            templateSelection: formatIcon,
+            width: '100%',
+            dropdownAutoWidth: true
+        });
+        
+        // Select2 uses its own events, so we update the preview box on change
+        $('.icon-select').on('select2:select', function (e) {
+            var iconClass = $(e.params.data.element).attr('data-icon') || ('fa-solid ' + e.params.data.id);
+            $(this).closest('div').find('.icon-preview-box i').attr('class', iconClass);
+        });
+        
+        // Mobile Sidebar Toggle
+        $('#admin-menu-toggle').click(function() {
+            $('#admin-sidebar').addClass('open');
+            $('#admin-overlay').addClass('active');
+            $('body').css('overflow', 'hidden'); // Prevent scrolling body
+        });
+        
+        $('#admin-overlay').click(function() {
+            $('#admin-sidebar').removeClass('open');
+            $(this).removeClass('active');
+            $('body').css('overflow', 'auto');
+        });
+    });
+    </script>
+</body>
+</html>

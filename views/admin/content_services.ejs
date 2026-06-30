@@ -1,0 +1,147 @@
+<%- include('header') %>
+<div class="admin-header"><h2>Hizmetler Yönetimi</h2></div>
+<% if (success) { %><div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;"><%= success %></div><% } %>
+<form action="/admin/content/update" method="POST" class="admin-card">
+    <input type="hidden" name="redirect_to" value="services">
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px;">
+        <div class="form-group" style="margin: 0;"><label>Sayfa Başlığı</label><input type="text" name="services_page_title" value="<%= settings.services_page_title %>"></div>
+        <div class="form-group" style="margin: 0;"><label>Açıklama Metni</label><textarea name="services_page_desc" rows="3"><%= settings.services_page_desc %></textarea></div>
+    
+    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Hizmet Kartları (6 Adet)</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Kart 1 Başlık</label>
+            <input type="text" name="service_card_1_title" value="<%= settings.service_card_1_title || 'Hizmet 1' %>">
+            <label style="margin-top: 10px;">Kart 1 İkonu</label>
+            <%- include('icon_selector', {name: 'service_card_1_icon', currentVal: settings.service_card_1_icon, defaultIcon: 'fa-fire'}) %>
+            <label style="margin-top: 10px;">Kart 1 Açıklama</label>
+            <textarea name="service_card_1_desc" rows="2"><%= settings.service_card_1_desc || 'Hizmet 1 açıklaması buraya gelecek.' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Kart 2 Başlık</label>
+            <input type="text" name="service_card_2_title" value="<%= settings.service_card_2_title || 'Hizmet 2' %>">
+            <label style="margin-top: 10px;">Kart 2 İkonu</label>
+            <%- include('icon_selector', {name: 'service_card_2_icon', currentVal: settings.service_card_2_icon, defaultIcon: 'fa-compress'}) %>
+            <label style="margin-top: 10px;">Kart 2 Açıklama</label>
+            <textarea name="service_card_2_desc" rows="2"><%= settings.service_card_2_desc || 'Hizmet 2 açıklaması buraya gelecek.' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Kart 3 Başlık</label>
+            <input type="text" name="service_card_3_title" value="<%= settings.service_card_3_title || 'Hizmet 3' %>">
+            <label style="margin-top: 10px;">Kart 3 İkonu</label>
+            <%- include('icon_selector', {name: 'service_card_3_icon', currentVal: settings.service_card_3_icon, defaultIcon: 'fa-screwdriver-wrench'}) %>
+            <label style="margin-top: 10px;">Kart 3 Açıklama</label>
+            <textarea name="service_card_3_desc" rows="2"><%= settings.service_card_3_desc || 'Hizmet 3 açıklaması buraya gelecek.' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Kart 4 Başlık</label>
+            <input type="text" name="service_card_4_title" value="<%= settings.service_card_4_title || 'Hizmet 4' %>">
+            <label style="margin-top: 10px;">Kart 4 İkonu</label>
+            <%- include('icon_selector', {name: 'service_card_4_icon', currentVal: settings.service_card_4_icon, defaultIcon: 'fa-wrench'}) %>
+            <label style="margin-top: 10px;">Kart 4 Açıklama</label>
+            <textarea name="service_card_4_desc" rows="2"><%= settings.service_card_4_desc || 'Hizmet 4 açıklaması buraya gelecek.' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Kart 5 Başlık</label>
+            <input type="text" name="service_card_5_title" value="<%= settings.service_card_5_title || 'Hizmet 5' %>">
+            <label style="margin-top: 10px;">Kart 5 İkonu</label>
+            <%- include('icon_selector', {name: 'service_card_5_icon', currentVal: settings.service_card_5_icon, defaultIcon: 'fa-clipboard-check'}) %>
+            <label style="margin-top: 10px;">Kart 5 Açıklama</label>
+            <textarea name="service_card_5_desc" rows="2"><%= settings.service_card_5_desc || 'Hizmet 5 açıklaması buraya gelecek.' %></textarea>
+        </div>
+        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <label>Kart 6 Başlık</label>
+            <input type="text" name="service_card_6_title" value="<%= settings.service_card_6_title || 'Hizmet 6' %>">
+            <label style="margin-top: 10px;">Kart 6 İkonu</label>
+            <%- include('icon_selector', {name: 'service_card_6_icon', currentVal: settings.service_card_6_icon, defaultIcon: 'fa-truck-fast'}) %>
+            <label style="margin-top: 10px;">Kart 6 Açıklama</label>
+            <textarea name="service_card_6_desc" rows="2"><%= settings.service_card_6_desc || 'Hizmet 6 açıklaması buraya gelecek.' %></textarea>
+        </div></div>
+    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Uygulama Alanları (12 Adet)</h3>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_1" value="<%= settings.app_area_1 || 'Alan 1' %>" placeholder="Alan 1">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 1 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_1_icon', currentVal: settings.app_area_1_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_2" value="<%= settings.app_area_2 || 'Alan 2' %>" placeholder="Alan 2">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 2 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_2_icon', currentVal: settings.app_area_2_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_3" value="<%= settings.app_area_3 || 'Alan 3' %>" placeholder="Alan 3">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 3 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_3_icon', currentVal: settings.app_area_3_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_4" value="<%= settings.app_area_4 || 'Alan 4' %>" placeholder="Alan 4">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 4 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_4_icon', currentVal: settings.app_area_4_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_5" value="<%= settings.app_area_5 || 'Alan 5' %>" placeholder="Alan 5">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 5 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_5_icon', currentVal: settings.app_area_5_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_6" value="<%= settings.app_area_6 || 'Alan 6' %>" placeholder="Alan 6">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 6 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_6_icon', currentVal: settings.app_area_6_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_7" value="<%= settings.app_area_7 || 'Alan 7' %>" placeholder="Alan 7">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 7 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_7_icon', currentVal: settings.app_area_7_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_8" value="<%= settings.app_area_8 || 'Alan 8' %>" placeholder="Alan 8">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 8 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_8_icon', currentVal: settings.app_area_8_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_9" value="<%= settings.app_area_9 || 'Alan 9' %>" placeholder="Alan 9">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 9 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_9_icon', currentVal: settings.app_area_9_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_10" value="<%= settings.app_area_10 || 'Alan 10' %>" placeholder="Alan 10">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 10 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_10_icon', currentVal: settings.app_area_10_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_11" value="<%= settings.app_area_11 || 'Alan 11' %>" placeholder="Alan 11">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 11 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_11_icon', currentVal: settings.app_area_11_icon, defaultIcon: 'fa-check'}) %>
+        </div>
+        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+            <input type="text" name="app_area_12" value="<%= settings.app_area_12 || 'Alan 12' %>" placeholder="Alan 12">
+            <label style="margin-top: 10px; font-size: 0.9rem;">Alan 12 İkonu</label>
+            <%- include('icon_selector', {name: 'app_area_12_icon', currentVal: settings.app_area_12_icon, defaultIcon: 'fa-check'}) %>
+        </div></div>
+    </div>
+
+    <!-- CTA BÖLÜMÜ -->
+    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Sayfa Sonu CTA (Çağrı) Alanı</h3>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
+        <div class="form-group" style="margin: 0;"><label>CTA Başlığı</label><input type="text" name="services_cta_title" value="<%= settings.services_cta_title || 'Projeniz İçin Hemen Teklif Alın!' %>"></div>
+        <div class="form-group" style="margin: 0;"><label>CTA Açıklaması</label><textarea name="services_cta_desc" rows="2"><%= settings.services_cta_desc || 'Elektrofüzyon kaynak, alın kaynak, PE boru montajı ve tüm altyapı hizmetleri için bize ulaşın. Ücretsiz keşif ve fiyat teklifi sunuyoruz.' %></textarea></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>Sol Buton Metni (İletişim)</label>
+                <input type="text" name="services_cta_btn1_text" value="<%= settings.services_cta_btn1_text || 'İletişime Geçin' %>">
+                <label style="margin-top: 10px;">Sol Buton İkonu</label>
+                <%- include('icon_selector', {name: 'services_cta_btn1_icon', currentVal: settings.services_cta_btn1_icon, defaultIcon: 'fa-paper-plane'}) %>
+            </div>
+            <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
+                <label>Sağ Buton Metni (WhatsApp)</label>
+                <input type="text" name="services_cta_btn2_text" value="<%= settings.services_cta_btn2_text || 'WhatsApp ile Yazın' %>">
+                <label style="margin-top: 10px;">Sağ Buton İkonu</label>
+                <%- include('icon_selector', {name: 'services_cta_btn2_icon', currentVal: settings.services_cta_btn2_icon, defaultIcon: 'fa-whatsapp'}) %>
+            </div>
+        </div>
+    </div>
+    
+    <button type="submit" class="btn btn--primary" style="margin-top: 20px;">İçerikleri Kaydet</button>
+</form>
+<%- include('footer') %>

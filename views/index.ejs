@@ -1,0 +1,320 @@
+<%- include('partials/header') %>
+    <!-- ============================================
+         HERO SLIDER
+         ============================================ -->
+    <section class="hero" id="hero">
+        <div class="hero__slides" id="hero-slides">
+            <!-- Slide 1 -->
+            <div class="hero__slide active" data-slide="0">
+                <img src="<%= settings.home_hero_bg_1 || '/images/hero-slide-1.png' %>" alt="Elektrofüzyon Kaynak İşlemi" class="hero__slide-bg">
+                <div class="hero__overlay"></div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="hero__slide" data-slide="1">
+                <img src="<%= settings.home_hero_bg_2 || '/images/hero-slide-2.png' %>" alt="PE Boru Hattı Montajı" class="hero__slide-bg">
+                <div class="hero__overlay"></div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="hero__slide" data-slide="2">
+                <img src="<%= settings.home_hero_bg_3 || '/images/hero-slide-3.png' %>" alt="Boru Depolama Tesisi" class="hero__slide-bg">
+                <div class="hero__overlay"></div>
+            </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero__content">
+            <div class="container">
+                <div class="hero__text">
+                    <div class="hero__badge">
+                          <i class="<%- renderIconClass(settings.home_hero_badge_icon, 'fa-location-dot') %>"></i>
+                          <%= settings.home_hero_badge || "Malatya'nın İlk ve Tek Firması" %>
+                      </div>
+                    <h1 class="hero__title"><%- settings.home_hero_title || "Geleceğin Altyapısını<br>Bugünden İnşa Ediyoruz" %></h1>
+                    <p class="hero__desc"><%= settings.home_hero_desc || "PE boru birleştirme, alın kaynak ve boru hattı montajı konularında uzman ekibimizle Malatya ve çevresinde güvenilir altyapı çözümleri sunuyoruz." %></p>
+                    <div class="hero__buttons">
+                        <% if (settings.home_hero_btn1 && settings.home_hero_btn1.trim() !== '') { %>
+                        <a href="/<%= slugs.contact %>" class="btn btn--primary btn--lg" id="hero-cta">
+                            <i class="<%- renderIconClass(settings.home_hero_btn1_icon, 'fa-paper-plane') %>"></i>
+                            <%= settings.home_hero_btn1 %>
+                        </a>
+                        <% } %>
+                        <% if (settings.home_hero_btn2 && settings.home_hero_btn2.trim() !== '') { %>
+                        <a href="/<%= slugs.services %>" class="btn btn--white btn--lg" id="hero-services">
+                            <i class="<%- renderIconClass(settings.home_hero_btn2_icon, 'fa-wrench') %>"></i>
+                            <%= settings.home_hero_btn2 %>
+                        </a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="hero__controls">
+            <button class="hero__control-btn" id="hero-prev" aria-label="Önceki">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="hero__control-btn" id="hero-next" aria-label="Sonraki">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Slider Dots -->
+        <div class="hero__dots" id="hero-dots">
+            <button class="hero__dot active" data-dot="0" aria-label="Slide 1"></button>
+            <button class="hero__dot" data-dot="1" aria-label="Slide 2"></button>
+            <button class="hero__dot" data-dot="2" aria-label="Slide 3"></button>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FEATURES SECTION
+         ============================================ -->
+    <% if (settings.home_features_active !== 'false') { %>
+    <section class="features" id="features">
+        <div class="container">
+            <div class="features__grid">
+                <!-- Feature 1 -->
+                <div class="feature-card animate-on-scroll animate-delay-1" id="feature-1">
+                    <div class="feature-card__icon">
+                        <i class="<%- renderIconClass(settings.home_feature_1_icon, 'fa-users-gear') %>"></i>
+                    </div>
+                    <h3 class="feature-card__title"><%= settings.home_feature_1_title || "Profesyonel Ekip" %></h3>
+                    <p class="feature-card__text"><%= settings.home_feature_1_desc || "Alanında uzman ve sertifikalı kadromuz ile her projede en yüksek kaliteyi garanti ediyoruz." %></p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card animate-on-scroll animate-delay-2" id="feature-2">
+                    <div class="feature-card__icon">
+                        <i class="<%- renderIconClass(settings.home_feature_2_icon, 'fa-bolt') %>"></i>
+                    </div>
+                    <h3 class="feature-card__title"><%= settings.home_feature_2_title || "Hızlı Servis" %></h3>
+                    <p class="feature-card__text"><%= settings.home_feature_2_desc || "Acil durumlarda hızlı müdahale kapasitemiz ile projelerinizi zamanında tamamlıyoruz." %></p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card animate-on-scroll animate-delay-3" id="feature-3">
+                    <div class="feature-card__icon">
+                        <i class="<%- renderIconClass(settings.home_feature_3_icon, 'fa-shield-halved') %>"></i>
+                    </div>
+                    <h3 class="feature-card__title"><%= settings.home_feature_3_title || "Güvenilir Kaynak" %></h3>
+                    <p class="feature-card__text"><%= settings.home_feature_3_desc || "Uluslararası standartlara uygun ekipmanlarla sızıntısız, uzun ömürlü boru birleştirme yapıyoruz." %></p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card animate-on-scroll animate-delay-4" id="feature-4">
+                    <div class="feature-card__icon">
+                        <i class="<%- renderIconClass(settings.home_feature_4_icon, 'fa-headset') %>"></i>
+                    </div>
+                    <h3 class="feature-card__title"><%= settings.home_feature_4_title || "7/24 Destek" %></h3>
+                    <p class="feature-card__text"><%= settings.home_feature_4_desc || "Arıza ve acil durumlarda kesintisiz destek hattımız ile her zaman yanınızdayız." %></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <% } %>
+
+    <!-- About Section -->
+    <section class="about section-padding" id="about">
+        <div class="container">
+            <div class="about__grid">
+                <div class="about__content animate-on-scroll">
+                    <h2 class="section-title"><%= settings.home_about_title || "Hakkımızda" %></h2>
+                    <p class="about__desc"><%= settings.home_about_desc || "Ak Füzyon olarak, altyapı projelerinizde güvenilir çözüm ortağınız olmaktan gurur duyuyoruz. Yılların getirdiği tecrübe ve uzman kadromuzla, elektrofüzyon ve alın kaynak hizmetlerinde sektörün öncü firmalarından biriyiz." %></p>
+
+                    <div class="about__highlights">
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.home_about_feature_1_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.home_about_feature_1 || "Sertifikalı Ekipman" %></span>
+                        </div>
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.home_about_feature_2_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.home_about_feature_2 || "Uzman Kadro" %></span>
+                        </div>
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.home_about_feature_3_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.home_about_feature_3 || "Uygun Fiyat" %></span>
+                        </div>
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.home_about_feature_4_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.home_about_feature_4 || "Zamanında Teslimat" %></span>
+                        </div>
+                    </div>
+
+                    <% if (settings.home_about_btn && settings.home_about_btn.trim() !== '') { %>
+                    <a href="/<%= slugs.about %>" class="btn btn--primary" id="about-cta">
+                        <i class="<%- renderIconClass(settings.home_about_btn_icon, 'fa-arrow-right') %>"></i>
+                        <%= settings.home_about_btn %>
+                    </a>
+                    <% } %>
+                </div>
+                <div class="about__image-wrapper animate-on-scroll" style="position: relative;">
+                    <img src="<%= settings.home_about_img || '/images/hero-slide-1.png' %>" alt="Ak Füzyon Hakkımızda" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); object-fit: cover; aspect-ratio: 4/3;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SERVICES / APPLICATIONS SECTION
+         ============================================ -->
+    <section class="services section" id="services">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2>Hizmet Alanlarımız</h2>
+                <p>Yaptıklarımız yapacaklarımızın teminatıdır. Tecrübeli kadromuzla tüm su ve gaz altyapı işlerinizde yanınızdayız.</p>
+            </div>
+
+            <div class="services__grid">
+                <div class="service-item animate-on-scroll animate-delay-1" id="svc-1">
+                    <i class="<%- renderIconClass(settings.home_service_1_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_1 || "İçme Suyu Hatları" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-1" id="svc-2">
+                    <i class="<%- renderIconClass(settings.home_service_2_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_2 || "Doğalgaz Altyapısı" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2" id="svc-3">
+                    <i class="<%- renderIconClass(settings.home_service_3_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_3 || "Kanalizasyon Sistemleri" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2" id="svc-4">
+                    <i class="<%- renderIconClass(settings.home_service_4_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_4 || "Tarımsal Sulama" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-1" id="svc-5">
+                    <i class="<%- renderIconClass(settings.home_service_5_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_5 || "Endüstriyel Tesisler" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2" id="svc-6">
+                    <i class="<%- renderIconClass(settings.home_service_6_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_6 || "Belediye Projeleri" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3" id="svc-7">
+                    <i class="<%- renderIconClass(settings.home_service_7_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_7 || "Jeotermal Hatlar" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3" id="svc-8">
+                    <i class="<%- renderIconClass(settings.home_service_8_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_8 || "Yağmursuyu Drenajı" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-2" id="svc-9">
+                    <i class="<%- renderIconClass(settings.home_service_9_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_9 || "Maden Sahası Boruları" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3" id="svc-10">
+                    <i class="<%- renderIconClass(settings.home_service_10_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_10 || "Yangın Söndürme Hatları" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-3" id="svc-11">
+                    <i class="<%- renderIconClass(settings.home_service_11_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_11 || "Baraj & Gölet Projeleri" %></span>
+                </div>
+                <div class="service-item animate-on-scroll animate-delay-4" id="svc-12">
+                    <i class="<%- renderIconClass(settings.home_service_12_icon, 'fa-check') %> service-item__icon"></i>
+                    <span class="service-item__text"><%= settings.home_service_12 || "Arıza & Tamir Hizmetleri" %></span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;" class="animate-on-scroll">
+                <% if (settings.home_services_btn && settings.home_services_btn.trim() !== '') { %>
+                <a href="/<%= slugs.services %>" class="btn btn--primary">
+                    <i class="<%- renderIconClass(settings.home_services_btn_icon, 'fa-arrow-right') %>"></i>
+                    <%= settings.home_services_btn %>
+                </a>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA BANNER (PARALLAX)
+         ============================================ -->
+    <section class="cta-banner" id="cta-banner" <% if (settings.home_cta_bg) { %>style="background-image: url('<%= settings.home_cta_bg %>');"<% } %>>
+        <div class="cta-banner__overlay"></div>
+        <div class="container">
+            <div class="cta-banner__content animate-on-scroll animate-scale">
+                <h2 class="cta-banner__title"><%= settings.home_cta_title || "Projeleriniz İçin Profesyonel Çözüm Ortağınız" %></h2>
+                <p class="cta-banner__text"><%= settings.home_cta_desc || "Uzman kadromuz ve modern ekipmanlarımızla hizmetinizdeyiz." %></p>
+                <% if (settings.home_cta_btn && settings.home_cta_btn.trim() !== '') { %>
+                <a href="/<%= slugs.contact %>" class="btn btn--primary btn--lg" id="cta-contact">
+                    <i class="<%- renderIconClass(settings.home_cta_btn_icon, 'fa-paper-plane') %>"></i>
+                    <%= settings.home_cta_btn %>
+                </a>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         REFERENCES SECTION
+         ============================================ -->
+    <% if (settings.home_partners_active !== 'false') { %>
+    <section class="references section section--alt" id="references">
+        <div class="container">
+            <div class="references__grid">
+                <div class="animate-on-scroll animate-left">
+                    <div class="about__subtitle">
+                        <i class="<%- renderIconClass(settings.home_ref_subtitle_icon, 'fa-minus') %>"></i>
+                        <%= settings.home_ref_subtitle || "Referanslarımız" %>
+                    </div>
+                    <h2 class="about__title"><%= settings.home_ref_title || "Güçlü Çözüm Ortaklarımız" %></h2>
+                    <p class="references__text">
+                        <%= settings.home_ref_desc1 || "Ak Füzyon olarak kurulduğumuz günden itibaren kalite ve müşteri memnuniyetini ilke edindik. Bölgedeki birçok belediye, inşaat firması ve altyapı projesiyle çalışmalar yürütmekte olup her işte kendimizi ispatlamaktayız." %>
+                    </p>
+                    <p class="references__text" style="margin-top: 16px;">
+                        <%= settings.home_ref_desc2 || "Kendini sürekli yenileyen ekibimiz ve son teknoloji ekipmanlarımız ile güçlü çözüm ortaklarımıza en iyi hizmeti sunuyoruz." %>
+                    </p>
+                </div>
+                <div class="animate-on-scroll animate-right">
+                    <div class="references__logos">
+                        <% for(let i=1; i<=6; i++) { 
+                            let refLogo = settings['home_ref_card' + i] || ('Referans ' + i);
+                        %>
+                            <% if (refLogo.startsWith('/uploads/')) { %>
+                                <div class="reference-logo" style="padding: 10px;">
+                                    <img src="<%= refLogo %>" alt="Referans <%= i %>" style="max-width: 100%; max-height: 80px; object-fit: contain;">
+                                </div>
+                            <% } else { %>
+                                <div class="reference-logo"><%= refLogo %></div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <% } %>
+
+    <!-- ============================================
+         MAP SECTION
+         ============================================ -->
+    <section class="map-section" id="map-section">
+        <% 
+            let mapInput = settings.contact_map_url || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d99051.34065498855!2d38.21826267246998!3d38.35519029676493!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4076226dab71f487%3A0x154cbb32466ed333!2sMalatya!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str';
+            let mapSrc = mapInput;
+            
+            if (mapInput.includes('<iframe') && mapInput.includes('src="')) {
+                let match = mapInput.match(/src="([^"]+)"/);
+                if (match && match[1]) {
+                    mapSrc = match[1];
+                }
+            }
+        %>
+        <iframe 
+            src="<%- mapSrc %>" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ak Füzyon Konum - Malatya"
+            id="google-map"
+            style="width: 100%; height: 450px; border: 0;">
+        </iframe>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <%- include('partials/footer') %>
+
+

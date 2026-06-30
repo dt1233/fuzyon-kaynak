@@ -1,0 +1,352 @@
+<% 
+if (typeof renderIconClass === 'undefined') {
+    renderIconClass = function(iconStr, defaultIcon) {
+        let icon = iconStr || defaultIcon;
+        if (!icon) return '';
+        if (icon.startsWith('fa-solid') || icon.startsWith('fa-brands') || icon.startsWith('fa-regular') || icon.startsWith('fas ') || icon.startsWith('fab ') || icon.startsWith('far ')) {
+            return icon;
+        }
+        return 'fa-solid ' + icon;
+    };
+}
+%>
+<!DOCTYPE html>
+<html lang="tr" data-theme="<%= settings.theme || 'light' %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <% if (settings && settings.google_analytics_id) { %>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= settings.google_analytics_id %>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '<%= settings.google_analytics_id %>');
+    </script>
+    <% } %>
+
+    <% 
+    let seoTitle = typeof settings !== 'undefined' && settings.seo_site_title_suffix ? settings.seo_site_title_suffix : ' | Ak Füzyon';
+    let pageName = 'Ak Füzyon';
+    let seoDesc = typeof settings !== 'undefined' && settings.seo_site_description ? settings.seo_site_description : '';
+    let seoKeywords = typeof settings !== 'undefined' && settings.seo_site_keywords ? settings.seo_site_keywords : '';
+    let seoOgImage = typeof settings !== 'undefined' && settings.seo_og_image ? settings.seo_og_image : '';
+    
+    if (typeof product !== 'undefined' && product) {
+        pageName = product.name;
+        if (product.description) {
+            seoDesc = product.description.substring(0, 160).replace(/(<([^>]+)>)/gi, "").trim();
+        }
+    } else if (typeof blog !== 'undefined' && blog) {
+        pageName = blog.title;
+        if (blog.content) {
+            seoDesc = blog.content.substring(0, 160).replace(/(<([^>]+)>)/gi, "").trim();
+        }
+    } else if (typeof page !== 'undefined') {
+        if (page === 'hakkimizda') pageName = 'Hakkımızda';
+        else if (page === 'hizmetler') pageName = 'Hizmetlerimiz';
+        else if (page === 'urunler') pageName = 'Ürünler';
+        else if (page === 'galeri') pageName = 'Galeri';
+        else if (page === 'blog') pageName = 'Blog & Haberler';
+        else if (page === 'referanslar') pageName = 'Referanslar';
+        else if (page === 'iletisim') pageName = 'İletişim';
+        else if (page === 'teklif-al') pageName = 'Teklif Al';
+    }
+    
+    let finalTitle = (pageName !== 'Ak Füzyon') ? (pageName + seoTitle) : ('Ak Füzyon' + (seoTitle.replace('|', '').trim() ? seoTitle : ''));
+    %>
+    <title><%= finalTitle %></title>
+    <meta name="description" content="<%= seoDesc %>">
+    <meta name="keywords" content="<%= seoKeywords %>">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="<%= finalTitle %>">
+    <meta property="og:description" content="<%= seoDesc %>">
+    <meta property="og:type" content="website">
+    <% if (seoOgImage) { %>
+    <meta property="og:image" content="<%= seoOgImage %>">
+    <% } %>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=2.1">
+    
+    
+    <% 
+    let fontUrl = 'family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800';
+    if (settings.color_theme === 'nemrut') fontUrl += '&family=Playfair+Display:wght@400;600;700';
+    else if (settings.color_theme === 'zeytin') fontUrl += '&family=Lora:wght@400;500;600;700';
+    else if (settings.color_theme === 'endustriyel') fontUrl += '&family=Roboto:wght@400;500;700;900';
+    else if (settings.color_theme === 'pamukkale') fontUrl += '&family=Quicksand:wght@400;500;600;700';
+    else if (settings.color_theme === 'oltu') fontUrl += '&family=Space+Grotesk:wght@400;500;600;700';
+    else if (settings.color_theme === 'harran') fontUrl += '&family=Roboto+Slab:wght@400;500;600;700';
+    %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?<%= fontUrl %>&display=swap" rel="stylesheet">
+
+    
+    <%
+    function hexToRgb(hex) {
+        if (!hex) return '0, 0, 0';
+        hex = hex.replace('#', '');
+        if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        return r + ', ' + g + ', ' + b;
+    }
+    
+    function getContrastText(hex) {
+        if (!hex) return '#FFFFFF';
+        hex = hex.replace('#', '');
+        if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return luminance > 0.6 ? '#1A1A1A' : '#FFFFFF';
+    }
+    %>
+
+    <style>
+
+        
+
+        :root {
+            /* Default Structural Variables (Klasik) */
+            --font-primary: 'Inter', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --border-radius-lg: 20px;
+            --card-shadow: 0 4px 24px rgba(var(--primary-rgb), 0.08);
+            --card-shadow-hover: 0 12px 40px rgba(var(--primary-rgb), 0.15);
+            --btn-shadow: 0 8px 25px rgba(var(--accent-rgb), 0.35);
+        }
+        
+        <% if (settings.color_theme === 'kayisi') { %>
+            :root {
+                --primary: #E67E22; --primary-light: #F39C12; --primary-dark: #D35400; --primary-rgb: 230, 126, 34;
+                --primary-text: #FFFFFF;
+                --accent: #F1C40F; --accent-light: #F4D03F; --accent-dark: #F39C12; --accent-rgb: 241, 196, 15;
+                --accent-text: #1A1A1A;
+                --font-primary: 'Outfit', sans-serif; --font-display: 'Outfit', sans-serif;
+                --border-radius: 50px; --border-radius-sm: 50px; --border-radius-lg: 50px;
+                --card-shadow: 0 10px 30px rgba(230, 126, 34, 0.15);
+                --card-shadow-hover: 0 15px 40px rgba(230, 126, 34, 0.25);
+                --btn-shadow: 0 10px 30px rgba(241, 196, 15, 0.5);
+            }
+        <% } else if (settings.color_theme === 'deniz') { %>
+            :root {
+                --primary: #2980B9; --primary-light: #3498DB; --primary-dark: #2471A3; --primary-rgb: 41, 128, 185;
+                --primary-text: #FFFFFF;
+                --accent: #1ABC9C; --accent-light: #48C9B0; --accent-dark: #16A085; --accent-rgb: 26, 188, 156;
+                --accent-text: #FFFFFF;
+                --border-radius: 8px; --border-radius-sm: 4px; --border-radius-lg: 12px;
+                --card-shadow: none; --card-shadow-hover: 0 4px 12px rgba(41, 128, 185, 0.2);
+                --btn-shadow: none;
+            }
+        <% } else if (settings.color_theme === 'endustriyel') { %>
+            :root {
+                --primary: #2C3E50; --primary-light: #34495E; --primary-dark: #1A252F; --primary-rgb: 44, 62, 80;
+                --primary-text: #FFFFFF;
+                --accent: #E74C3C; --accent-light: #EC7063; --accent-dark: #C0392B; --accent-rgb: 231, 76, 60;
+                --accent-text: #FFFFFF;
+                --font-primary: 'Roboto', sans-serif; --font-display: 'Roboto', sans-serif;
+                --border-radius: 0px; --border-radius-sm: 0px; --border-radius-lg: 0px;
+                --card-shadow: 6px 6px 0px rgba(44, 62, 80, 1);
+                --card-shadow-hover: 10px 10px 0px rgba(44, 62, 80, 1);
+                --btn-shadow: 4px 4px 0px rgba(231, 76, 60, 0.5);
+            }
+        <% } else if (settings.color_theme === 'nemrut') { %>
+            :root {
+                --primary: #B03A2E; --primary-light: #E74C3C; --primary-dark: #7B241C; --primary-rgb: 176, 58, 46;
+                --primary-text: #FFFFFF;
+                --accent: #F1C40F; --accent-light: #F4D03F; --accent-dark: #D4AC0D; --accent-rgb: 241, 196, 15;
+                --accent-text: #1A1A1A;
+                --font-primary: 'Inter', sans-serif; --font-display: 'Playfair Display', serif;
+                --border-radius: 4px; --border-radius-sm: 2px; --border-radius-lg: 8px;
+                --card-shadow: 0 2px 10px rgba(176, 58, 46, 0.05);
+                --card-shadow-hover: 0 4px 20px rgba(176, 58, 46, 0.15);
+            }
+        <% } else if (settings.color_theme === 'zeytin') { %>
+            :root {
+                --primary: #4A5D23; --primary-light: #6B8E23; --primary-dark: #3A4A1C; --primary-rgb: 74, 93, 35;
+                --primary-text: #FFFFFF;
+                --accent: #A9DFBF; --accent-light: #D1F2EB; --accent-dark: #7DCEA0; --accent-rgb: 169, 223, 191;
+                --accent-text: #1A1A1A;
+                --font-primary: 'Inter', sans-serif; --font-display: 'Lora', serif;
+                --border-radius: 16px; --border-radius-sm: 12px; --border-radius-lg: 24px;
+                --card-shadow: 0 8px 30px rgba(74, 93, 35, 0.08);
+                --card-shadow-hover: 0 12px 40px rgba(74, 93, 35, 0.15);
+            }
+        <% } else if (settings.color_theme === 'kapadokya') { %>
+            :root {
+                --primary: #873600; --primary-light: #BA4A00; --primary-dark: #512E05; --primary-rgb: 135, 54, 0;
+                --primary-text: #FFFFFF;
+                --accent: #E59866; --accent-light: #EDBB99; --accent-dark: #DC7633; --accent-rgb: 229, 152, 102;
+                --accent-text: #1A1A1A;
+                --font-primary: 'Outfit', sans-serif; --font-display: 'Outfit', sans-serif;
+                --border-radius: 24px; --border-radius-sm: 16px; --border-radius-lg: 32px;
+                --card-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 10px 20px rgba(135, 54, 0, 0.1);
+                --card-shadow-hover: inset 0 2px 4px rgba(255,255,255,0.4), 0 15px 30px rgba(135, 54, 0, 0.15);
+                --btn-shadow: 0 4px 15px rgba(229, 152, 102, 0.4);
+            }
+        <% } else if (settings.color_theme === 'karadeniz') { %>
+            :root {
+                --primary: #0E6251; --primary-light: #117864; --primary-dark: #0B5345; --primary-rgb: 14, 98, 81;
+                --primary-text: #FFFFFF;
+                --accent: #2ECC71; --accent-light: #58D68D; --accent-dark: #27AE60; --accent-rgb: 46, 204, 113;
+                --accent-text: #FFFFFF;
+                --border-radius: 8px;
+            }
+        <% } else if (settings.color_theme === 'pamukkale') { %>
+            :root {
+                --primary: #2874A6; --primary-light: #3498DB; --primary-dark: #1B4F72; --primary-rgb: 40, 116, 166;
+                --primary-text: #FFFFFF;
+                --accent: #85C1E9; --accent-light: #AED6F1; --accent-dark: #5DADE2; --accent-rgb: 133, 193, 233;
+                --accent-text: #1A1A1A;
+                --font-primary: 'Quicksand', sans-serif; --font-display: 'Quicksand', sans-serif;
+                --border-radius: 30px; --border-radius-sm: 20px; --border-radius-lg: 40px;
+                --card-shadow: 0 8px 32px rgba(40, 116, 166, 0.1);
+                --card-shadow-hover: 0 12px 40px rgba(40, 116, 166, 0.2);
+            }
+        <% } else if (settings.color_theme === 'oltu') { %>
+            :root {
+                --primary: #212F3D; --primary-light: #2E4053; --primary-dark: #17202A; --primary-rgb: 33, 47, 61;
+                --primary-text: #FFFFFF;
+                --accent: #D5D8DC; --accent-light: #EAECEE; --accent-dark: #ABB2B9; --accent-rgb: 213, 216, 220;
+                --accent-text: #1A1A1A;
+                --font-primary: 'Space Grotesk', sans-serif; --font-display: 'Space Grotesk', sans-serif;
+                --border-radius: 0px; --border-radius-sm: 0px; --border-radius-lg: 0px;
+                --card-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                --card-shadow-hover: 0 15px 50px rgba(0,0,0,0.6);
+                --btn-shadow: 0 0 15px rgba(213, 216, 220, 0.4);
+            }
+        <% } else if (settings.color_theme === 'harran') { %>
+            :root {
+                --primary: #935116; --primary-light: #B9770E; --primary-dark: #784212; --primary-rgb: 147, 81, 22;
+                --primary-text: #FFFFFF;
+                --accent: #F8C471; --accent-light: #FAD7A1; --accent-dark: #F5B041; --accent-rgb: 248, 196, 113;
+                --accent-text: #1A1A1A;
+                --font-primary: 'Roboto Slab', serif; --font-display: 'Roboto Slab', serif;
+                --border-radius: 8px; --border-radius-sm: 4px; --border-radius-lg: 12px;
+                --card-shadow: none; --card-shadow-hover: none;
+            }
+        <% } %>
+    <% if (settings.color_theme === 'custom') { %>
+            :root {
+                --primary: <%= settings.custom_primary || '#2c3e50' %>;
+                --primary-rgb: <%= hexToRgb(settings.custom_primary || '#2c3e50') %>;
+                --primary-light: <%= settings.custom_primary || '#2c3e50' %>;
+                --primary-dark: <%= settings.custom_primary || '#2c3e50' %>;
+                --primary-text: <%= getContrastText(settings.custom_primary || '#2c3e50') %>;
+                
+                --accent: <%= settings.custom_accent || '#3498db' %>;
+                --accent-rgb: <%= hexToRgb(settings.custom_accent || '#3498db') %>;
+                --accent-light: <%= settings.custom_accent || '#3498db' %>;
+                --accent-dark: <%= settings.custom_accent || '#3498db' %>;
+                --accent-text: <%= getContrastText(settings.custom_accent || '#3498db') %>;
+                
+                --border-radius: <%= settings.custom_btn_radius || '8px' %>;
+                --border-radius-sm: <%= settings.custom_btn_radius || '8px' %>;
+                --border-radius-lg: <%= settings.custom_btn_radius || '8px' %>;
+                
+                --font-primary: 'Inter', sans-serif;
+                --font-display: 'Outfit', sans-serif;
+                
+                --card-shadow: 0 4px 24px rgba(<%= hexToRgb(settings.custom_primary || '#2c3e50') %>, 0.08);
+                --card-shadow-hover: 0 12px 40px rgba(<%= hexToRgb(settings.custom_primary || '#2c3e50') %>, 0.15);
+                --btn-shadow: 0 8px 25px rgba(<%= hexToRgb(settings.custom_accent || '#3498db') %>, 0.35);
+            }
+        <% } %>
+    </style>
+
+</head>
+<body data-color-theme="<%= typeof settings !== 'undefined' ? settings.color_theme : 'klasik' %>" data-header-layout="<%= (typeof settings !== 'undefined' && settings.color_theme === 'custom') ? (settings.custom_header_layout || '1') : '' %>">
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar__contact">
+                <% if (typeof settings !== 'undefined' && settings.iletisim_telefon && settings.iletisim_telefon.trim() !== '') { %>
+                <a href="tel:<%= settings.iletisim_telefon.replace(/\\s+/g, '') %>"><i class="<%- renderIconClass(settings.header_phone_icon, 'fas fa-phone') %>"></i> <%= settings.iletisim_telefon %></a>
+                <% } %>
+                <% if (typeof settings !== 'undefined' && settings.iletisim_eposta && settings.iletisim_eposta.trim() !== '') { %>
+                <a href="mailto:<%= settings.iletisim_eposta %>"><i class="<%- renderIconClass(settings.header_email_icon, 'fas fa-envelope') %>"></i> <%= settings.iletisim_eposta %></a>
+                <% } %>
+            </div>
+            <div class="top-bar__social">
+                <% if (typeof settings !== 'undefined' && settings.iletisim_facebook && settings.iletisim_facebook.trim() !== '') { %>
+                <a href="<%= settings.iletisim_facebook %>"><i class="<%- renderIconClass(settings.header_facebook_icon, 'fab fa-facebook-f') %>"></i></a>
+                <% } %>
+                <% if (typeof settings !== 'undefined' && settings.iletisim_instagram && settings.iletisim_instagram.trim() !== '') { %>
+                <a href="<%= settings.iletisim_instagram %>"><i class="<%- renderIconClass(settings.header_instagram_icon, 'fab fa-instagram') %>"></i></a>
+                <% } %>
+                <% if (typeof settings !== 'undefined' && settings.iletisim_twitter && settings.iletisim_twitter.trim() !== '') { %>
+                <a href="<%= settings.iletisim_twitter %>"><i class="<%- renderIconClass(settings.header_twitter_icon, 'fab fa-twitter') %>"></i></a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <span class="logo__text"><%= typeof settings !== 'undefined' && settings.header_logo_text ? settings.header_logo_text : 'Ak Füzyon' %></span>
+                <span class="logo__tagline"><%= typeof settings !== 'undefined' && settings.header_logo_tagline ? settings.header_logo_tagline : 'Elektrofüzyon Kaynak' %></span>
+            </a>
+            
+            <nav class="nav">
+                <div class="nav__menu" id="nav-menu">
+                    <a href="/" class="nav__link <%= typeof page !== 'undefined' && page === 'home' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+                    <% if (settings.page_about_active !== 'false') { %>
+                    <a href="/<%= slugs.about %>" class="nav__link <%= typeof page !== 'undefined' && page === 'hakkimizda' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_about ? settings.nav_about : 'Hakkımızda' %></a>
+                    <% } %>
+                    <% if (settings.page_services_active !== 'false') { %>
+                    <a href="/<%= slugs.services %>" class="nav__link <%= typeof page !== 'undefined' && page === 'hizmetler' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_services ? settings.nav_services : 'Hizmetlerimiz' %></a>
+                    <% } %>
+                    <% if (settings.page_products_active !== 'false') { %>
+                    <a href="/<%= slugs.products %>" class="nav__link <%= typeof page !== 'undefined' && page === 'urunler' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_products ? settings.nav_products : 'Ürünler' %></a>
+                    <% } %>
+                    <% if (settings.page_references_active !== 'false') { %>
+                    <a href="/<%= slugs.references %>" class="nav__link <%= typeof page !== 'undefined' && page === 'referanslar' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_references ? settings.nav_references : 'Referanslar' %></a>
+                    <% } %>
+                    <% if (settings.page_gallery_active !== 'false') { %>
+                    <a href="/<%= slugs.gallery || 'galeri' %>" class="nav__link <%= typeof page !== 'undefined' && page === 'galeri' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_gallery ? settings.nav_gallery : 'Galeri' %></a>
+                    <% } %>
+                    <% if (settings.page_blog_active !== 'false') { %>
+                    <a href="/<%= slugs.blog || 'blog' %>" class="nav__link <%= typeof page !== 'undefined' && page === 'blog' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_blog ? settings.nav_blog : 'Blog' %></a>
+                    <% } %>
+                    <% if (settings.page_contact_active !== 'false') { %>
+                    <a href="/<%= slugs.contact %>" class="nav__link <%= typeof page !== 'undefined' && page === 'iletisim' ? 'active' : '' %>"><%= typeof settings !== 'undefined' && settings.nav_contact ? settings.nav_contact : 'İletişim' %></a>
+                    <% } %>
+                    <% if (settings.page_quote_active !== 'false') { %>
+                    <a href="/teklif-al" class="nav__link <%= typeof page !== 'undefined' && page === 'teklif-al' ? 'active' : '' %>" style="background: var(--accent); color: white; padding: 6px 12px; border-radius: var(--border-radius); font-weight: bold; white-space: nowrap;">Teklif Al</a>
+                    <% } %>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Temayı Değiştir">
+                        <i class="fa-solid fa-moon"></i>
+                        <i class="fa-solid fa-sun"></i>
+                    </button>
+                    <button class="mobile-toggle" id="mobile-toggle" aria-label="Menü">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+                <div class="mobile-overlay" id="mobile-overlay"></div>
+            </nav>
+        </div>
+    </header>

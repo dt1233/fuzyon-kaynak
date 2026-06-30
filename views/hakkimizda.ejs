@@ -1,0 +1,179 @@
+<%- include('partials/header') %>
+    <!-- ============================================
+         PAGE BANNER
+         ============================================ -->
+    <section class="page-banner">
+        <div class="page-banner__overlay"></div>
+        <div class="container">
+            <h1 class="page-banner__title"><%= typeof settings !== 'undefined' && settings.nav_about ? settings.nav_about : 'Hakkımızda' %></h1>
+            <div class="page-banner__breadcrumb">
+                <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span><%= typeof settings !== 'undefined' && settings.nav_about ? settings.nav_about : 'Hakkımızda' %></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ABOUT DETAIL SECTION
+         ============================================ -->
+    <section class="about section" id="about-detail">
+        <div class="container">
+            <div class="about__grid">
+                <!-- Image Side -->
+                <div class="about__image-wrapper animate-on-scroll animate-left">
+                    <img src="<%= settings.about_main_img || '/images/hero-slide-1.png' %>" alt="Ak Füzyon Elektrofüzyon Kaynak Ekibi" class="about__image">
+                    <div class="about__image-badge">
+                        <strong><%= settings.about_badge_title || "Malatya" %></strong>
+                        <span><%= settings.about_badge_text || "Bölgenin #1 Firması" %></span>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="animate-on-scroll animate-right">
+                    <div class="about__subtitle">
+                        <i class="<%- renderIconClass(settings.about_subtitle_icon, 'fa-minus') %>"></i>
+                        <%= settings.about_subtitle || "BİZ KİMİZ?" %>
+                    </div>
+                    <h2 class="about__title"><%= settings.about_page_title || "Malatya'nın İlk ve Tek Elektrofüzyon Kaynak Firması" %></h2>
+                    <p class="about__text"><%= settings.about_page_desc_1 || "" %></p>
+                    <p class="about__text"><%= settings.about_page_desc_2 || "" %></p>
+
+                    <div class="about__highlights">
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.about_feature_1_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.about_feature_1 || "Hızlı Hizmet" %></span>
+                        </div>
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.about_feature_2_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.about_feature_2 || "Uzman Kadro" %></span>
+                        </div>
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.about_feature_3_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.about_feature_3 || "Uygun Fiyat" %></span>
+                        </div>
+                        <div class="about__highlight">
+                            <i class="<%- renderIconClass(settings.about_feature_4_icon, 'fa-circle-check') %>"></i>
+                            <span><%= settings.about_feature_4 || "Zamanında Teslimat" %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         MİSYON & VİZYON SECTION
+         ============================================ -->
+    <section class="section section--alt" id="mission-vision">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2><%= settings.about_mv_main_title || "Misyon & Vizyon" %></h2>
+                <p><%= settings.about_mv_main_desc || "Değerlerimiz ve hedeflerimiz doğrultusunda, sektörde fark yaratan bir firma olmaya devam ediyoruz." %></p>
+            </div>
+
+            <div class="services__grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+                <!-- Misyon Card -->
+                <div class="service-card animate-on-scroll animate-delay-1">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.about_mission_icon, 'fa-bullseye') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.about_mission_title %></h3>
+                    <p class="service-card__text">
+                        <%= settings.about_mission_desc || "" %>
+                    </p>
+                </div>
+
+                <!-- Vizyon Card -->
+                <div class="service-card animate-on-scroll animate-delay-2">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.about_vision_icon, 'fa-eye') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.about_vision_title %></h3>
+                    <p class="service-card__text">
+                        <%= settings.about_vision_desc || "" %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         NEDEN BİZ SECTION
+         ============================================ -->
+    <section class="section" id="why-us">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2><%= settings.about_why_title || "Neden Ak Füzyon?" %></h2>
+                <p><%= settings.about_why_desc || "Bizi tercih etmeniz için birçok neden var. İşte fark yaratan özelliklerimiz." %></p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div class="service-card animate-on-scroll animate-delay-1">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.about_why_1_icon, 'fa-award') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.about_why_1_title || "Bölgede Öncü" %></h3>
+                    <p class="service-card__text"><%= settings.about_why_1_desc || "Malatya ve çevre illerde elektrofüzyon kaynak hizmeti sunan ilk ve tek firma olarak sektöre yön veriyoruz." %></p>
+                </div>
+
+                <div class="service-card animate-on-scroll animate-delay-2">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.about_why_2_icon, 'fa-gears') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.about_why_2_title || "Modern Ekipman" %></h3>
+                    <p class="service-card__text"><%= settings.about_why_2_desc || "Uluslararası standartlara uygun, son teknoloji elektrofüzyon ve alın kaynak makineleriyle çalışıyoruz." %></p>
+                </div>
+
+                <div class="service-card animate-on-scroll animate-delay-3">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.about_why_3_icon, 'fa-user-graduate') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.about_why_3_title || "Eğitimli Personel" %></h3>
+                    <p class="service-card__text"><%= settings.about_why_3_desc || "Tüm teknik kadromuz düzenli olarak eğitim programlarına katılarak bilgi ve becerilerini güncel tutmaktadır." %></p>
+                </div>
+
+                <div class="service-card animate-on-scroll animate-delay-4">
+                    <div class="service-card__icon">
+                        <i class="<%- renderIconClass(settings.about_why_4_icon, 'fa-handshake') %>"></i>
+                    </div>
+                    <h3 class="service-card__title"><%= settings.about_why_4_title || "Müşteri Odaklı" %></h3>
+                    <p class="service-card__text"><%= settings.about_why_4_desc || "Her projeyi müşterimizin ihtiyaçlarına özel olarak planlıyor, şeffaf iletişim ve zamanında teslimat sağlıyoruz." %></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         STATS COUNTER SECTION
+         ============================================ -->
+    <section class="cta-banner" id="stats-section" <% if (settings.home_cta_bg) { %>style="background-image: url('<%= settings.home_cta_bg %>');"<% } %>>
+        <div class="cta-banner__overlay"></div>
+        <div class="container">
+            <div class="stats animate-on-scroll animate-scale">
+                <div class="stat-item">
+                    <div class="stat-item__number" data-target="<%= (settings.about_stat_1_num || '150+').replace(/[^0-9]/g, '') %>"><%= settings.about_stat_1_num || "150+" %></div>
+                    <div class="stat-item__label"><%= settings.about_stat_1_text || "Mutlu Müşteri" %></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item__number" data-target="<%= (settings.about_stat_2_num || '300+').replace(/[^0-9]/g, '') %>"><%= settings.about_stat_2_num || "300+" %></div>
+                    <div class="stat-item__label"><%= settings.about_stat_2_text || "Tamamlanan Proje" %></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item__number" data-target="<%= (settings.about_stat_3_num || '15+').replace(/[^0-9]/g, '') %>"><%= settings.about_stat_3_num || "15+" %></div>
+                    <div class="stat-item__label"><%= settings.about_stat_3_text || "Uzman Kadro" %></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item__number" data-target="<%= (settings.about_stat_4_num || '5+').replace(/[^0-9]/g, '') %>"><%= settings.about_stat_4_num || "5+" %></div>
+                    <div class="stat-item__label"><%= settings.about_stat_4_text || "Yıllık Tecrübe" %></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <%- include('partials/footer') %>
+
+
