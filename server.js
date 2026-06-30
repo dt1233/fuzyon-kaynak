@@ -325,7 +325,12 @@ app.get('/:slug', (req, res, next) => {
     }
     if (slug === slugs.references) {
         if (res.locals.settings && res.locals.settings.page_references_active === 'false') return res.redirect('/');
-        return res.render('referanslar', { page: 'referanslar' });
+        db.all("SELECT * FROM references_table ORDER BY created_at DESC", (err, references) => {
+            db.all("SELECT * FROM certificates ORDER BY created_at DESC", (err2, certificates) => {
+                return res.render('referanslar', { page: 'referanslar', references: references || [], certificates: certificates || [] });
+            });
+        });
+        return;
     }
     if (slug === slugs.contact) {
         if (res.locals.settings && res.locals.settings.page_contact_active === 'false') return res.redirect('/');
@@ -681,7 +686,57 @@ app.post('/admin/gallery/delete/:id', (req, res) => {
     });
 });
 
+
+// Admin References
+app.get('/admin/references', (req, res) => {
+    db.all("SELECT * FROM references_table ORDER BY created_at DESC", (err, references) => {
+        res.render('admin/references', { active: 'references', references: references || [] });
+    });
+});
+
+app.post('/admin/references/add', upload.array('images', 20), (req, res) => {
+    if (req.files && req.files.length > 0) {
+        const stmt = db.prepare("INSERT INTO references_table (image_url, title) VALUES (?, ?)");
+        req.files.forEach(file => {
+            stmt.run(file.url, req.body.title || '');
+        });
+        stmt.finalize();
+    }
+    res.redirect('/admin/references');
+});
+
+app.post('/admin/references/delete/:id', (req, res) => {
+    db.run("DELETE FROM references_table WHERE id = ?", [req.params.id], (err) => {
+        res.redirect('/admin/references');
+    });
+});
+
+// Admin Certificates
+app.get('/admin/certificates', (req, res) => {
+    db.all("SELECT * FROM certificates ORDER BY created_at DESC", (err, certificates) => {
+        res.render('admin/certificates', { active: 'certificates', certificates: certificates || [] });
+    });
+});
+
+app.post('/admin/certificates/add', upload.array('images', 20), (req, res) => {
+    if (req.files && req.files.length > 0) {
+        const stmt = db.prepare("INSERT INTO certificates (image_url, title) VALUES (?, ?)");
+        req.files.forEach(file => {
+            stmt.run(file.url, req.body.title || '');
+        });
+        stmt.finalize();
+    }
+    res.redirect('/admin/certificates');
+});
+
+app.post('/admin/certificates/delete/:id', (req, res) => {
+    db.run("DELETE FROM certificates WHERE id = ?", [req.params.id], (err) => {
+        res.redirect('/admin/certificates');
+    });
+});
+
 // Admin Blogs
+
 app.get('/admin/blogs', (req, res) => {
     db.all("SELECT * FROM blogs ORDER BY created_at DESC", (err, blogs) => {
         res.render('admin/blogs', { active: 'blogs', blogs: blogs || [] });

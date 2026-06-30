@@ -10,78 +10,6 @@
         <div class="form-group" style="margin: 0;"><label>Açıklama Metni</label><textarea name="references_page_desc" rows="3"><%= settings.references_page_desc || "Ak Füzyon olarak, Malatya'nın ilk ve tek elektrofüzyon kaynak hizmeti firması olmanın sorumluluğuyla her projemizde en yüksek kaliteyi sunuyoruz. Bölgemizde büyüyen referans portföyümüzle, sektörde güvenilir bir marka olmaya devam ediyoruz." %></textarea></div>
     </div>
 
-    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Hizmet Verdiğimiz Alanlar Bölümü</h3>
-    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 15px;">
-        <div class="form-group" style="margin: 0;"><label>Bölüm Ana Başlığı</label><input type="text" name="ref_grid_title" value="<%= settings.ref_grid_title || 'Hizmet Verdiğimiz Alanlar' %>"></div>
-        <div class="form-group" style="margin: 0;"><label>Bölüm Açıklaması</label><textarea name="ref_grid_desc" rows="2"><%= settings.ref_grid_desc || "Farklı sektör ve proje türlerinde elektrofüzyon kaynak çözümlerimizle güçlü iş birlikleri kuruyoruz." %></textarea></div>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 1 Başlık</label>
-            <input type="text" name="ref_card_1_title" value="<%= settings.ref_card_1_title || 'Belediye Projeleri' %>">
-            <label style="margin-top: 10px;">Sektör 1 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_1_icon', currentVal: settings.ref_card_1_icon, defaultIcon: 'fa-building-columns'}) %>
-            <label style="margin-top: 10px;">Sektör 1 Açıklama</label>
-            <textarea name="ref_card_1_desc" rows="2"><%= settings.ref_card_1_desc || 'Sektör 1 açıklaması.' %></textarea>
-        </div>
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 2 Başlık</label>
-            <input type="text" name="ref_card_2_title" value="<%= settings.ref_card_2_title || 'İnşaat Firmaları' %>">
-            <label style="margin-top: 10px;">Sektör 2 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_2_icon', currentVal: settings.ref_card_2_icon, defaultIcon: 'fa-helmet-safety'}) %>
-            <label style="margin-top: 10px;">Sektör 2 Açıklama</label>
-            <textarea name="ref_card_2_desc" rows="2"><%= settings.ref_card_2_desc || 'Sektör 2 açıklaması.' %></textarea>
-        </div>
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 3 Başlık</label>
-            <input type="text" name="ref_card_3_title" value="<%= settings.ref_card_3_title || 'Endüstriyel Tesisler' %>">
-            <label style="margin-top: 10px;">Sektör 3 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_3_icon', currentVal: settings.ref_card_3_icon, defaultIcon: 'fa-industry'}) %>
-            <label style="margin-top: 10px;">Sektör 3 Açıklama</label>
-            <textarea name="ref_card_3_desc" rows="2"><%= settings.ref_card_3_desc || 'Sektör 3 açıklaması.' %></textarea>
-        </div>
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 4 Başlık</label>
-            <input type="text" name="ref_card_4_title" value="<%= settings.ref_card_4_title || 'Tarım Projeleri' %>">
-            <label style="margin-top: 10px;">Sektör 4 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_4_icon', currentVal: settings.ref_card_4_icon, defaultIcon: 'fa-seedling'}) %>
-            <label style="margin-top: 10px;">Sektör 4 Açıklama</label>
-            <textarea name="ref_card_4_desc" rows="2"><%= settings.ref_card_4_desc || 'Sektör 4 açıklaması.' %></textarea>
-        </div>
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 5 Başlık</label>
-            <input type="text" name="ref_card_5_title" value="<%= settings.ref_card_5_title || 'Su İdareleri' %>">
-            <label style="margin-top: 10px;">Sektör 5 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_5_icon', currentVal: settings.ref_card_5_icon, defaultIcon: 'fa-droplet'}) %>
-            <label style="margin-top: 10px;">Sektör 5 Açıklama</label>
-            <textarea name="ref_card_5_desc" rows="2"><%= settings.ref_card_5_desc || 'Sektör 5 açıklaması.' %></textarea>
-        </div>
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 6 Başlık</label>
-            <input type="text" name="ref_card_6_title" value="<%= settings.ref_card_6_title || 'Doğalgaz Altyapısı' %>">
-            <label style="margin-top: 10px;">Sektör 6 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_6_icon', currentVal: settings.ref_card_6_icon, defaultIcon: 'fa-fire-flame-simple'}) %>
-            <label style="margin-top: 10px;">Sektör 6 Açıklama</label>
-            <textarea name="ref_card_6_desc" rows="2"><%= settings.ref_card_6_desc || 'Sektör 6 açıklaması.' %></textarea>
-        </div>
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 7 Başlık</label>
-            <input type="text" name="ref_card_7_title" value="<%= settings.ref_card_7_title || 'Maden ve Enerji' %>">
-            <label style="margin-top: 10px;">Sektör 7 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_7_icon', currentVal: settings.ref_card_7_icon, defaultIcon: 'fa-mountain-sun'}) %>
-            <label style="margin-top: 10px;">Sektör 7 Açıklama</label>
-            <textarea name="ref_card_7_desc" rows="2"><%= settings.ref_card_7_desc || 'Sektör 7 açıklaması.' %></textarea>
-        </div>
-        <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Sektör 8 Başlık</label>
-            <input type="text" name="ref_card_8_title" value="<%= settings.ref_card_8_title || 'Altyapı Müteahhitleri' %>">
-            <label style="margin-top: 10px;">Sektör 8 İkonu</label>
-            <%- include('icon_selector', {name: 'ref_card_8_icon', currentVal: settings.ref_card_8_icon, defaultIcon: 'fa-road'}) %>
-            <label style="margin-top: 10px;">Sektör 8 Açıklama</label>
-            <textarea name="ref_card_8_desc" rows="2"><%= settings.ref_card_8_desc || 'Sektör 8 açıklaması.' %></textarea>
-        </div>
-    </div>
-
     <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Neden Biz Bölümü</h3>
     <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px;">
         <div class="form-group" style="margin: 0;"><label>Küçük Üst Başlık</label><input type="text" name="ref_why_subtitle" value="<%= settings.ref_why_subtitle || 'Neden Biz?' %>"></div>
@@ -92,26 +20,6 @@
             <label>Özellikler (Virgülle Ayırın)</label>
             <input type="text" name="ref_cta_features" value="<%= settings.ref_cta_features || 'Zamanında Proje Teslimi,Sertifikalı Ekipman,Uzman Teknik Kadro,Rekabetçi Fiyatlandırma' %>">
         </div>
-    </div>
-
-    <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Referans Logoları / İsimleri (6 Adet)</h3>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px;">
-        <% for(let i=1; i<=6; i++) { 
-            let logoUrl = settings['ref_logo_' + i] || ('Referans ' + i);
-        %>
-        <div class="form-group" style="margin: 0; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 8px;">
-            <label>Referans <%= i %></label>
-            <% if (logoUrl.startsWith('/') || logoUrl.startsWith('http')) { %>
-                <div style="margin-bottom: 10px; padding: 10px; background: white; border-radius: 4px; text-align: center; border: 1px solid #eee;">
-                    <img src="<%= logoUrl %>" alt="Referans <%= i %>" style="max-height: 50px; max-width: 100%; object-fit: contain;">
-                </div>
-            <% } %>
-            <input type="hidden" name="existing_ref_logo_<%= i %>" value="<%= logoUrl %>">
-            <input type="text" name="ref_logo_<%= i %>" value="<%= !(logoUrl.startsWith('/') || logoUrl.startsWith('http')) ? logoUrl : '' %>" placeholder="Metin girebilirsiniz...">
-            <small style="display: block; margin: 10px 0 5px 0; color: #888;">Veya Logo Yükleyin (Yüklenirse metin yoksayılır):</small>
-            <input type="file" name="ref_logo_<%= i %>" accept="image/*">
-        </div>
-        <% } %>
     </div>
 
     <h3 style="margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); color: var(--accent);">Sayfa Sonu CTA (Çağrı) Alanı</h3>

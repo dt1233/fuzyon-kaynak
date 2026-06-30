@@ -1,132 +1,22 @@
+
 <%- include('partials/header') %>
+<%- include('partials/hero', { 
+    title: settings.page_references_title || "Referanslar", 
+    subtitle: "BİZ KİMİZ?", 
+    bgImage: settings.page_references_bg || "/images/hero-slide-3.png" 
+}) %>
 
     <!-- ============================================
-         PAGE BANNER
-         ============================================ -->
-    <section class="page-banner">
-        <div class="page-banner__overlay"></div>
-        <div class="container">
-            <h1 class="page-banner__title"><%= typeof settings !== 'undefined' && settings.nav_references ? settings.nav_references : 'Referanslar' %></h1>
-            <div class="page-banner__breadcrumb">
-                <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
-                <i class="fa-solid fa-chevron-right"></i>
-                <span><%= typeof settings !== 'undefined' && settings.nav_references ? settings.nav_references : 'Referanslar' %></span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         REFERENCES INTRO SECTION
-         ============================================ -->
-    <section class="section" id="references-intro">
-        <div class="container">
-            <div class="section-header animate-on-scroll">
-                <h2><%= settings.references_page_title || "Güvenilir Çözüm Ortaklıkları" %></h2>
-                <p>
-                    <%= settings.references_page_desc || "Ak Füzyon olarak, Malatya'nın ilk ve tek elektrofüzyon kaynak hizmeti firması olmanın sorumluluğuyla her projemizde en yüksek kaliteyi sunuyoruz. Bölgemizde büyüyen referans portföyümüzle, sektörde güvenilir bir marka olmaya devam ediyoruz." %>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         REFERENCE CARDS GRID
-         ============================================ -->
-    <section class="section section--alt" id="references-grid">
-        <div class="container">
-            <div class="section-header animate-on-scroll">
-                <h2><%= settings.ref_grid_title || "Hizmet Verdiğimiz Alanlar" %></h2>
-                <p><%= settings.ref_grid_desc || "Farklı sektör ve proje türlerinde elektrofüzyon kaynak çözümlerimizle güçlü iş birlikleri kuruyoruz." %></p>
-            </div>
-
-            <div class="services__grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem;">
-
-                <!-- Card 1 - Belediye Projeleri -->
-                <div class="service-card animate-on-scroll animate-delay-1">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_1_icon, 'fa-building-columns') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_1_title || "Sektör 1" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_1_desc || "Sektör 1 açıklaması" %></p>
-                </div>
-
-                <!-- Card 2 - İnşaat Firmaları -->
-                <div class="service-card animate-on-scroll animate-delay-2">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_2_icon, 'fa-helmet-safety') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_2_title || "Sektör 2" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_2_desc || "Sektör 2 açıklaması" %></p>
-                </div>
-
-                <!-- Card 3 - Endüstriyel Tesisler -->
-                <div class="service-card animate-on-scroll animate-delay-3">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_3_icon, 'fa-industry') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_3_title || "Sektör 3" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_3_desc || "Sektör 3 açıklaması" %></p>
-                </div>
-
-                <!-- Card 4 - Tarım Projeleri -->
-                <div class="service-card animate-on-scroll animate-delay-4">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_4_icon, 'fa-seedling') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_4_title || "Sektör 4" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_4_desc || "Sektör 4 açıklaması" %></p>
-                </div>
-
-                <!-- Card 5 - Su İdareleri -->
-                <div class="service-card animate-on-scroll animate-delay-1">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_5_icon, 'fa-droplet') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_5_title || "Sektör 5" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_5_desc || "Sektör 5 açıklaması" %></p>
-                </div>
-
-                <!-- Card 6 - Doğalgaz Altyapısı -->
-                <div class="service-card animate-on-scroll animate-delay-2">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_6_icon, 'fa-fire-flame-simple') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_6_title || "Sektör 6" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_6_desc || "Sektör 6 açıklaması" %></p>
-                </div>
-
-                <!-- Card 7 - Maden ve Enerji -->
-                <div class="service-card animate-on-scroll animate-delay-3">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_7_icon, 'fa-mountain-sun') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_7_title || "Sektör 7" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_7_desc || "Sektör 7 açıklaması" %></p>
-                </div>
-
-                <!-- Card 8 - Altyapı Müteahhitleri -->
-                <div class="service-card animate-on-scroll animate-delay-4">
-                    <div class="service-card__icon">
-                        <i class="<%- renderIconClass(settings.ref_card_8_icon, 'fa-road') %>"></i>
-                    </div>
-                    <h3 class="service-card__title"><%= settings.ref_card_8_title || "Sektör 8" %></h3>
-                    <p class="service-card__text"><%= settings.ref_card_8_desc || "Sektör 8 açıklaması" %></p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         WHY CHOOSE US SECTION
+         WHY CHOOSE US SECTION (EXPLANATORY TEXT)
          ============================================ -->
     <section class="section" id="references-why">
         <div class="container">
-            <div class="references__grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
-                <div class="animate-on-scroll animate-left">
-                    <div class="about__subtitle">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto; padding-bottom: 2rem;">
+                <div class="animate-on-scroll animate-scale">
+                    <div class="about__subtitle" style="justify-content: center;">
                         <i class="fa-solid fa-minus"></i>
                         <%= settings.ref_why_subtitle || "Neden Biz?" %>
+                        <i class="fa-solid fa-minus"></i>
                     </div>
                     <h2 class="about__title"><%= settings.ref_cta_title || "Referans Portföyümüzü Birlikte Büyütelim" %></h2>
                     <p class="references__text">
@@ -136,7 +26,7 @@
                         <%= settings.ref_why_desc2 || "Her projede uluslararası standartlara uygun ekipman ve tekniklerle çalışıyor, sızıntısız ve uzun ömürlü boru birleştirme garantisi sunuyoruz. Referans portföyümüz her geçen gün büyümektedir." %>
                     </p>
 
-                    <div class="about__highlights" style="margin-top: 2rem;">
+                    <div class="about__highlights" style="margin-top: 2rem; justify-content: center; display: flex; flex-wrap: wrap; gap: 15px;">
                         <% 
                         let featuresStr = settings.ref_cta_features || 'Zamanında Proje Teslimi,Sertifikalı Ekipman,Uzman Teknik Kadro,Rekabetçi Fiyatlandırma';
                         let featuresArr = featuresStr.split(',');
@@ -150,30 +40,68 @@
                         <% }}); %>
                     </div>
                 </div>
-
-                <div class="animate-on-scroll animate-right">
-                    <div class="references__logos">
-                        <% for(let i=1; i<=6; i++) { 
-                            let refLogo = settings['ref_logo_' + i] || ('Referans ' + i);
-                        %>
-                            <% if (refLogo.startsWith('/') || refLogo.startsWith('http')) { %>
-                                <div class="reference-logo" style="padding: 10px;">
-                                    <img src="<%= refLogo %>" alt="Referans <%= i %>" style="max-width: 100%; max-height: 80px; object-fit: contain;">
-                                </div>
-                            <% } else { %>
-                                <div class="reference-logo"><%= refLogo %></div>
-                            <% } %>
-                        <% } %>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- ============================================
-         CTA SECTION
+         REFERENCES GRID
          ============================================ -->
-    <section class="cta-banner" id="cta-banner" <% if (settings.home_hero_bg_2) { %>style="background-image: url('<%= settings.home_hero_bg_2 %>');"<% } %>>
+    <section class="section bg-light" id="references-grid">
+        <div class="container">
+            <div class="section-header text-center animate-on-scroll">
+                <h2 class="section-title">Çözüm Ortaklarımız</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="references__grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px; margin-top: 40px;">
+                <% if(references && references.length > 0) { %>
+                    <% references.forEach((ref, index) => { %>
+                        <div class="reference-logo animate-on-scroll animate-delay-<%= (index % 4) + 1 %>" style="background: white; padding: 20px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); aspect-ratio: 1; border: 1px solid rgba(0,0,0,0.05);">
+                            <img src="<%= ref.image_url %>" alt="<%= ref.title %>" style="max-width: 100%; max-height: 100px; object-fit: contain; filter: grayscale(100%) opacity(0.7); transition: all 0.3s ease;" onmouseover="this.style.filter='grayscale(0) opacity(1)'" onmouseout="this.style.filter='grayscale(100%) opacity(0.7)'">
+                            <% if (ref.title) { %>
+                                <div style="margin-top: 15px; font-weight: bold; font-size: 0.9rem; color: var(--text-color); text-align: center;"><%= ref.title %></div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p style="text-align: center; grid-column: 1 / -1;">Henüz referans eklenmemiş.</p>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CERTIFICATES GRID
+         ============================================ -->
+    <section class="section" id="certificates-grid">
+        <div class="container">
+            <div class="section-header text-center animate-on-scroll">
+                <h2 class="section-title">Belge ve Sertifikalarımız</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="certificates__grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+                <% if(certificates && certificates.length > 0) { %>
+                    <% certificates.forEach((cert, index) => { %>
+                        <div class="certificate-card animate-on-scroll animate-delay-<%= (index % 4) + 1 %>" style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align: center; border: 1px solid rgba(0,0,0,0.05);">
+                            <img src="<%= cert.image_url %>" alt="<%= cert.title %>" style="width: 100%; height: auto; border-radius: 4px; border: 1px solid #eee;">
+                            <% if (cert.title) { %>
+                                <div style="margin-top: 15px; font-weight: bold; font-size: 1rem; color: var(--primary);"><%= cert.title %></div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p style="text-align: center; grid-column: 1 / -1;">Henüz belge/sertifika eklenmemiş.</p>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA BANNER (PARALLAX)
+         ============================================ -->
+<section class="cta-banner" id="cta-banner" <% if (settings.home_hero_bg_2) { %>style="background-image: url('<%= settings.home_hero_bg_2 %>');"<% } %>>
         <div class="cta-banner__overlay"></div>
         <div class="container">
             <div class="cta-banner__content animate-on-scroll animate-scale">
