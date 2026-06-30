@@ -83,7 +83,7 @@ const uploadToBlob = async (req, res, next) => {
         next();
     } catch (err) {
         console.error("Blob upload error:", err);
-        next(err);
+        res.status(500).send(`<h2>Görsel Yükleme Hatası (Vercel Blob)</h2><p>Hata Detayı: <b>${err.message}</b></p><p>Çözüm: Vercel panelinizde <b>Storage > Blob</b> oluşturduğunuzdan ve <b>BLOB_READ_WRITE_TOKEN</b> anahtarının Environment Variables kısmında olduğundan emin olun. Ayarı yaptıktan sonra sitenizi Vercel'den <b>Redeploy</b> (Yeniden Kur) yapmanız gerekir.</p><br><a href="javascript:history.back()">Geri Dön</a>`);
     }
 };
 
