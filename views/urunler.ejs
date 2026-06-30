@@ -19,10 +19,10 @@
 
 <section class="section" style="padding-top: 60px;">
     <div class="container">
-        <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+        <div class="products-layout">
             
             <!-- Sidebar: Categories -->
-            <aside style="flex: 0 0 280px; max-width: 100%; border-right: 1px solid var(--border-color); padding-right: 20px;">
+            <aside class="products-sidebar">
                 <ul style="list-style: none; padding: 0;">
                     <li style="margin-bottom: 10px;">
                         <a href="/<%= slugs.products %>" style="display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 1.05rem; padding: 10px 0; color: <%= !activeCategory ? 'var(--accent)' : 'var(--text-primary)' %>; transition: var(--transition);">
@@ -40,7 +40,7 @@
             </aside>
 
             <!-- Main Content: Products Grid -->
-            <div style="flex: 1; min-width: 300px;">
+            <div class="products-main">
                 <div class="ref-cards-grid">
                     <% products.forEach(p => { %>
                         <a href="/<%= slugs.products %>/<%= p.slug %>" class="service-card" style="text-align: center; padding: 30px; display: block; text-decoration: none;">
