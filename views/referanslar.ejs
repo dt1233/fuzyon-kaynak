@@ -1,11 +1,19 @@
 
 <%- include('partials/header') %>
-<%- include('partials/hero', { 
-    title: settings.page_references_title || "Referanslar", 
-    subtitle: "BİZ KİMİZ?", 
-    bgImage: settings.page_references_bg || "/images/hero-slide-3.png" 
-}) %>
-
+    <!-- ============================================
+         PAGE BANNER
+         ============================================ -->
+    <section class="page-banner">
+        <div class="page-banner__overlay"></div>
+        <div class="container">
+            <h1 class="page-banner__title"><%= typeof settings !== 'undefined' && settings.page_references_title ? settings.page_references_title : 'Referanslar' %></h1>
+            <div class="page-banner__breadcrumb">
+                <a href="/"><%= typeof settings !== 'undefined' && settings.nav_home ? settings.nav_home : 'Ana Sayfa' %></a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span><%= typeof settings !== 'undefined' && settings.nav_references ? settings.nav_references : 'Referanslar' %></span>
+            </div>
+        </div>
+    </section>
     <!-- ============================================
          WHY CHOOSE US SECTION (EXPLANATORY TEXT)
          ============================================ -->
