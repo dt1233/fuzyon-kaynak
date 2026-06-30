@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const db = require('./db');
@@ -46,12 +46,11 @@ app.locals.renderIconClass = function(iconStr, defaultIcon) {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Session setup for Admin Panel
-app.use(session({
-    secret: 'akfuzyon_secret_key_123',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 } // 1 day
+// Session setup for Admin Panel (Serverless uyumlu)
+app.use(cookieSession({
+    name: 'session',
+    keys: ['akfuzyon_secret_key_123'],
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
 }));
 
 // Multer setup for image uploads
@@ -549,7 +548,7 @@ app.post('/admin/messages/delete/:id', (req, res) => {
 });
 
 app.get('/admin/logout', (req, res) => {
-    req.session.destroy();
+    req.session = null;
     res.redirect('/admin/login');
 });
 
