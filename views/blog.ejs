@@ -16,17 +16,17 @@
     </section>
 
 <!-- Blog List -->
-<section class="section" style="background: #f8f9fa;">
+<section class="section" style="background: var(--bg-secondary);">
     <div class="container">
         <% if (blogs && blogs.length > 0) { %>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
                 <% blogs.forEach(blog => { %>
-                    <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;" class="blog-card hover-lift">
-                        <a href="/<%= slugs.blog || 'blog' %>/<%= blog.slug %>" style="display: block; aspect-ratio: 16/9; overflow: hidden; background: #eee;">
+                    <article style="background: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;" class="blog-card hover-lift">
+                        <a href="/<%= slugs.blog || 'blog' %>/<%= blog.slug %>" style="display: block; aspect-ratio: 16/9; overflow: hidden; background: var(--bg-secondary);">
                             <% if (blog.image_url) { %>
                                 <img src="<%= blog.image_url %>" alt="<%= blog.title %>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="blog-img">
                             <% } else { %>
-                                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #e0e0e0; color: #888;">
+                                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); color: var(--text-secondary);">
                                     <i class="fa-solid fa-image" style="font-size: 3rem;"></i>
                                 </div>
                             <% } %>
@@ -56,7 +56,7 @@
                 <% }) %>
             </div>
         <% } else { %>
-            <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div style="text-align: center; padding: 60px 20px; background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                 <i class="fa-solid fa-newspaper" style="font-size: 4rem; color: #ddd; margin-bottom: 20px;"></i>
                 <h2 style="color: var(--primary); margin-bottom: 10px;">Henüz İçerik Bulunmuyor</h2>
                 <p style="color: var(--text-secondary);">Blog ve haberler sayfamız yapım aşamasındadır. En kısa sürede güncel içerikler eklenecektir.</p>

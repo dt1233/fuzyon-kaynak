@@ -106,10 +106,10 @@
             <!-- Messages -->
             <div id="chatbot-messages" style="flex: 1; padding: 20px; overflow-y: auto; background: var(--bg-secondary); display: flex; flex-direction: column; gap: 15px;">
                 <div style="display: flex; gap: 10px; max-width: 85%;">
-                    <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
+                    <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-primary); font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
                         <i class="fa-solid fa-robot"></i>
                     </div>
-                    <div style="background: white; padding: 12px 15px; border-radius: 0 12px 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); color: var(--text-primary);">
+                    <div style="background: var(--bg-primary); padding: 12px 15px; border-radius: 0 12px 12px 12px; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); color: var(--text-primary);">
                         Merhaba! Size nasıl yardımcı olabilirim?
                     </div>
                 </div>
@@ -153,7 +153,6 @@
                         chatWindow.style.opacity = '1';
                     }, 10);
                     toggleBtn.style.transform = 'scale(0)';
-                    chatInput.focus();
                 } else {
                     chatWindow.style.transform = 'scale(0)';
                     chatWindow.style.opacity = '0';
@@ -208,7 +207,7 @@
                     <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; flex-shrink: 0; margin-top: 5px;">
                         <i class="fa-solid fa-robot"></i>
                     </div>
-                    <div style="background: white; padding: 12px 15px; border-radius: 0 12px 12px 12px; display: flex; gap: 5px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div style="background: var(--bg-secondary); padding: 12px 15px; border-radius: 0 12px 12px 12px; display: flex; gap: 5px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                         <span style="width: 6px; height: 6px; background: #ccc; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both;"></span>
                         <span style="width: 6px; height: 6px; background: #ccc; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both; animation-delay: 0.2s;"></span>
                         <span style="width: 6px; height: 6px; background: #ccc; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both; animation-delay: 0.4s;"></span>
