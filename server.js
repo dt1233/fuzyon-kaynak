@@ -507,9 +507,7 @@ app.post('/admin/chatbot/delete/:id', (req, res) => {
 
 app.post('/admin/chatbot/toggle', (req, res) => {
     const { status } = req.body;
-    db.run("UPDATE settings SET value = ? WHERE key = 'chatbot_active'", [status], (err) => {
-        // Also update res.locals.settings
-        const reqObj = req; // Just to use app.locals if possible, but let's just let middleware handle it next time
+    db.run("INSERT OR REPLACE INTO settings (key, value) VALUES ('chatbot_active', ?)", [status], (err) => {
         res.json({ success: !err });
     });
 });

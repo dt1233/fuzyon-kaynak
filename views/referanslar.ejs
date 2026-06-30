@@ -82,6 +82,7 @@
     <!-- ============================================
          CERTIFICATES GRID
          ============================================ -->
+    <% if(certificates && certificates.length > 0) { %>
     <section class="section" id="certificates-grid">
         <div class="container">
             <div class="section-header text-center animate-on-scroll">
@@ -98,13 +99,10 @@
                                 <div style="margin-top: 15px; font-weight: bold; font-size: 1rem; color: var(--primary);"><%= cert.title %></div>
                             <% } %>
                         </div>
-                    <% }); %>
-                <% } else { %>
-                    <p style="text-align: center; grid-column: 1 / -1;">Henüz belge/sertifika eklenmemiş.</p>
-                <% } %>
             </div>
         </div>
     </section>
+    <% } %>
 
     <!-- ============================================
          CTA BANNER (PARALLAX)
