@@ -208,7 +208,12 @@ app.post('/api/chatbot/ask', (req, res) => {
     genericResponses.forEach(gr => {
         gr.keywords.forEach(kw => {
             const words = kw.split(' ').filter(w => w);
-            if (words.length > 0 && words.every(w => userMessage.includes(normalizeStr(w)))) {
+            const userWords = userMessage.split(/[\s,.'?!]+/).filter(x => x);
+            
+            if (words.length > 0 && words.every(w => {
+                const nw = normalizeStr(w);
+                return userWords.some(uw => nw.length >= 3 ? uw.includes(nw) : uw === nw);
+            })) {
                 if (words.length > maxGenericScore) {
                     maxGenericScore = words.length;
                     bestGenericMatch = gr.answer;
@@ -234,7 +239,13 @@ app.post('/api/chatbot/ask', (req, res) => {
             let bestPhraseScore = 0;
             keywordPhrases.forEach(phrase => {
                 const words = phrase.split(' ').filter(w => w);
-                if (words.length > 0 && words.every(w => userMessage.includes(normalizeStr(w)))) {
+                const userWords = userMessage.split(/[\s,.'?!]+/).filter(x => x);
+                
+                if (words.length > 0 && words.every(w => {
+                    const nw = normalizeStr(w);
+                    // 3 karakterden uzunsa kelime icinde gecmesine izin ver (Turkce ekler icin), kisaysa tam eslesme ara
+                    return userWords.some(uw => nw.length >= 3 ? uw.includes(nw) : uw === nw);
+                })) {
                     if (words.length > bestPhraseScore) {
                         bestPhraseScore = words.length;
                     }
