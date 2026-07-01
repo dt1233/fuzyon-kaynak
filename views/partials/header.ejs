@@ -323,9 +323,9 @@ if (typeof renderIconClass === 'undefined') {
                         <path d="M42 4 V46 H52 V30 L68 46 H82 L62 25 L78 4 H64 L52 18 V4 H42 Z" fill="url(#ak-grad)" style="transition: fill 0.3s ease;"/>
                     </g>
                 </svg>
-                <div style="display: flex; flex-direction: column;">
-                    <span class="logo__text"><%= typeof settings !== 'undefined' && settings.header_logo_text ? settings.header_logo_text : 'Ak Füzyon' %></span>
-                    <span class="logo__tagline"><%= typeof settings !== 'undefined' && settings.header_logo_tagline ? settings.header_logo_tagline : 'Elektrofüzyon Kaynak' %></span>
+                <div class="logo__text" style="justify-content: center;">
+                    <span class="logo__name" style="font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1;"><%= typeof settings !== 'undefined' && settings.header_logo_text ? settings.header_logo_text : 'Ak Füzyon' %></span>
+                    <span class="logo__tagline" style="margin-top: 2px;"><%= typeof settings !== 'undefined' && settings.header_logo_tagline ? settings.header_logo_tagline : 'Elektrofüzyon Kaynak' %></span>
                 </div>
             </a>
             
