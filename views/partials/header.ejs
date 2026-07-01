@@ -302,8 +302,18 @@ if (typeof renderIconClass === 'undefined') {
     <header class="header" id="header">
         <div class="container">
             <a href="/" class="logo">
-                <span class="logo__text"><%= typeof settings !== 'undefined' && settings.header_logo_text ? settings.header_logo_text : 'Ak Füzyon' %></span>
-                <span class="logo__tagline"><%= typeof settings !== 'undefined' && settings.header_logo_tagline ? settings.header_logo_tagline : 'Elektrofüzyon Kaynak' %></span>
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                    <!-- Sol Boru (Ana Metin Rengiyle Dinamik) -->
+                    <path d="M4 26 V14 C4 11.79 5.79 10 8 10 H20" stroke="var(--text-main, #333)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
+                    <!-- Sağ Boru (Tema Birincil Rengiyle Dinamik) -->
+                    <path d="M36 14 V26 C36 28.21 34.21 30 32 30 H20" stroke="var(--primary, #3498db)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
+                    <!-- Füzyon Noktası (Tema Vurgu Rengiyle Dinamik) -->
+                    <circle cx="20" cy="20" r="5" fill="var(--accent, #f39c12)" style="transition: fill 0.3s ease;"/>
+                </svg>
+                <div style="display: flex; flex-direction: column;">
+                    <span class="logo__text"><%= typeof settings !== 'undefined' && settings.header_logo_text ? settings.header_logo_text : 'Ak Füzyon' %></span>
+                    <span class="logo__tagline"><%= typeof settings !== 'undefined' && settings.header_logo_tagline ? settings.header_logo_tagline : 'Elektrofüzyon Kaynak' %></span>
+                </div>
             </a>
             
             <nav class="nav">
