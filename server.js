@@ -295,7 +295,17 @@ app.post('/api/chatbot/ask', (req, res) => {
             let suggestionResponse = `Bu konuyla ilgili birden fazla kayıt buldum. Lütfen hangisini sormak istediğinizi seçin:<br><ul style="margin-top: 10px; padding-left: 20px;">${optionsHtml}</ul>`;
             res.json({ answer: suggestionResponse });
         } else {
-            res.json({ answer: 'Hmm, bu konuda ne diyeceğimi tam olarak bilemedim 😊 Ben Ak Füzyon\'un yapay zeka asistanı Akay\'ım ve halen öğrenme aşamasındayım. İsterseniz konuyu bildiğim yerlere çekelim; size ürünlerimiz, fiyatlarımız veya hizmetlerimiz hakkında seve seve yardımcı olabilirim. Ne dersiniz?' });
+            let fallbackAnswer = 'Hmm, bu konuda ne diyeceğimi tam olarak bilemedim 😊 Ben Ak Füzyon\'un yapay zeka asistanı Akay\'ım ve halen öğrenme aşamasındayım. İsterseniz konuyu bildiğim yerlere çekelim, örneğin bana şunları sorabilirsiniz:<br>';
+            
+            // 3 rastgele soru seç
+            if (qas && qas.length > 0) {
+                const shuffled = [...qas].sort(() => 0.5 - Math.random());
+                const selected = shuffled.slice(0, 3);
+                let optionsHtml = selected.map(q => `<li>💬 <em>${q.question}</em></li>`).join('');
+                fallbackAnswer += `<ul style="margin-top: 10px; padding-left: 20px; list-style: none;">${optionsHtml}</ul>`;
+            }
+            
+            res.json({ answer: fallbackAnswer });
         }
     });
 });
