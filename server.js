@@ -170,7 +170,7 @@ app.post('/api/chatbot/ask', (req, res) => {
         },
         {
             keywords: ['sen kimsin', 'kiminlesin', 'adın ne', 'ismin ne', 'robot musun', 'yapay zeka mısın', 'nesin sen', 'insan mısın'],
-            answer: 'Ben Ak Füzyon için özel olarak geliştirilmiş akıllı bir sanal asistanım. İnsan değilim ama size bir insan kadar sıcak ve hızlı destek verebilmek için tasarlandım!'
+            answer: 'Merhaba, ben Ak Füzyon\'un yapay zeka asistanı Akay! İnsan değilim ama size bir insan kadar sıcak ve hızlı destek verebilmek için tasarlandım.'
         },
         {
             keywords: ['teşekkürler', 'sağ ol', 'teşekkür ederim', 'eyvallah', 'harikasın', 'çok iyi', 'süpersin', 'teşekkür'],
