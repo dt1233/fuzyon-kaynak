@@ -295,14 +295,17 @@ app.post('/api/chatbot/ask', (req, res) => {
             let suggestionResponse = `Bu konuyla ilgili birden fazla kayıt buldum. Lütfen hangisini sormak istediğinizi seçin:<br><ul style="margin-top: 10px; padding-left: 20px;">${optionsHtml}</ul>`;
             res.json({ answer: suggestionResponse });
         } else {
-            let fallbackAnswer = 'Hmm, bu konuda ne diyeceğimi tam olarak bilemedim 😊 Ben Ak Füzyon\'un yapay zeka asistanı Akay\'ım ve halen öğrenme aşamasındayım. İsterseniz konuyu bildiğim yerlere çekelim, örneğin bana şunları sorabilirsiniz:<br>';
+            let fallbackAnswer = 'Hmm, bu konuda ne diyeceğimi tam olarak bilemedim 😊 Ben teknik bir asistanım ve halen öğrenme aşamasındayım. İsterseniz konuyu bildiğim yerlere çekelim, örneğin bana şunları sorabilirsiniz:<br>';
             
             // 3 rastgele soru seç
             if (qas && qas.length > 0) {
                 const shuffled = [...qas].sort(() => 0.5 - Math.random());
                 const selected = shuffled.slice(0, 3);
-                let optionsHtml = selected.map(q => `<li>💬 <em>${q.question}</em></li>`).join('');
-                fallbackAnswer += `<ul style="margin-top: 10px; padding-left: 20px; list-style: none;">${optionsHtml}</ul>`;
+                let optionsHtml = selected.map(q => {
+                    const escapedQuestion = q.question.replace(/'/g, "\\'");
+                    return `<li><a href="#" class="chatbot-link" style="display:inline-block; margin-top:5px;" onclick="const input = document.querySelector('.chatbot-input'); if(input){ input.value='${escapedQuestion}'; document.querySelector('.chatbot-form').dispatchEvent(new Event('submit', {cancelable: true, bubbles: true})); } return false;"><i class="fa-solid fa-message" style="margin-right:5px; font-size:0.9em;"></i>${q.question}</a></li>`;
+                }).join('');
+                fallbackAnswer += `<ul style="margin-top: 10px; padding-left: 0; list-style: none;">${optionsHtml}</ul>`;
             }
             
             res.json({ answer: fallbackAnswer });
