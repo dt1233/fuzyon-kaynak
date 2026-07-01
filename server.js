@@ -154,7 +154,7 @@ app.post('/api/chatbot/ask', (req, res) => {
     const genericResponses = [
         {
             keywords: ['merhaba', 'selam', 'hey', 'günaydın', 'iyi günler', 'iyi akşamlar', 'iyi geceler', 'selamlar', 'merhabalar'],
-            answer: 'Merhaba! Ak Füzyon sanal asistanı olarak size yardımcı olmaktan mutluluk duyarım. Size nasıl destek olabilirim?'
+            answer: 'Merhaba! Ben Ak Füzyon\'un yapay zeka asistanı Akay. Size nasıl destek olabilirim?'
         },
         {
             keywords: ['nasılsın', 'napıyorsun', 'ne haber', 'naber', 'nasıl gidiyor', 'hayat nasıl', 'nasılsınız', 'ne yapıyorsun'],
@@ -295,7 +295,7 @@ app.post('/api/chatbot/ask', (req, res) => {
             let suggestionResponse = `Bu konuyla ilgili birden fazla kayıt buldum. Lütfen hangisini sormak istediğinizi seçin:<br><ul style="margin-top: 10px; padding-left: 20px;">${optionsHtml}</ul>`;
             res.json({ answer: suggestionResponse });
         } else {
-            res.json({ answer: 'Hmm, bu konuda ne diyeceğimi tam olarak bilemedim 😊 Ben Ak Füzyon için geliştirilmiş teknik bir sanal asistanım ve halen öğrenme aşamasındayım. İsterseniz konuyu bildiğim yerlere çekelim; size ürünlerimiz, fiyatlarımız veya hizmetlerimiz hakkında seve seve yardımcı olabilirim. Ne dersiniz?' });
+            res.json({ answer: 'Hmm, bu konuda ne diyeceğimi tam olarak bilemedim 😊 Ben Ak Füzyon\'un yapay zeka asistanı Akay\'ım ve halen öğrenme aşamasındayım. İsterseniz konuyu bildiğim yerlere çekelim; size ürünlerimiz, fiyatlarımız veya hizmetlerimiz hakkında seve seve yardımcı olabilirim. Ne dersiniz?' });
         }
     });
 });
