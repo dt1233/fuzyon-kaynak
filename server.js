@@ -225,25 +225,41 @@ app.post('/api/chatbot/ask', (req, res) => {
     db.all("SELECT * FROM chatbot_qa", [], (err, qas) => {
         if (err) return res.status(500).json({ answer: 'Sunucu hatası oluştu.' });
         
-        let bestMatch = null;
+        let matches = [];
         let maxScore = 0;
         
         qas.forEach(qa => {
             const keywordPhrases = qa.keywords.split(',').map(k => k.trim().toLowerCase()).filter(k => k);
             
+            let bestPhraseScore = 0;
             keywordPhrases.forEach(phrase => {
                 const words = phrase.split(' ').filter(w => w);
                 if (words.length > 0 && words.every(w => userMessage.includes(normalizeStr(w)))) {
-                    if (words.length > maxScore) {
-                        maxScore = words.length;
-                        bestMatch = qa.answer;
+                    if (words.length > bestPhraseScore) {
+                        bestPhraseScore = words.length;
                     }
                 }
             });
+            
+            if (bestPhraseScore > 0) {
+                matches.push({ qa, score: bestPhraseScore });
+                if (bestPhraseScore > maxScore) {
+                    maxScore = bestPhraseScore;
+                }
+            }
         });
         
-        if (bestMatch) {
-            res.json({ answer: bestMatch });
+        // Sadece en yüksek puana sahip eşleşmeleri al
+        const topMatches = matches.filter(m => m.score === maxScore);
+        
+        if (topMatches.length === 1) {
+            // Tek kesin eşleşme varsa doğrudan cevabı ver
+            res.json({ answer: topMatches[0].qa.answer });
+        } else if (topMatches.length > 1) {
+            // Birden fazla eşleşme varsa kullanıcıya seçenek sun
+            let optionsHtml = topMatches.map(m => `<li><a href="#" class="chatbot-link" onclick="document.querySelector('.chatbot-input').value='${m.qa.question}'; document.querySelector('.chatbot-form').dispatchEvent(new Event('submit', {cancelable: true})); return false;">${m.qa.question}</a></li>`).join('');
+            let suggestionResponse = `Bu konuyla ilgili birden fazla kayıt buldum. Lütfen hangisini sormak istediğinizi seçin:<br><ul style="margin-top: 10px; padding-left: 20px;">${optionsHtml}</ul>`;
+            res.json({ answer: suggestionResponse });
         } else {
             res.json({ answer: 'Hmm, bu konuda ne diyeceğimi tam olarak bilemedim 😊 Ben Ak Füzyon için geliştirilmiş teknik bir sanal asistanım ve halen öğrenme aşamasındayım. İsterseniz konuyu bildiğim yerlere çekelim; size ürünlerimiz, fiyatlarımız veya hizmetlerimiz hakkında seve seve yardımcı olabilirim. Ne dersiniz?' });
         }
@@ -497,6 +513,38 @@ app.post('/admin/chatbot/add', (req, res) => {
     db.run("INSERT INTO chatbot_qa (question, keywords, answer) VALUES (?, ?, ?)", [question, keywords, answer], (err) => {
         res.redirect('/admin/chatbot');
     });
+});
+
+app.post('/admin/chatbot/add-bulk', (req, res) => {
+    const { bulk_text } = req.body;
+    
+    if (!bulk_text) return res.redirect('/admin/chatbot');
+
+    const lines = bulk_text.split('\n').map(l => l.trim()).filter(l => l);
+    let i = 0;
+    
+    const insertNext = () => {
+        if (i >= lines.length) {
+            return res.redirect('/admin/chatbot');
+        }
+        
+        // Satır numarasını ve noktayı temizle "1. PE 100 boru nedir?" -> "PE 100 boru nedir?"
+        let question = lines[i].replace(/^\d+\.\s*/, '').trim();
+        let keywords = lines[i+1] ? lines[i+1].trim() : '';
+        let answer = lines[i+2] ? lines[i+2].trim() : '';
+        
+        if (question && keywords && answer) {
+            db.run("INSERT INTO chatbot_qa (question, keywords, answer) VALUES (?, ?, ?)", [question, keywords, answer], (err) => {
+                i += 3;
+                insertNext();
+            });
+        } else {
+            i++;
+            insertNext();
+        }
+    };
+    
+    insertNext();
 });
 
 app.post('/admin/chatbot/delete/:id', (req, res) => {
