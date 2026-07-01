@@ -94,6 +94,14 @@
         <div style="display: flex; gap: 10px; margin-bottom: 30px;">
             <button type="button" class="btn btn--outline" id="addColBtn" style="padding: 5px 15px; font-size: 0.8rem;">+ Yeni Sütun Ekle</button>
             <button type="button" class="btn btn--outline" id="addRowBtn" style="padding: 5px 15px; font-size: 0.8rem;">+ Yeni Satır Ekle</button>
+            <button type="button" class="btn btn--primary" id="bulkPasteBtn" style="padding: 5px 15px; font-size: 0.8rem; background: var(--accent); color: white; border: none; cursor: pointer;"><i class="fa-solid fa-paste"></i> Excel'den Toplu Yapıştır</button>
+        </div>
+
+        <div id="bulkPasteArea" style="display: none; margin-bottom: 30px; background: var(--bg-secondary); padding: 15px; border-radius: 8px;">
+            <p style="margin-top: 0; font-size: 0.9rem; margin-bottom: 10px;">Excel, Word veya PDF'den kopyaladığınız tablo verilerini (sütun ve satırlar halinde) buraya yapıştırıp <b>Tabloyu Oluştur</b> butonuna basın.</p>
+            <textarea id="bulkPasteInput" style="width: 100%; height: 150px; padding: 10px; border: 1px solid var(--border-color); font-family: monospace;"></textarea>
+            <button type="button" class="btn btn--primary" id="applyBulkPasteBtn" style="margin-top: 10px;">Tabloyu Oluştur</button>
+            <button type="button" class="btn btn--outline" id="cancelBulkPasteBtn" style="margin-top: 10px; margin-left: 10px;">İptal</button>
         </div>
 
         <input type="hidden" name="tech_table_data" id="tech_table_data">
@@ -258,6 +266,61 @@
         adminForm.addEventListener('submit', function(e) {
             const data = getTableData();
             document.getElementById('tech_table_data').value = JSON.stringify(data);
+        });
+    }
+
+    const bulkPasteBtn = document.getElementById('bulkPasteBtn');
+    const bulkPasteArea = document.getElementById('bulkPasteArea');
+    const cancelBulkPasteBtn = document.getElementById('cancelBulkPasteBtn');
+    const applyBulkPasteBtn = document.getElementById('applyBulkPasteBtn');
+    const bulkPasteInput = document.getElementById('bulkPasteInput');
+
+    if (bulkPasteBtn) {
+        bulkPasteBtn.addEventListener('click', function() {
+            bulkPasteArea.style.display = 'block';
+            bulkPasteInput.focus();
+        });
+    }
+
+    if (cancelBulkPasteBtn) {
+        cancelBulkPasteBtn.addEventListener('click', function() {
+            bulkPasteArea.style.display = 'none';
+            bulkPasteInput.value = '';
+        });
+    }
+
+    if (applyBulkPasteBtn) {
+        applyBulkPasteBtn.addEventListener('click', function() {
+            const text = bulkPasteInput.value.trim();
+            if (!text) {
+                alert("Lütfen yapıştırma alanını doldurun.");
+                return;
+            }
+            
+            const lines = text.split('\n');
+            let data = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let rowText = lines[i].trim();
+                if (!rowText) continue;
+                
+                let cells = rowText.split('\t');
+                if (cells.length === 1) cells = rowText.split(/\s{2,}/);
+                
+                data.push(cells.map(c => c.trim()));
+            }
+            
+            if (data.length > 0) {
+                let maxCols = 0;
+                data.forEach(row => { if(row.length > maxCols) maxCols = row.length; });
+                data.forEach(row => {
+                    while(row.length < maxCols) row.push('');
+                });
+                
+                renderTableWithData(data);
+                bulkPasteArea.style.display = 'none';
+                bulkPasteInput.value = '';
+            }
         });
     }
 
