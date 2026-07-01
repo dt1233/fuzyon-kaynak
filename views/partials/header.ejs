@@ -302,19 +302,25 @@ if (typeof renderIconClass === 'undefined') {
     <header class="header" id="header">
         <div class="container">
             <a href="/" class="logo">
-                <svg width="55" height="32" viewBox="0 0 70 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0; margin-right: 8px;">
+                <svg width="90" height="50" viewBox="0 0 100 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0; margin-right: 5px; overflow: visible;">
                     <defs>
                         <linearGradient id="ak-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stop-color="var(--primary, #3498db)" />
                             <stop offset="100%" stop-color="var(--accent, #f39c12)" />
                         </linearGradient>
+                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <!-- Sinematik 3D Derinlik ve Gölge (American Captain tarzı) -->
+                            <feDropShadow dx="4" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.4"/>
+                            <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.2"/>
+                        </filter>
                     </defs>
-                    <!-- Dinamik ve şık bir eğim (skewX) ile premium görünüm -->
-                    <g transform="skewX(-12) translate(8, 0)">
-                        <!-- Düz 'A' Harfi -->
-                        <path d="M10 32 L20 4 L30 32 M13 22 H27" stroke="var(--text-primary, #333)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
-                        <!-- Düz 'K' Harfi -->
-                        <path d="M38 4 V32 M54 4 L38 18 L54 32" stroke="url(#ak-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
+                    <!-- Agresif eğim (skewX) ve gölgelendirme ile askeri/sinematik font efekti -->
+                    <g transform="skewX(-10) translate(12, 2)" filter="url(#shadow)">
+                        <!-- Ultra Kalın 'A' Harfi -->
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 46 L16 4 H26 L38 46 H27 L24 34 H18 L15 46 H4 Z M21 12 L19 24 H23 L21 12 Z" fill="var(--text-primary, #333)" style="transition: fill 0.3s ease;"/>
+                        
+                        <!-- Ultra Kalın 'K' Harfi -->
+                        <path d="M42 4 V46 H52 V30 L68 46 H82 L62 25 L78 4 H64 L52 18 V4 H42 Z" fill="url(#ak-grad)" style="transition: fill 0.3s ease;"/>
                     </g>
                 </svg>
                 <div style="display: flex; flex-direction: column;">
