@@ -236,14 +236,21 @@ app.post('/api/chatbot/ask', (req, res) => {
         qas.forEach(qa => {
             const keywordPhrases = qa.keywords.split(',').map(k => k.trim().toLowerCase()).filter(k => k);
             
+            // Kullanıcı doğrudan soruyu yazarsa diye, soruyu da anahtar kelime öbeği olarak ekleyelim
+            const cleanQuestion = qa.question.toLowerCase().replace(/[\s,.'?!]+/g, ' ').trim();
+            if (cleanQuestion) {
+                keywordPhrases.push(cleanQuestion);
+            }
+            
+            const userWords = userMessage.split(/[\s,.'?!]+/).filter(x => x);
             let bestPhraseScore = 0;
+            
+            // 1. Anahtar kelime öbeklerini kontrol et
             keywordPhrases.forEach(phrase => {
                 const words = phrase.split(' ').filter(w => w);
-                const userWords = userMessage.split(/[\s,.'?!]+/).filter(x => x);
                 
                 if (words.length > 0 && words.every(w => {
                     const nw = normalizeStr(w);
-                    // 3 karakterden uzunsa kelime icinde gecmesine izin ver (Turkce ekler icin), kisaysa tam eslesme ara
                     return userWords.some(uw => nw.length >= 3 ? uw.includes(nw) : uw === nw);
                 })) {
                     if (words.length > bestPhraseScore) {
@@ -251,6 +258,22 @@ app.post('/api/chatbot/ask', (req, res) => {
                     }
                 }
             });
+            
+            // 2. Soru başlığındaki kelimelerle esnek eşleşme kontrolü (%50'den fazlası tutuyorsa puan ver)
+            const qWords = cleanQuestion.split(' ').filter(w => w.length > 2); // Sadece 3 harften uzun anlamlı kelimeleri al
+            let qScore = 0;
+            qWords.forEach(qw => {
+                const nw = normalizeStr(qw);
+                if (userWords.some(uw => uw.includes(nw) || uw === nw)) {
+                    qScore++;
+                }
+            });
+            // Eğer sorudaki önemli kelimelerin yarısından fazlası yazıldıysa
+            if (qWords.length > 0 && qScore >= Math.ceil(qWords.length * 0.5)) {
+                if (qScore > bestPhraseScore) {
+                    bestPhraseScore = qScore;
+                }
+            }
             
             if (bestPhraseScore > 0) {
                 matches.push({ qa, score: bestPhraseScore });
