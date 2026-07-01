@@ -302,15 +302,20 @@ if (typeof renderIconClass === 'undefined') {
     <header class="header" id="header">
         <div class="container">
             <a href="/" class="logo">
-                <svg width="55" height="32" viewBox="0 0 68 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0; margin-right: 5px;">
-                    <!-- 'A' Harfi -->
-                    <path d="M4 34 L16 6 L28 34 M10 20 H38" stroke="var(--text-primary, #333)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
-                    
-                    <!-- 'K' Harfi -->
-                    <path d="M38 6 V34 M62 6 L38 16 M62 34 L38 24" stroke="var(--primary, #3498db)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
-                    
-                    <!-- Füzyon Noktası -->
-                    <circle cx="38" cy="20" r="6.5" fill="var(--accent, #f39c12)" style="transition: fill 0.3s ease;"/>
+                <svg width="55" height="32" viewBox="0 0 70 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0; margin-right: 8px;">
+                    <defs>
+                        <linearGradient id="ak-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="var(--primary, #3498db)" />
+                            <stop offset="100%" stop-color="var(--accent, #f39c12)" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Dinamik ve şık bir eğim (skewX) ile premium görünüm -->
+                    <g transform="skewX(-12) translate(8, 0)">
+                        <!-- Düz 'A' Harfi -->
+                        <path d="M10 32 L20 4 L30 32 M13 22 H27" stroke="var(--text-primary, #333)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
+                        <!-- Düz 'K' Harfi -->
+                        <path d="M38 4 V32 M54 4 L38 18 L54 32" stroke="url(#ak-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s ease;"/>
+                    </g>
                 </svg>
                 <div style="display: flex; flex-direction: column;">
                     <span class="logo__text"><%= typeof settings !== 'undefined' && settings.header_logo_text ? settings.header_logo_text : 'Ak Füzyon' %></span>
